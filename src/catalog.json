@@ -1,0 +1,686 @@
+[
+  {
+    "id": "payoff-montage",
+    "section": "Hooks and typography",
+    "title": "Payoff-first montage",
+    "prompt": "Open with two or three short shots that show [what the viewer will see or learn]. Use the clearest result first. Cut back to my opening line before navigating menus or explaining setup."
+  },
+  {
+    "id": "stacked-hook-text",
+    "section": "Hooks and typography",
+    "title": "Stacked hook headline",
+    "prompt": "As I say [hook], build a headline from two or three short lines. Bring in the small setup words first, then grow the key word larger so it reads at a glance. Hold the finished headline briefly and clear it before the next beat."
+  },
+  {
+    "id": "staggered-kinetic-title",
+    "section": "Hooks and typography",
+    "title": "Staggered kinetic typography",
+    "prompt": "Break [title] into short lines. Bring in the letters or words in a quick stagger, then move the assembled title as one piece with a smooth stop. Use one accent color on the important word and give the completed title time to read."
+  },
+  {
+    "id": "rolling-letter-reveal",
+    "section": "Hooks and typography",
+    "title": "Rolling letter reveal",
+    "prompt": "Reveal [title] through a narrow horizontal mask. Roll or slide each character into place with a slight delay between characters. Settle into one clean readable line, then hold it before the cut."
+  },
+  {
+    "id": "typography-tunnel",
+    "section": "Hooks and typography",
+    "title": "Typography tunnel",
+    "prompt": "Repeat [short phrase] around several rings in depth. Alternate solid and outlined versions, rotate the rings gently, and push through them for a brief intro before resolving to a still, readable title."
+  },
+  {
+    "id": "icon-and-text-insert",
+    "section": "Hooks and typography",
+    "title": "Icon and phrase insert",
+    "prompt": "At [key sentence], cut from my footage to a simple card with one icon and a short phrase beneath it. Animate the icon first, then emphasize the key words in one accent color. Hold for reading and return to me as the narration continues."
+  },
+  {
+    "id": "intro-outro-pair",
+    "section": "Hooks and typography",
+    "title": "Matching opener and closer",
+    "prompt": "Make a brief opening title and a closing card with the same background, palette, and type. Animate the opening into place, keep both cards readable, and bring back that visual style at the sign-off."
+  },
+  {
+    "id": "animated-caption-layers",
+    "section": "Captions and framing",
+    "title": "Reusable animated captions",
+    "prompt": "Create accurate captions from my speech and keep them as editable graphics or text. Use the same short entrance and resting position across all caption groups. Align each group to the spoken phrase and adjust any transition that hides a word."
+  },
+  {
+    "id": "blur-slide-caption",
+    "section": "Captions and framing",
+    "title": "Slide-up captions with a blurred exit",
+    "prompt": "Bring each short caption up slightly from below as I start saying it. Keep the words sharp while they’re on screen, then blur and fade them out before the next phrase. Shorten the motion for fast speech so every word gets time to read."
+  },
+  {
+    "id": "focus-pull-text",
+    "section": "Captions and framing",
+    "title": "Blur-to-sharp text reveal",
+    "prompt": "At [cue], fade the text in as it comes into focus. Animate the blur from soft to crisp over about seven frames as a starting point, then hold it still. Keep the footage underneath sharp."
+  },
+  {
+    "id": "caption-hierarchy",
+    "section": "Captions and framing",
+    "title": "Emphasis-word captions",
+    "prompt": "Time captions to my speech. Break each thought into a short phrase, then make the one word or number that carries the meaning larger or change its color at the moment I say it. Keep the rest easy to read. Hold the phrase long enough to read once and check all names and numbers against the audio."
+  },
+  {
+    "id": "gradient-caption",
+    "section": "Captions and framing",
+    "title": "Gradient lettering",
+    "prompt": "Use a smooth two-tone gradient inside [words], keeping the strongest contrast near the middle of each letter. Apply it to the main caption line or the featured word, and hold the text still long enough to read."
+  },
+  {
+    "id": "bounce-settle-caption",
+    "section": "Captions and framing",
+    "title": "Caption with a small bounce",
+    "prompt": "Bring [caption] in with a small vertical move. Let it pass the resting position once, rebound slightly, and settle on the baseline. Keep the bounce short so the caption is still in time with the spoken phrase."
+  },
+  {
+    "id": "highlight-sweep-caption",
+    "section": "Captions and framing",
+    "title": "Highlighter sweep on a word",
+    "prompt": "When I say [word], draw a narrow highlight behind it from left to right. Hold the highlight for the rest of the phrase and clear it with the caption. Pick a fill that keeps the lettering readable."
+  },
+  {
+    "id": "sheen-caption",
+    "section": "Captions and framing",
+    "title": "Light sweep on text",
+    "prompt": "After [title] appears, sweep one narrow band of light across the letters. Clip the sweep inside the text and keep it soft near the edges. Pause on the normal lettering after the light passes."
+  },
+  {
+    "id": "brief-text-flicker",
+    "section": "Captions and framing",
+    "title": "Brief flicker on a title",
+    "prompt": "At [cue], give a single small title a momentary flicker, then hold it at full opacity. Use this only on the title itself and keep the rest of the frame steady. Use a plain fade if the flicker makes the phrase difficult to read."
+  },
+  {
+    "id": "rim-lit-caption",
+    "section": "Captions and framing",
+    "title": "Rim-lit emphasis text",
+    "prompt": "Give [key word] a saturated fill and a thin light edge along one side. Add one restrained gleam after it appears, then hold the word steady. Keep supporting words simple so the emphasized word remains the focus."
+  },
+  {
+    "id": "vertical-safe-zone",
+    "section": "Captions and framing",
+    "title": "Platform-safe vertical layout",
+    "prompt": "Reframe my footage to 9:16 for [platform]. Keep my eyes and any gesture I refer to visible. Add the platform’s interface as a temporary guide, then move captions above the bottom controls and keep key words away from the right-side icons. Check the whole export at phone size and remove the guide before rendering."
+  },
+  {
+    "id": "text-behind-subject",
+    "section": "Captions and framing",
+    "title": "Text behind a moving subject",
+    "prompt": "On the first key claim, bring in [two to four words] behind my head. Keep my original shot on the bottom, place the words above it, and track a clean cutout of my head and shoulders above the words. Let my silhouette cover a small part of the lettering while keeping the phrase readable. Check hair and hands frame by frame and remove the text once the moment passes."
+  },
+  {
+    "id": "curved-tracked-text",
+    "section": "Captions and framing",
+    "title": "Curved text around a subject",
+    "prompt": "Curve [short phrase] along a path around [subject]. Track the path to the shot, place the appropriate part of the phrase behind the subject, and ease it along the curve. Keep the readable portion clear of the face and cut back to plain text if needed."
+  },
+  {
+    "id": "subject-locked-reframe",
+    "section": "Captions and framing",
+    "title": "Subject-locked framing",
+    "prompt": "Track a stable feature on [subject] and reframe the shot so it stays near the same screen point as the subject moves. Smooth small jitters and zoom only as much as needed to avoid empty edges. Ease out if the track is lost."
+  },
+  {
+    "id": "stylized-silhouette",
+    "section": "Captions and framing",
+    "title": "Stylized silhouette cutaway",
+    "prompt": "On [spoken phrase], cut briefly from the original shot to a dark, color-treated cutout of me. Keep my outline and movement. Animate a few strips or a large keyword behind me to reinforce the phrase, then cut straight back to the original shot on the next beat."
+  },
+  {
+    "id": "tracked-callout",
+    "section": "Assets and spatial graphics",
+    "title": "Motion-tracked label",
+    "prompt": "Pin [label, icon, or arrow] beside [moving feature] so it follows its motion with a consistent offset. Put it in open space and correct drift. When the tracking target leaves view, fade the label out or hold it in a clean fixed position."
+  },
+  {
+    "id": "projected-hud",
+    "section": "Assets and spatial graphics",
+    "title": "Projected heads-up display",
+    "prompt": "On [device tap or gesture], reveal a translucent interface over [point in the scene]. Use a soft source glow, bring in the main panel before the small indicators, and update only the elements relevant to the message. Fade the HUD away when the interaction ends."
+  },
+  {
+    "id": "world-anchored-graphic",
+    "section": "Assets and spatial graphics",
+    "title": "Graphic anchored in a moving shot",
+    "prompt": "On [spoken cue], reveal [my chart or graphic] within the shot. Track a fixed spot in the room so the panel follows the camera’s perspective and stays put relative to the room. Draw the series as I explain it, then show the exact value when I say it. Keep the type readable and let foreground objects cover the panel when they pass in front."
+  },
+  {
+    "id": "world-anchored-type",
+    "section": "Assets and spatial graphics",
+    "title": "3D text in the environment",
+    "prompt": "Place [words] on [ground, wall, or other surface] at the correct angle and scale. Keep the text fixed in that space as the camera moves past. Match perspective and add a subtle shadow or reflection only if the surface calls for it."
+  },
+  {
+    "id": "floating-interface-layers",
+    "section": "Assets and spatial graphics",
+    "title": "Interface layers lifting from a device",
+    "prompt": "Separate the important parts of the supplied interface into individual cards or icons. Align them to the filmed screen, then lift them off it one after another with consistent spacing and perspective. Keep the hero control readable and return the rest to a quiet state."
+  },
+  {
+    "id": "floating-screen",
+    "section": "Assets and spatial graphics",
+    "title": "Floating screen beside a device",
+    "prompt": "On the key tap, bring a readable copy of my screen recording out beside the physical device. Synchronize the copy with the tap and the result. Track it with the shot, leave my hands and the device visible, hold just long enough to read the result, then remove it."
+  },
+  {
+    "id": "floating-notification",
+    "section": "Assets and spatial graphics",
+    "title": "Floating notification",
+    "prompt": "At [event], pop one small notification out of [device] with a short rise and settle. Align the angle to the filmed device, add a restrained glow or shadow, and give the text time to read before the card fades away."
+  },
+  {
+    "id": "floating-card-carousel",
+    "section": "Assets and spatial graphics",
+    "title": "Floating card carousel",
+    "prompt": "When [gesture or cue] happens, reveal three or four supplied cards near [anchor]. Rotate the cards in a shallow ring so one comes to the front at a time. Keep the front card readable, soften the cards behind it, and clear the whole carousel when that beat ends."
+  },
+  {
+    "id": "screen-replacement",
+    "section": "Assets and spatial graphics",
+    "title": "Tracked screen replacement",
+    "prompt": "Replace the display on [phone or monitor] with my supplied screen recording. Track all four display corners, match their perspective, and keep fingers, the bezel, and useful reflections in front. Match exposure and blur to the shot and review the result frame by frame at overlaps."
+  },
+  {
+    "id": "tracked-chat-bubbles",
+    "section": "Assets and spatial graphics",
+    "title": "Tracked message bubbles",
+    "prompt": "As [person] reads or sends each message, show a rounded bubble with the supplied text beside them. Use consistent colors for each side of the conversation. Track the bubbles to the scene and let the person pass in front if their paths cross."
+  },
+  {
+    "id": "ar-wayfinding",
+    "section": "Assets and spatial graphics",
+    "title": "Arrows and labels anchored to a location",
+    "prompt": "At [direction or landmark cue], place a small arrow on the path and a short label next to the real object it refers to. Match ground perspective and tracking. Let the cue fade after the viewer has had time to find the target."
+  },
+  {
+    "id": "glowing-orb",
+    "section": "Assets and spatial graphics",
+    "title": "Glowing energy orb",
+    "prompt": "Reveal a small glowing orb at [position or gesture]. Give it a defined core, a moving filament texture, and a soft outer halo. If it sits in live footage, track it to the shot, mask anything that crosses in front, and add a restrained light spill on the nearest surfaces."
+  },
+  {
+    "id": "grounded-particle-overlay",
+    "section": "Assets and spatial graphics",
+    "title": "Grounded smoke or particles",
+    "prompt": "At [cue], add the supplied smoke or particle element to a fixed point on [surface]. Track the ground plane so it stays planted, match color and grain to the shot, and hide it behind foreground objects when needed. Keep the effect away from the face and text."
+  },
+  {
+    "id": "gesture-triggered-vfx",
+    "section": "Assets and spatial graphics",
+    "title": "Gesture-triggered visual effect",
+    "prompt": "As my [finger or hand] reaches [gesture], attach a small [spark, flame, or glow] to that exact point. Follow the motion, keep the edges soft, and fade it out with the gesture. Add nearby light only where the effect would naturally cast it."
+  },
+  {
+    "id": "product-orbit",
+    "section": "Assets and spatial graphics",
+    "title": "Orbiting product details",
+    "prompt": "Use [hero asset] as the center of a short 3D layout. Bring in two or three related cutouts around it at different depths. Move them slowly enough to read, then settle so the hero remains the clearest object."
+  },
+  {
+    "id": "side-by-side-callout",
+    "section": "Assets and spatial graphics",
+    "title": "Side-by-side explanation",
+    "prompt": "Keep my footage in one panel and put [example, caption, or short list] beside it or above it. Reveal or highlight one item at a time as I talk through it. Match each label to the spoken point and return to the full shot when the explanation ends."
+  },
+  {
+    "id": "side-by-side-reference",
+    "section": "Assets and spatial graphics",
+    "title": "Synced before-and-after comparison",
+    "prompt": "Play [original] and [edited version] side by side at the same moment and with matching crops. Label each one clearly and hold long enough to spot the change. If the frame is too narrow, alternate matched views using the same timing."
+  },
+  {
+    "id": "picture-in-picture-demo",
+    "section": "Assets and spatial graphics",
+    "title": "Picture-in-picture walkthrough",
+    "prompt": "Make [demo or screen recording] the main view and keep my face in a small corner inset while I explain it. Position the inset away from controls, move or hide it when needed, and return to my full shot after the demonstration."
+  },
+  {
+    "id": "explanatory-b-roll",
+    "section": "Explanations and screen recordings",
+    "title": "B-roll that answers a question",
+    "prompt": "When I make [point], show the matching clip of the process, object, or result while my narration continues. Pick the shot that makes the point easier to understand, and return to me when the viewer needs the next part of the explanation."
+  },
+  {
+    "id": "detail-sequence",
+    "section": "Explanations and screen recordings",
+    "title": "Wide to detail sequence",
+    "prompt": "For [action], establish where it happens with a wide shot, cut to the detail that changes, and show the visible outcome. Keep the action moving in the same direction between shots and let the key detail play long enough to understand."
+  },
+  {
+    "id": "illustrated-explainer-inserts",
+    "section": "Explanations and screen recordings",
+    "title": "Illustrated explainer cutaway",
+    "prompt": "Turn [one difficult idea] into a short illustrated sequence using my palette and supplied assets. Use one visual action per spoken idea. Cut to the illustration when I mention it, hold the main result, and then return to my footage."
+  },
+  {
+    "id": "animated-tool-diagram",
+    "section": "Explanations and screen recordings",
+    "title": "Animated tool and data flow",
+    "prompt": "Build a simple flow diagram for [process]. Reveal the input first, add each tool and connection when I name it, then highlight the output. If the flow branches, dim the other branch while I am explaining one route."
+  },
+  {
+    "id": "phased-process-diagram",
+    "section": "Explanations and screen recordings",
+    "title": "Phases revealed in order",
+    "prompt": "Show [steps] in a horizontal or vertical sequence. Keep future steps muted, reveal the active icon and label with the narration, and leave completed steps visible for context. End with the complete sequence held long enough to read."
+  },
+  {
+    "id": "exploded-layer-diagram",
+    "section": "Explanations and screen recordings",
+    "title": "Exploded cross-section",
+    "prompt": "Show the assembled [object] first, then separate its layers along one axis. Reveal one label as I explain each layer. Keep enough overlap or a guide line to show how the pieces fit, then reassemble them or hold the complete exploded view."
+  },
+  {
+    "id": "beat-marker-graphic",
+    "section": "Explanations and screen recordings",
+    "title": "Timeline with timed markers",
+    "prompt": "Draw a simple line and add markers at [beats, decisions, or times]. Turn on one marker at a time in sync with the explanation. Use short labels where needed and make the current marker visually stronger than the previous ones."
+  },
+  {
+    "id": "guided-zoom-highlight",
+    "section": "Explanations and screen recordings",
+    "title": "Guided zoom and focus",
+    "prompt": "At [instruction or discovery], move smoothly from a wide view to the exact part of [shot or screen] I’m describing. Briefly circle or highlight it, hold until it can be read, then pull out to restore context. Use blur only during a rapid move."
+  },
+  {
+    "id": "isolated-ui-card",
+    "section": "Explanations and screen recordings",
+    "title": "Readable interface detail card",
+    "prompt": "Extract the relevant menu, field, or email from the supplied screen recording. Enlarge that small part as a clean card over a dimmed view of the whole interface. Give the viewer time to read it and then return to the full screen."
+  },
+  {
+    "id": "step-breaks-screencast",
+    "section": "Explanations and screen recordings",
+    "title": "Numbered screencast steps",
+    "prompt": "Split my screen recording at each change of task. Insert a short numbered card with an action title before each step, then show the full screen once and zoom only where detail is needed. Keep the cursor and instructions aligned."
+  },
+  {
+    "id": "screencast-time-compression",
+    "section": "Explanations and screen recordings",
+    "title": "Faster routine screen actions",
+    "prompt": "Shorten loading, typing, and repetitive clicks in my screen recording. Keep the first important action and the resulting state at readable speed. Match the compressed segment to my narration and use a small speed label if the acceleration could confuse a viewer."
+  },
+  {
+    "id": "hand-drawn-markup",
+    "section": "Explanations and screen recordings",
+    "title": "Hand-drawn circle or underline",
+    "prompt": "At [spoken cue], draw a quick marker line around or under [specific item]. Use a slightly irregular stroke and one accent color. Let the mark finish drawing, hold briefly, and clear it before the next instruction."
+  },
+  {
+    "id": "chapter-cards",
+    "section": "Explanations and screen recordings",
+    "title": "Chapter break cards",
+    "prompt": "At each major topic change, cut to a brief title card naming the next section in plain English. Use a consistent type style and background. Time the return to my first meaningful line in that section."
+  },
+  {
+    "id": "draw-on-line-chart",
+    "section": "Charts and infographics",
+    "title": "Line chart that draws on",
+    "prompt": "Build a simple chart from my supplied data. Establish the axes and labels, then draw the line from left to right in sync with the narration. Place value labels only at important points and hold the finished chart long enough to read."
+  },
+  {
+    "id": "chart-tracking-marker",
+    "section": "Charts and infographics",
+    "title": "Moving chart marker and value labels",
+    "prompt": "Attach a dot to the chart line as it draws. Let faint guides extend from the dot to the axes, and update the value badges from the supplied data. Pause or hold on [important point] before continuing."
+  },
+  {
+    "id": "glowing-area-chart",
+    "section": "Charts and infographics",
+    "title": "Glowing shaded area chart",
+    "prompt": "Draw the supplied series on a dark chart. Reveal a soft gradient fill under the line as it moves, keeping the fill inside the data shape. Use a low glow so the axes and labels stay legible, then hold at [the important change]."
+  },
+  {
+    "id": "neon-graph-and-bars",
+    "section": "Charts and infographics",
+    "title": "Combined bars and line reveal",
+    "prompt": "Animate the supplied bars up from one shared baseline, then trace the trend line above them. Use different colors for the two series, label both, and align the reveals to the narration. Use a glow only if it suits the rest of the edit."
+  },
+  {
+    "id": "animated-bar-chart",
+    "section": "Charts and infographics",
+    "title": "Bars rising from a shared baseline",
+    "prompt": "Set up the categories and a shared scale from the supplied values. Grow each bar from the baseline in the order I discuss it, then add the value above it. Hold the complete comparison before moving on."
+  },
+  {
+    "id": "extruded-bar-chart",
+    "section": "Charts and infographics",
+    "title": "Extruded 3D bars",
+    "prompt": "Build shallow 3D blocks for [values] and grow them from the same floor plane. Keep the viewing angle fixed and choose an angle where bars stay visible. Add flat percentage labels in front so the values remain clear."
+  },
+  {
+    "id": "radial-data-reveal",
+    "section": "Charts and infographics",
+    "title": "Radial share reveal",
+    "prompt": "Animate a pie slice or progress ring from zero to [supplied share]. Keep the remainder neutral and show the exact percentage beside the graphic. Use the same start point and direction for any later share comparison."
+  },
+  {
+    "id": "count-up-number",
+    "section": "Charts and infographics",
+    "title": "Count-up value",
+    "prompt": "At [cue], count up to [final number] beside the relevant visual. Use the correct unit and rounding, settle on the final value, and hold it. If a count from zero could mislead, animate a fade or a change from the true starting value."
+  },
+  {
+    "id": "comparative-chart",
+    "section": "Charts and infographics",
+    "title": "Two series with a reveal",
+    "prompt": "Plot both supplied series on the same scale. Show the first series, then reveal and label the second when I compare them. Emphasize the specific gap I mention and hold the complete chart after the reveal."
+  },
+  {
+    "id": "chart-cards",
+    "section": "Charts and infographics",
+    "title": "Consistent infographic cards",
+    "prompt": "Present [metrics] inside matching small cards with consistent margins and typography. Use a line, bars, or a share graphic as appropriate to each metric. Reveal one card per narration beat and show multiple cards together only when they can still be read."
+  },
+  {
+    "id": "scorecard-reveal",
+    "section": "Charts and infographics",
+    "title": "Scorecard with animated ratings",
+    "prompt": "Using my supplied criteria and ratings, lay out one labeled row per criterion. Reveal each rating as a horizontal bar on a shared scale and show its numeric value. Hold the full scorecard so viewers can compare the rows."
+  },
+  {
+    "id": "map-region-reveal",
+    "section": "Maps and documentary graphics",
+    "title": "Map regions highlighted in sequence",
+    "prompt": "Start with a neutral map of [area]. Fill or outline the named region only when I mention it, reveal its label and matching legend item, and leave the surrounding geography subdued. Use my supplied map and accurate boundaries."
+  },
+  {
+    "id": "animated-map-route",
+    "section": "Maps and documentary graphics",
+    "title": "Route drawn on a map",
+    "prompt": "Establish [origin] and [destination] on the supplied map, then draw a line between them as I describe the journey. Add stops when they’re mentioned, use a clear end marker, and keep the route in frame until it finishes."
+  },
+  {
+    "id": "textured-documentary-map",
+    "section": "Maps and documentary graphics",
+    "title": "Textured documentary map",
+    "prompt": "Start with a readable map of [location]. Add subtle paper grain and a restrained palette, then outline the named area and ease the view toward it. Keep labels and boundaries accurate. Pull back when the surrounding geography matters."
+  },
+  {
+    "id": "map-evidence-annotation",
+    "section": "Maps and documentary graphics",
+    "title": "Photo or evidence pinned to a map",
+    "prompt": "Pin [image or evidence card] to the correct location on the supplied map. Use a short visible connector and a brief highlight on the region. Keep the map label and evidence readable together, then remove the card as the narration moves on."
+  },
+  {
+    "id": "archival-paper-collage",
+    "section": "Maps and documentary graphics",
+    "title": "Archival paper collage",
+    "prompt": "Build [historical beat] from my supplied photos, scans, and artwork. Place a hero image over two or three paper layers, use subtle torn edges and shadows, and animate the pieces with different depths. Reveal each asset as its part of the story is mentioned."
+  },
+  {
+    "id": "evidence-board",
+    "section": "Maps and documentary graphics",
+    "title": "Connected evidence board",
+    "prompt": "Put [main evidence] in the center and arrange the supporting materials nearby. Reveal each card with the narration and animate one connecting line at a time. Add short labels so the relationship stays clear when the full board is visible."
+  },
+  {
+    "id": "date-and-event-graphic",
+    "section": "Maps and documentary graphics",
+    "title": "Date and event reveal",
+    "prompt": "When I name [event], reveal its date and use one highlight color on the part of the date that matters. Bring in [related photo or cutout] on the next beat. Hold the date and image together before moving to the next event."
+  },
+  {
+    "id": "document-highlight",
+    "section": "Maps and documentary graphics",
+    "title": "Document excerpt spotlight",
+    "prompt": "Show the full page briefly, then ease in on the supplied passage I’m discussing. Dim the surrounding lines and leave the target words sharp. Keep the original wording and source line visible long enough to verify."
+  },
+  {
+    "id": "symbol-lit-collage",
+    "section": "Maps and documentary graphics",
+    "title": "Glowing symbol in a collage",
+    "prompt": "Separate [background], [subject] and [symbol] into layers. Place the symbol behind the subject, add a soft glow, and bring the foreground cutouts in one at a time as the narration develops. Keep the center subject readable throughout."
+  },
+  {
+    "id": "chronological-asset-strip",
+    "section": "Maps and documentary graphics",
+    "title": "Assets arranged along a timeline",
+    "prompt": "Place the supplied [objects or photos] on a horizontal timeline in date order. Reveal each asset above its date as I mention it, then pull out to show the sequence. Use proportional spacing if the timeline represents elapsed time. Label important gaps."
+  },
+  {
+    "id": "depth-parallax",
+    "section": "Maps and documentary graphics",
+    "title": "Layered parallax move",
+    "prompt": "Separate [scene] into foreground, middle ground and background. Move a virtual camera gently so near layers move farther across the screen than distant layers. Add enough image area at the edges to cover the move, and settle on the detail I’m explaining."
+  },
+  {
+    "id": "textured-graphics",
+    "section": "Maps and documentary graphics",
+    "title": "Paper or grain texture on graphics",
+    "prompt": "Apply a subtle texture to [graphic or title]. Adjust its blending and contrast until it follows the underlying color, then add a small amount of edge distortion if it suits the look. Keep the fine text crisp."
+  },
+  {
+    "id": "slow-push-in",
+    "section": "Cuts, pacing and transitions",
+    "title": "Slow push-in on an important line",
+    "prompt": "During [important sentence], animate a small, gradual push toward my face or the subject. Keep the eyes in a stable position, ease the motion at both ends, and return to the original crop at a natural edit point."
+  },
+  {
+    "id": "punch-in",
+    "section": "Cuts, pacing and transitions",
+    "title": "Punch-in for emphasis",
+    "prompt": "On [key word or reaction], cut from the current view to a tighter crop that highlights it. Keep the eyes and the microphone in sensible positions, hold just for the important beat, and return to the wider shot on the next thought."
+  },
+  {
+    "id": "motion-flow-cut",
+    "section": "Cuts, pacing and transitions",
+    "title": "Cut that follows the same direction",
+    "prompt": "End the first shot with motion going [direction]. Start the next shot with a move in that same direction and place the new focus near where the viewer was already looking. Trim both clips until the motion reads as a continuous passage."
+  },
+  {
+    "id": "cut-on-action",
+    "section": "Cuts, pacing and transitions",
+    "title": "Cut in the middle of an action",
+    "prompt": "Cut between two views of [action] while the action is happening. Pick a matching moment and continue the movement in the second shot without repeating it. Keep the important part of the action in a similar place in the frame."
+  },
+  {
+    "id": "visual-match-cut",
+    "section": "Cuts, pacing and transitions",
+    "title": "Shape or composition match cut",
+    "prompt": "At [transition point], cut between two shots that share a recognizable shape, position, or composition. Line up the shared feature and let the second shot reveal the new context after the cut. Keep the match visible for a beat."
+  },
+  {
+    "id": "smash-cut",
+    "section": "Cuts, pacing and transitions",
+    "title": "Smash cut for a change in tone",
+    "prompt": "Build a short run of shots leading into [big change], then cut abruptly to a contrasting shot. Drop the outgoing cue at the cut if the tone changes sharply, and let the new scene play cleanly for a beat before adding anything else."
+  },
+  {
+    "id": "intentional-jump-cut",
+    "section": "Cuts, pacing and transitions",
+    "title": "Jump cuts to skip time",
+    "prompt": "Keep the same camera setup for [repeated action] and jump forward through a few distinct states of it. Show only the steps that make the progress clear. Place the biggest change where I want the audience to notice it."
+  },
+  {
+    "id": "variable-pacing",
+    "section": "Cuts, pacing and transitions",
+    "title": "Alternating fast and slow pacing",
+    "prompt": "Mark the key ideas in my script. Use shorter cuts for previews, process steps, or rising tension. Hold longer on important explanations, uncertainty, or the payoff. Leave deliberate pauses where the viewer needs time to understand a visual or reaction."
+  },
+  {
+    "id": "beat-synced-cuts",
+    "section": "Cuts, pacing and transitions",
+    "title": "Beat-synced cuts or punch-ins",
+    "prompt": "Mark the main beats in my supplied music. Land selected cuts or punch-ins on those beats during [section], keeping the most important words and gestures intact. Let dialogue and meaning determine the remaining cuts."
+  },
+  {
+    "id": "monochrome-flashback",
+    "section": "Cuts, pacing and transitions",
+    "title": "Monochrome callback",
+    "prompt": "When I refer back to [earlier moment], cut briefly to the original clip in black and white. Use a short caption for context if needed. Return to full color as soon as the present-day explanation resumes."
+  },
+  {
+    "id": "diagonal-mask-wipe",
+    "section": "Cuts, pacing and transitions",
+    "title": "Diagonal mask reveal",
+    "prompt": "At [cue], sweep a narrow diagonal window across [shot or graphic] using an animated mask. Keep its edge soft enough to read the reveal and make it finish at the next cut. Align the angle with a visual feature of the scene if possible."
+  },
+  {
+    "id": "cutout-match-zoom",
+    "section": "Cuts, pacing and transitions",
+    "title": "Zoom through a subject cutout",
+    "prompt": "Make a cutout of [subject] from the end of the first shot. Scale it up with a quick eased move over the cut and line it up with [subject or matching shape] in the next shot. Clear the cutout once the new frame is established."
+  },
+  {
+    "id": "pull-in-transition",
+    "section": "Cuts, pacing and transitions",
+    "title": "Inward pull transition",
+    "prompt": "Use a brief inward zoom across the cut from [shot A] to [shot B]. Keep the two focal points aligned and let the move settle as the new shot begins. Reserve this transition for a meaningful move into the next idea."
+  },
+  {
+    "id": "speed-ramp",
+    "section": "Cuts, pacing and transitions",
+    "title": "Speed ramp through movement",
+    "prompt": "Ramp the speed of [motion shot] up between the main moments and slow down at [action or detail] so it can be seen. Use smooth speed changes, and end the fastest part at the planned edit point. Keep the original pace if the footage becomes jittery."
+  },
+  {
+    "id": "layered-sound-design",
+    "section": "Sound and music",
+    "title": "Layered hits and transitions",
+    "prompt": "At [key beat], place a low impact and add a lighter transient only if it helps define the action. Lead into important cuts with a short riser or whoosh. Match each layer to the movement and lower the blend until the dialogue remains clear."
+  },
+  {
+    "id": "motion-synced-sound",
+    "section": "Sound and music",
+    "title": "Sound cue tied to a visual movement",
+    "prompt": "Use a short whoosh on [fast movement] or a soft click when [small graphic] lands. Place the strongest part of the sound on the visible action. Match its volume and duration to the size of the effect so it sits behind the voice."
+  },
+  {
+    "id": "place-ambience",
+    "section": "Sound and music",
+    "title": "Location ambience under B-roll",
+    "prompt": "Loop a quiet ambience that fits [location], such as room tone, street air, or engine hum. Start it before the cutaway and crossfade between angles to keep the space continuous. Make the relevant voice or action easy to hear."
+  },
+  {
+    "id": "music-reverb-tail",
+    "section": "Sound and music",
+    "title": "Reverb tail out of music",
+    "prompt": "End the outgoing music on a clean beat. Let a short reverb tail carry into the next picture, then introduce the next cue or leave a moment of quiet. Keep the tail low enough that the next spoken line stays clear."
+  },
+  {
+    "id": "chapter-music-change",
+    "section": "Sound and music",
+    "title": "Music reset at a topic change",
+    "prompt": "When [new section] begins, move to a different section of the current track or a second compatible cue. Time the change to the chapter break and blend it underneath the narration. Keep the existing cue when the section is too short for a meaningful reset."
+  },
+  {
+    "id": "ducked-music",
+    "section": "Sound and music",
+    "title": "Music ducked under speech",
+    "prompt": "Add the supplied music underneath the voice. Dip it during speech and lift it slightly during pauses or visual-only moments. Smooth the change so the mix feels steady, and check that quiet words remain intelligible."
+  },
+  {
+    "id": "reference-driven-workflow",
+    "section": "AI editing workflows",
+    "title": "Translate a reference into editing instructions",
+    "prompt": "Review [reference URL and timestamps]. Describe the layout, timing, movement, transitions, and sound cues in that passage. Apply those patterns to my script and supplied footage. Give me a short edit plan with cue points before making the preview."
+  },
+  {
+    "id": "reusable-style-system",
+    "section": "AI editing workflows",
+    "title": "Apply a reusable style guide",
+    "prompt": "Use my supplied swatches, typography, spacing, motion rules, and caption guide as the shared style for this edit. Keep the footage, text, and graphics as replaceable inputs. Show one finished sample and reuse the approved rules on the remainder."
+  },
+  {
+    "id": "ai-rough-cut",
+    "section": "AI editing workflows",
+    "title": "Reviewable AI rough cut",
+    "prompt": "Transcribe my raw footage and draft a rough cut that preserves the argument and my delivery. Remove clear restarts, dead time, and repeated takes. Return a timecoded cut list and a rough preview for review before adding the effects, captions, and music."
+  },
+  {
+    "id": "timeline-first-ai-edit",
+    "section": "AI editing workflows",
+    "title": "Editable timeline handoff",
+    "prompt": "Apply the approved edit as an editable timeline in [editor], keeping picture, dialogue, captions, music, and overlays on separate tracks. Use the supplied footage paths and show me a preview. Call out any operation that requires a manual adjustment."
+  },
+  {
+    "id": "scene-by-scene-animation",
+    "section": "AI editing workflows",
+    "title": "Animate one scene at a time",
+    "prompt": "Break my script into short scenes with one visual purpose each. List the text, assets, duration, and motion for each scene. Preview each scene with its matching narration, then assemble the approved scenes into the final edit."
+  },
+  {
+    "id": "split-editing-passes",
+    "section": "AI editing workflows",
+    "title": "Separate footage edits and motion graphics",
+    "prompt": "First clean up my dialogue and cut the footage into a rough edit. Build the motion graphics separately against the approved cue points and merge them only when the picture timing is stable. Keep the intermediate files so either pass can be revised."
+  },
+  {
+    "id": "batch-chart-render",
+    "section": "AI editing workflows",
+    "title": "Batch-render consistent charts",
+    "prompt": "Use one chart template with replaceable titles, values, and labels. For every supplied row of data, render one chart with the same design rules and a clear filename. Check the units, axis range, and missing values before rendering the batch."
+  },
+  {
+    "id": "short-clone-split",
+    "section": "Assets and spatial graphics",
+    "title": "Dual-character composite",
+    "prompt": "Lock the frame and align my two takes. Put each character on a consistent side of the frame and use an occlusion mask where actions overlap. Match lighting and room tone, cue eyelines inward, then introduce each role with a readable caption."
+  },
+  {
+    "id": "short-role-reverse",
+    "section": "Cuts, pacing and transitions",
+    "title": "One actor, two reverse angles",
+    "prompt": "Alternate my two roles across a consistent eyeline. Cut on the question and answer, and hold one brief reaction before the reply. Keep prop position and room tone consistent."
+  },
+  {
+    "id": "short-hyperedit",
+    "section": "Cuts, pacing and transitions",
+    "title": "Hyper-edit with a payoff hold",
+    "prompt": "Open with the result. Tighten the setup into a short sequence of distinct actions, cut on selected beats, and reserve the longest hold for the outcome. Put motion blur only across the fastest transitions."
+  },
+  {
+    "id": "short-match-loop",
+    "section": "Cuts, pacing and transitions",
+    "title": "First-frame match loop",
+    "prompt": "End with the movement that leads into my first frame. Match camera position, movement direction, lighting and sound across the seam. Play the edit twice and adjust the cut until there is no empty frame or repeated beat."
+  },
+  {
+    "id": "short-proof-burst",
+    "section": "Hooks and typography",
+    "title": "Proof burst",
+    "prompt": "Lead with my result. Cut to two or three distinct pieces of evidence in quick succession, keep each one readable, and return to the strongest proof on the claim. Use my actual values or source media."
+  },
+  {
+    "id": "long-cold-open",
+    "section": "Hooks and typography",
+    "title": "Cold open with stakes",
+    "prompt": "Start inside a decisive scene. Let one strong moment play at its natural pace, establish the question it raises, and cut to the earlier point that starts explaining it. Save the resolution for the body."
+  },
+  {
+    "id": "long-audio-bridge",
+    "section": "Sound and music",
+    "title": "Dialogue across picture cuts",
+    "prompt": "Start the next speaker or location sound under the outgoing image. After the cut, let the same line finish over the next picture where useful. Match room tone, use only clean audio handles, and preserve the speaker’s meaning."
+  },
+  {
+    "id": "long-chapter-turn",
+    "section": "Explanations and screen recordings",
+    "title": "Chapter turn and context",
+    "prompt": "Close the previous chapter with its result. Use a brief readable title to name the next distinct question, then enter on the first relevant action or sentence. Keep the transition short enough for the narration to keep moving."
+  },
+  {
+    "id": "long-payoff-back",
+    "section": "Explanations and screen recordings",
+    "title": "Return to the opening promise",
+    "prompt": "Return to the image or question from the opening once the viewer has the context. Show what has changed using the actual result, then end on the clearest conclusion. Keep any outro brief."
+  },
+  {
+    "id": "short-locked-roles",
+    "section": "Cuts, pacing and transitions",
+    "title": "Fixed-frame character reset",
+    "prompt": "Show the first character in a fixed composition, then hard cut to each new performance on the same eyeline and blocking mark. Reuse the same caption placement for character names. Give each performance enough time for its distinctive movement or reaction to read."
+  },
+  {
+    "id": "short-screen-world",
+    "section": "Assets and spatial graphics",
+    "title": "Push through a tracked screen",
+    "prompt": "Track the four display corners and place my second scene inside the handheld screen. Push toward the center of the display and finish the transition when its moving contents fill the frame. Continue the same frame of action and use one audio bridge across the seam."
+  }
+]
