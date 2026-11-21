@@ -15,6 +15,10 @@ Pushes to `main` build and publish the app through the GitHub Pages workflow.
 
 ## Browse the library
 
+**Build my prompt** in the hero is the quickest way in. It's a four-step guide: pick the format and a structure, add a topic and (optionally) your transcript and pin an opening line, pick a hook that fits the structure, then choose where you'll paste the prompt and copy it. Finishing writes everything into Your edit. With no transcript, it defaults to a script prompt.
+
+The library nav leads with Structures, Hooks and Edit moves. Breakdowns, Intros, Editing styles, Finishes and the Technique library sit under More.
+
 - **Structures** is the starting view: 8 Reels/Shorts structures (tip, mini-story, how-to, list, product demo, podcast clip, reaction, before and after) and 6 Long Form ones (explainer, tutorial, story, list, test, podcast episode). Each lays out the whole video beat by beat on a timeline: what to say, what goes on screen, which edit moves to use and an example line. A rendered example is cut to each structure. Select a beat to play the example from that point.
 - **Talking-head hooks** are the default hook view: 120 Reels/Shorts hooks in 12 types and 64 Long Form hooks in 8 types. Filter them by the footage you have (talking head, talking head + screen, podcast, faceless, product, vlog). Numbers in the examples are placeholders.
 - **Edit moves** covers the 15 edits creators use most: jump cuts, punch-ins, word-by-word captions, stakes text, slams, cutaways, receipts, phone inserts, split screens, sound effects, reactions, freezes, counters and re-hooks. Each move says what it fixes, when to use it and how often. Its preview ends on the raw take for comparison.

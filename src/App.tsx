@@ -2,12 +2,13 @@ import {
   ArrowDown, ArrowRight, BookOpen, ChartGantt, Check, ChevronDown, ChevronRight,
   Film, ListOrdered, Plus, Scissors, Search, Smartphone, X, Youtube,
 } from 'lucide-react'
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { byId, formatBreakdowns, formatCollections, modes, sections, stageLabels, techniques, withSound, type FormatMode, type Stage, type Technique } from './catalog'
 import { addItems, readEdit, removeItem, saveEdit, writeClipboard } from './edit'
 import { footageGroups, hookCollections, hookExamples, hookGuidance, hookHash } from './hook-library/catalog'
 import { creatorCollections, creatorHash, creatorHooks, hookTypes, moveGroups, moveTechniqueId, moveTechniques, presets, structureHash, structureTechniques, type Preset } from './creator-hooks/catalog'
 import { StructureCard } from './StructureCard'
+import { GuidedFlow } from './GuidedFlow'
 import { EditBuilder } from './EditBuilder'
 import { Preview } from './Preview'
 import { TechniqueCard } from './TechniqueCard'
@@ -83,6 +84,10 @@ export function App() {
   const moreResults = useRef<HTMLDivElement>(null)
   const builder = useRef<HTMLElement>(null)
   const dialog = useRef<HTMLDialogElement>(null)
+  const guided = useRef<HTMLDialogElement>(null)
+  const [guidedRun, setGuidedRun] = useState(0)
+  const [moreOpen, setMoreOpen] = useState(false)
+  const moreMenu = useRef<HTMLDivElement>(null)
   const copyTimer = useRef<number>()
 
   const updatePlayback = useCallback((id: string, active: boolean) => {
@@ -90,6 +95,19 @@ export function App() {
   }, [])
 
   useEffect(() => saveEdit(edit), [edit])
+  useEffect(() => { if (guidedRun) guided.current?.showModal() }, [guidedRun])
+  useEffect(() => {
+    if (!moreOpen) return
+    const close = (event: MouseEvent | KeyboardEvent) => {
+      if (event instanceof KeyboardEvent ? event.key === 'Escape' : !moreMenu.current?.contains(event.target as Node)) setMoreOpen(false)
+    }
+    document.addEventListener('mousedown', close)
+    document.addEventListener('keydown', close)
+    return () => {
+      document.removeEventListener('mousedown', close)
+      document.removeEventListener('keydown', close)
+    }
+  }, [moreOpen])
   useEffect(() => {
     const desktop = window.matchMedia('(min-width: 1100px)')
     const onDesktop = (event: MediaQueryListEvent) => { if (event.matches) dialog.current?.close() }
@@ -310,7 +328,7 @@ export function App() {
       copyTimer.current = window.setTimeout(() => setCopied(null), 1800)
     } catch {
       setError(key.startsWith('link:') ? `Copy this example link manually. ${text}` :
-        key === 'combined' ? 'Copy failed. Open Combined prompt to select and copy the text.' : 'Copy failed. Expand the prompt to select and copy the text.')
+        key === 'combined' ? 'Copy failed. Select the prompt text and copy it yourself.' : 'Copy failed. Expand the prompt to select and copy the text.')
     }
   }
 
@@ -318,6 +336,13 @@ export function App() {
     setLimit(batchSize(shelf))
     setPlaying(null)
   }
+
+  const moreShelves: { id: Shelf; label: string; count?: number }[] = [
+    { id: 'breakdowns', label: 'Breakdowns', count: breakdowns.length },
+    ...stages[mode].filter(stage => stage !== 'hook').map(stage => ({ id: stage as Shelf, label: stageLabels[stage], count: counts[stage] })),
+    { id: 'techniques', label: 'Technique library' },
+  ]
+  const moreActive = moreShelves.find(item => item.id === shelf)
 
   const builderProps = {
     edit, setEdit, copied: copied === 'combined', onCopy: (text: string) => { void copy('combined', text) },
@@ -369,10 +394,11 @@ export function App() {
             <h1 id="mode-title">{activeGuide.title}</h1>
             <p>{activeGuide.description}</p>
             <div className="hero-actions">
-              <button className="button hero-action" type="button" onClick={() => chooseShelf('structures')}>
-                Pick a structure <ArrowDown size={16} aria-hidden="true" />
+              <button className="button hero-action" type="button" onClick={() => setGuidedRun(run => run + 1)}>
+                Build my prompt <ArrowRight size={16} aria-hidden="true" />
               </button>
               <div className="hero-links">
+                <button type="button" className="hero-secondary" onClick={() => chooseShelf('structures')}>Structures</button>
                 <button type="button" className="hero-secondary" onClick={() => chooseShelf('hook')}>Hooks</button>
                 <button type="button" className="hero-secondary" onClick={() => chooseShelf('moves')}>Edit moves</button>
                 <button type="button" className="hero-secondary" onClick={() => chooseShelf('breakdowns')}>Breakdowns</button>
@@ -419,26 +445,31 @@ export function App() {
 
         <div className="workspace">
           <section className="library" id="recipe-library" ref={library} tabIndex={-1} aria-labelledby="library-title">
-            <nav className="shelf-nav" aria-label="Edit stages">
+            <nav className="shelf-nav" aria-label="Library">
               <button type="button" aria-pressed={shelf === 'structures'} onClick={() => chooseShelf('structures')}>
                 <ChartGantt size={15} aria-hidden="true" /> Structures <span>{structureTechniques[mode].length}</span>
               </button>
-              <button type="button" aria-pressed={shelf === 'breakdowns'} onClick={() => chooseShelf('breakdowns')}>
-                Breakdowns <span>{breakdowns.length}</span>
+              <button type="button" aria-pressed={shelf === 'hook'} onClick={() => chooseShelf('hook')}>
+                Hooks <span>{counts.hook.toLocaleString('en-US')}</span>
               </button>
-              {stages[mode].map(stage => (
-                <Fragment key={stage}>
-                  <button type="button" aria-pressed={shelf === stage} onClick={() => chooseShelf(stage)}>
-                    {stageLabels[stage]} <span>{counts[stage].toLocaleString('en-US')}</span>
-                  </button>
-                  {stage === 'hook' && <button type="button" aria-pressed={shelf === 'moves'} onClick={() => chooseShelf('moves')}>
-                    <Scissors size={15} aria-hidden="true" /> Edit moves <span>{moveTechniques.length}</span>
-                  </button>}
-                </Fragment>
-              ))}
-              <button type="button" aria-pressed={shelf === 'techniques'} onClick={() => chooseShelf('techniques')}>
-                <BookOpen size={16} aria-hidden="true" /> Technique library
+              <button type="button" aria-pressed={shelf === 'moves'} onClick={() => chooseShelf('moves')}>
+                <Scissors size={15} aria-hidden="true" /> Edit moves <span>{moveTechniques.length}</span>
               </button>
+              <div className="more-menu" ref={moreMenu}>
+                <button type="button" aria-expanded={moreOpen} aria-haspopup="true" aria-pressed={!!moreActive}
+                  onClick={() => setMoreOpen(open => !open)}>
+                  {moreActive ? moreActive.label : 'More'} <ChevronDown size={14} aria-hidden="true" />
+                </button>
+                {moreOpen && <div className="more-list">
+                  {moreShelves.map(item => (
+                    <button type="button" key={item.id} aria-pressed={shelf === item.id}
+                      onClick={() => { setMoreOpen(false); chooseShelf(item.id) }}>
+                      {item.id === 'techniques' && <BookOpen size={15} aria-hidden="true" />} {item.label}
+                      {item.count !== undefined && <span>{item.count.toLocaleString('en-US')}</span>}
+                    </button>
+                  ))}
+                </div>}
+              </div>
             </nav>
             <div className="library-heading">
               <h2 id="library-title">{libraryTitle}</h2>
@@ -601,6 +632,15 @@ export function App() {
           </aside>
         </div>
       </main>
+
+      {guidedRun > 0 && <GuidedFlow key={guidedRun} dialogRef={guided} initialMode={mode} current={edit} copied={copied === 'combined'}
+        onApply={(next, format) => {
+          if (format !== mode) chooseMode(format)
+          setEdit(next)
+          setMessage('Your edit is ready.')
+        }}
+        onCopy={text => { void copy('combined', text) }}
+        onOpenBuilder={openBuilder} />}
 
       <dialog ref={dialog} className="builder-dialog" aria-labelledby="mobile-builder-title"
         onClick={event => { if (event.target === event.currentTarget) dialog.current?.close() }}>
