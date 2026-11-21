@@ -114,7 +114,7 @@ def visual(t, variant, title, labels, note):
         if t>=6.1:
             chip(draw,(31,68),'Contact at 1.15 s',INK,PAPER,15)
     else:
-        frame.paste(shot('host-live', .22+stamp*.74, 1.05,-19,-17,(600,131)),(21,58))
+        frame.paste(shot('host-live', .22+stamp*.74, 1.05, -19, -76, (600,131)), (21,58))
         if variant == 'mono':
             chip(draw,(28,67),'L = +speech / R = −speech' if use==0 else 'Mono = (L + R) / 2',INK,PAPER,15)
         elif variant == 'rumble' and t >= 6.1:
