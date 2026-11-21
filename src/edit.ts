@@ -20,11 +20,13 @@ export type Edit = {
   clips: string
   target: Target
   detail: Detail
+  /** An opening line picked from the transcript, with where it starts. */
+  opener: { text: string; stamp: string } | null
 }
 const storageKey = 'video-edit-lab:edit:v1'
 const newEdit: Edit = {
   items: [], format: '', automaticFormat: true, footage: '', hookPlacement: 'blend',
-  topic: '', audience: '', platform: '', length: '', transcript: '', clips: '', target: 'plan', detail: 'full',
+  topic: '', audience: '', platform: '', length: '', transcript: '', clips: '', target: 'plan', detail: 'full', opener: null,
 }
 
 export const formats = ['Vertical · 9:16', 'Widescreen · 16:9', 'Square · 1:1']
@@ -74,6 +76,8 @@ export function readEdit(): Edit {
       clips: text(saved.clips, 3000),
       target: targets.some(option => option.id === saved.target) ? saved.target : 'plan',
       detail: saved.detail === 'short' ? 'short' : 'full',
+      opener: saved.opener && typeof saved.opener.text === 'string' && saved.opener.text.trim()
+        ? { text: text(saved.opener.text, 400), stamp: text(saved.opener.stamp, 12) } : null,
     }
   } catch {
     return newEdit

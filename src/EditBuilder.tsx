@@ -1,6 +1,8 @@
-import { AlertTriangle, Check, ChevronDown, ChevronUp, Clipboard, FileUp, GripVertical, Layers3, X } from 'lucide-react'
-import { useId, useRef, useState, type ChangeEvent, type Dispatch, type PointerEvent, type SetStateAction } from 'react'
-import { byId } from './catalog'
+import { AlertTriangle, Check, ChevronDown, ChevronUp, Clipboard, FileUp, GripVertical, Layers3, Pin, X } from 'lucide-react'
+import { useId, useMemo, useRef, useState, type ChangeEvent, type Dispatch, type PointerEvent, type SetStateAction } from 'react'
+import { byId, type FormatMode } from './catalog'
+import { hookTypes } from './creator-hooks/catalog'
+import { suggestOpeners } from './openers'
 import { formats, moveItem, platforms, removeItem, targets, type Edit, type Platform, type Target } from './edit'
 import { compilePrompt } from './prompt'
 
@@ -11,9 +13,10 @@ type BuilderProps = {
   onCopy: (text: string) => void
   headingId?: string
   onClose?: () => void
+  onOpenHookType?: (id: string, mode: FormatMode) => void
 }
 
-export function EditBuilder({ edit, setEdit, copied, onCopy, headingId, onClose }: BuilderProps) {
+export function EditBuilder({ edit, setEdit, copied, onCopy, headingId, onClose, onOpenHookType }: BuilderProps) {
   const id = useId()
   const [view, setView] = useState<'order' | 'video' | 'prompt'>('order')
   const [fileNote, setFileNote] = useState('')
@@ -25,6 +28,10 @@ export function EditBuilder({ edit, setEdit, copied, onCopy, headingId, onClose 
   const generated = compiled.text
   const prompt = custom?.base === generated ? custom.text : generated
   const target = targets.find(option => option.id === edit.target) ?? targets[0]
+  const mode: FormatMode = edit.format.startsWith('Widescreen') ? 'long' : 'short'
+  const suggestions = useMemo(() => suggestOpeners(edit.transcript, mode), [edit.transcript, mode])
+  const typeTitle = (id: string) => hookTypes[mode].find(type => type.id === id)?.title ?? id
+  const pinnedVisible = !!edit.opener && suggestions.some(item => item.text === edit.opener!.text)
   const update = <K extends keyof Edit>(key: K, value: Edit[K]) => setEdit(current => ({ ...current, [key]: value }))
 
   function loadTranscript(event: ChangeEvent<HTMLInputElement>) {
@@ -209,6 +216,37 @@ export function EditBuilder({ edit, setEdit, copied, onCopy, headingId, onClose 
             {fileNote && <p className="builder-hint" role="status">{fileNote}</p>}
             {!edit.transcript && <p className="builder-hint">An .srt gives the start and end of every line, so the AI doesn’t have to guess.
               CapCut, Premiere, Descript and YouTube Studio can all export one.</p>}
+            {edit.transcript.trim() && <div className="openers" aria-label="Opening lines from your take">
+              <p className="openers-title">Opening lines from your take</p>
+              {suggestions.length === 0 && <p className="builder-hint">No strong opening line yet. Lines with a number, a result, a test
+                or a habit the viewer has work best.</p>}
+              {edit.opener && !pinnedVisible && <div className="opener-card is-pinned">
+                <p className="opener-line">“{edit.opener.text}” {edit.opener.stamp && <span>{edit.opener.stamp}</span>}</p>
+                <div className="opener-actions">
+                  <button type="button" className="button secondary" onClick={() => update('opener', null)}>Unpin</button>
+                </div>
+              </div>}
+              {suggestions.map(item => {
+                const pinned = edit.opener?.text === item.text
+                return (
+                  <div className={`opener-card${pinned ? ' is-pinned' : ''}`} key={`${item.stamp}-${item.text}`}>
+                    <p className="opener-line">“{item.text}” {item.stamp && <span>{item.stamp}</span>}</p>
+                    <p className="opener-type">{typeTitle(item.typeId)}</p>
+                    <p className="opener-why">{item.reasons.join(' · ')}</p>
+                    <p className="opener-footage"><strong>Footage</strong> {item.footage}</p>
+                    <div className="opener-actions">
+                      <button type="button" className={`button ${pinned ? 'added' : 'tinted'}`} aria-pressed={pinned}
+                        onClick={() => update('opener', pinned ? null : { text: item.text, stamp: item.stamp })}>
+                        {pinned ? <Check size={15} /> : <Pin size={15} />} {pinned ? 'Opening on this' : 'Open on this'}
+                      </button>
+                      {onOpenHookType && <button type="button" className="text-button" onClick={() => onOpenHookType(item.typeId, mode)}>
+                        See these hooks
+                      </button>}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>}
             <label htmlFor={`${id}-clips`}>Clips and B-roll you have <span>One per line</span></label>
             <textarea id={`${id}-clips`} rows={3} maxLength={3000} value={edit.clips}
               placeholder={'main-take.mp4\nscreen-recording.mov\nlatte-closeup.mp4'} onChange={event => update('clips', event.target.value)} />
@@ -221,8 +259,8 @@ export function EditBuilder({ edit, setEdit, copied, onCopy, headingId, onClose 
         </div>
       ) : (
         <div className="builder-body prompt-body">
-          {count === 0 ? (
-            <div className="builder-empty"><Clipboard size={21} strokeWidth={1.5} /><p>Add a technique to generate the combined prompt.</p></div>
+          {count === 0 && !edit.opener ? (
+            <div className="builder-empty"><Clipboard size={21} strokeWidth={1.5} /><p>Add a technique, or pin an opening line from your transcript, to generate the prompt.</p></div>
           ) : (
             <>
               <label htmlFor={`${id}-target`}>Where will you paste it?</label>

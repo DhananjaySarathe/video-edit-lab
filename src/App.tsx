@@ -319,7 +319,14 @@ export function App() {
     setPlaying(null)
   }
 
-  const builderProps = { edit, setEdit, copied: copied === 'combined', onCopy: (text: string) => { void copy('combined', text) } }
+  const builderProps = {
+    edit, setEdit, copied: copied === 'combined', onCopy: (text: string) => { void copy('combined', text) },
+    onOpenHookType: (id: string, format: FormatMode) => {
+      dialog.current?.close()
+      if (format !== mode) chooseMode(format)
+      openHookType(id)
+    },
+  }
   const shelfName = shelf === 'techniques' ? 'Technique library' : shelf === 'breakdowns' ? 'Edit breakdowns' : shelf === 'moves' ? 'Edit moves'
     : shelf === 'structures' ? 'Structures' : stageLabels[shelf]
   const libraryTitle = shelf === 'techniques' || shelf === 'breakdowns' ? shelfName : `${modes[mode].label} ${shelfName.toLowerCase()}`

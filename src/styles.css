@@ -582,3 +582,16 @@ input::placeholder, textarea::placeholder { color: var(--muted); opacity: 1; }
   background: #fff6d6; color: #5a4a12; font-size: .8rem; line-height: 1.35;
 }
 .prompt-warnings svg { flex: none; margin-top: 2px; }
+
+/* Opening lines suggested from the transcript */
+.openers { display: grid; gap: 8px; margin-top: 10px; }
+.openers-title { color: var(--ink); font-size: .875rem; font-weight: 650; }
+.opener-card { display: grid; gap: 4px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 8px; background: #f7f9f5; }
+.opener-card.is-pinned { border-color: #8ba487; background: #eef4ea; }
+.opener-line { color: var(--ink); font-size: .86rem; line-height: 1.4; }
+.opener-line span { margin-left: 4px; color: var(--muted); font-size: .76rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.opener-type { color: var(--strong-green); font-size: .78rem; font-weight: 700; }
+.opener-why, .opener-footage { color: var(--muted); font-size: .78rem; line-height: 1.4; }
+.opener-footage strong { color: var(--ink); font-weight: 650; margin-right: 3px; }
+.opener-actions { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 3px; }
+.opener-actions .button { min-height: 32px; padding: 4px 10px; font-size: .8rem; }

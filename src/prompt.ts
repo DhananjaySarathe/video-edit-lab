@@ -58,9 +58,10 @@ function hookBlock(picked: Picked, edit: Edit, short: boolean, transcript: boole
   const hook = technique.creator
   const vertical = technique.mode !== 'long'
   if (hook) {
-    const lineAdvice = script ? 'Write my version for this topic, just as short.'
-      : transcript ? 'Open on the line in my transcript that does this job best. Use the model line only if nothing in my take fits.'
-        : 'Adapt it to my topic and keep it just as short.'
+    const lineAdvice = edit.opener ? (script ? 'Use it as the pattern for the hook options.' : 'It only shows the pattern. I’m opening on my own line, given above.')
+      : script ? 'Write my version for this topic, just as short.'
+        : transcript ? 'Open on the line in my transcript that does this job best. Use the model line only if nothing in my take fits.'
+          : 'Adapt it to my topic and keep it just as short.'
     const lines = [
       `Type: ${hook.typeTitle}. ${hook.why}`,
       `Model line: “${hook.say}” ${lineAdvice}`,
@@ -158,7 +159,7 @@ export function compilePrompt(edit: Edit): Compiled {
     const technique = byId.get(item.id)
     return technique ? [{ item, technique }] : []
   })
-  if (!picked.length) return { text: '', warnings: [], words: 0 }
+  if (!picked.length && !edit.opener) return { text: '', warnings: [], words: 0 }
 
   const warnings: string[] = []
   const short = edit.detail === 'short'
@@ -213,6 +214,18 @@ export function compilePrompt(edit: Edit): Compiled {
       : !script && 'I haven’t pasted a transcript. Mark every timing as approximate, or ask me for the transcript before you start.',
     clips.length > 0 && `Clips and B-roll I have:\n${clips.map(clip => `- ${clip}`).join('\n')}`,
   ])
+
+  if (edit.opener) {
+    const where = edit.opener.stamp ? ` (it starts at ${edit.opener.stamp})` : ''
+    add('Opening line', [
+      script ? `Build one of the hook options around this line from my notes${where}: “${edit.opener.text}”`
+        : `Open on this line from my transcript${where}: “${edit.opener.text}” Keep it whole. Trimming a leading filler word is fine.`,
+    ])
+    const plain = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
+    if (transcript && !plain(transcript).includes(plain(edit.opener.text).split(' ').slice(0, 8).join(' '))) {
+      warnings.push('Your pinned opening line isn’t in the transcript any more. Pick it again or unpin it under Your video.')
+    }
+  }
 
   const hookMove = hooks[0]?.technique.creator?.move
   const targetLength = edit.length.trim() || structure?.length || ''
