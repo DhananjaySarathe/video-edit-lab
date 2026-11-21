@@ -1,6 +1,8 @@
 import shortTypes from './short.json'
 import longTypes from './long.json'
 import moveList from './moves.json'
+import structureData from './structures.json'
+import structureTimings from './structure-timings.json'
 import type { Collection, FormatMode, Technique } from '../catalog'
 
 export type Preset = 'talking-head' | 'screen' | 'podcast' | 'faceless' | 'product' | 'vlog'
@@ -65,7 +67,7 @@ function firstPerson(text: string) {
     .replace(/\byourself\b/gi, match => keepCase(match, 'myself'))
     .replace(/\byours\b/gi, match => keepCase(match, 'mine'))
     .replace(/\byour\b/gi, match => keepCase(match, 'my'))
-    .replace(/\b(behind|with|message|told|held|for|beside|affected|to)\s+you\b/gi, '$1 me')
+    .replace(/\b(behind|with|message|told|held|for|beside|affected|to|surprised|needs|in)\s+you\b/gi, '$1 me')
     .replace(/\byou(?=\s+(?:in|with)\b|\s+\w+ing\b)/gi, match => keepCase(match, 'me'))
     .replace(/\byou\b/gi, 'I')
 }
@@ -161,4 +163,129 @@ export const moveTechniques: Technique[] = moves.map(move => ({
 export function creatorHash(id: string): string | undefined {
   const match = /^th-(short|long)-/.exec(id)
   if (match) return `#${match[1] === 'short' ? 'reels-shorts' : 'long-form'}/hook/${id}`
+}
+
+type RawBeat = { role: string; title: string; t: number[]; goal: string; show: string; moves: string[]; line: string; render?: object }
+type RawStructure = {
+  id: string; title: string; bestFor: string; length: string; footage: string; example: string; for: string[]
+  hookTypes: string[]; rhythm: string; every: number; checks: string[]; beats: RawBeat[]
+}
+
+export type StructureBeat = {
+  role: string
+  title: string
+  start: number
+  end: number
+  goal: string
+  show: string
+  moves: EditMove[]
+  line: string
+  /** Where this beat starts in the rendered example, when the example includes it. */
+  example?: number
+}
+
+export type Structure = {
+  id: string
+  mode: FormatMode
+  title: string
+  bestFor: string
+  length: string
+  footage: string
+  example: string
+  hookTypes: HookType[]
+  rhythm: string
+  every: number
+  checks: string[]
+  beats: StructureBeat[]
+  total: number
+  exampleTotal?: number
+}
+
+const timings: Record<string, { beats: Record<string, number>; total: number }> = structureTimings
+
+export function formatTime(seconds: number, mode: FormatMode) {
+  if (mode === 'short') return `${Number(seconds.toFixed(1))}`
+  const whole = Math.round(seconds)
+  return `${Math.floor(whole / 60)}:${String(whole % 60).padStart(2, '0')}`
+}
+
+export const beatTime = (beat: { start: number; end: number }, mode: FormatMode) =>
+  mode === 'short' ? `${formatTime(beat.start, mode)}–${formatTime(beat.end, mode)} s` : `${formatTime(beat.start, mode)}–${formatTime(beat.end, mode)}`
+
+function structurePrompt(structure: Structure) {
+  const short = structure.mode === 'short'
+  return [
+    `Edit my footage into a ${short ? 'vertical 9:16' : 'horizontal 16:9'} video, ${structure.length} long, using this structure: ${structure.title}. Use my own words and keep my sentences whole. The example lines show the shape of each beat, not a script to read.`,
+    `Pacing — ${structure.rhythm}`,
+    structure.beats.map((beat, index) => [
+      `${index + 1}. ${beat.title} (${beatTime(beat, structure.mode)}) — ${firstPerson(beat.goal)}`,
+      `On screen: ${firstPerson(beat.show)}`,
+      beat.moves.length ? `Edit moves: ${beat.moves.map(move => move.title).join('; ')}.` : '',
+    ].filter(Boolean).join(' ')).join('\n'),
+    `Before export — ${structure.checks.join(' ')}`,
+    'List any beat my footage can’t support, and the shots I’d need to film for it.',
+  ].join('\n\n')
+}
+
+function buildStructures(mode: FormatMode): Technique[] {
+  const types = new Map(hookTypes[mode].map(type => [type.id, type]))
+  return ((structureData as Record<FormatMode, RawStructure[]>)[mode]).map(raw => {
+    const timing = timings[`${mode}/${raw.id}`]
+    const beats = raw.beats.map((beat, index) => ({
+      role: beat.role,
+      title: beat.title,
+      start: beat.t[0],
+      end: beat.t[1],
+      goal: beat.goal,
+      show: beat.show,
+      line: beat.line,
+      moves: beat.moves.map(id => {
+        const move = moveById.get(id)
+        if (!move) throw new Error(`Unknown edit move ${id} in structure ${raw.id}`)
+        return move
+      }),
+      example: timing?.beats[String(index)],
+    }))
+    const structure: Structure = {
+      id: raw.id,
+      mode,
+      title: raw.title,
+      bestFor: raw.bestFor,
+      length: raw.length,
+      footage: raw.footage,
+      example: raw.example,
+      hookTypes: raw.hookTypes.map(id => {
+        const type = types.get(id)
+        if (!type) throw new Error(`Unknown hook type ${id} in structure ${raw.id}`)
+        return type
+      }),
+      rhythm: raw.rhythm,
+      every: raw.every,
+      checks: raw.checks,
+      beats,
+      total: beats[beats.length - 1].end,
+      exampleTotal: timing?.total,
+    }
+    return {
+      id: `structure-${mode}-${raw.id}`,
+      mode,
+      title: raw.title,
+      section: 'Structures',
+      useCase: raw.bestFor,
+      previewId: `structures/${raw.id}`,
+      prompt: structurePrompt(structure),
+      structure,
+      sound: true,
+    }
+  })
+}
+
+export const structureTechniques: Record<FormatMode, Technique[]> = {
+  short: buildStructures('short'),
+  long: buildStructures('long'),
+}
+
+export function structureHash(id: string): string | undefined {
+  const match = /^structure-(short|long)-(.+)$/.exec(id)
+  if (match) return `#${match[1] === 'short' ? 'reels-shorts' : 'long-form'}/structure/${match[2]}`
 }

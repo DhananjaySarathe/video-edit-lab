@@ -8,7 +8,7 @@ import { shortAdvancedFinishes } from './format-content/short-advanced-finishes'
 import { longAdvancedFinishes } from './format-content/long-advanced-finishes'
 import { advancedTechniques } from './format-content/advanced-techniques'
 import { hookCollections } from './hook-library/catalog'
-import { creatorHooks, moveTechniques, type CreatorHook, type EditMove } from './creator-hooks/catalog'
+import { creatorHooks, moveTechniques, structureTechniques, type CreatorHook, type EditMove, type Structure } from './creator-hooks/catalog'
 import type { Breakdown } from './breakdown'
 
 export type FormatMode = 'short' | 'long'
@@ -21,6 +21,7 @@ export type Technique = (typeof catalog)[number] & {
   breakdown?: Breakdown
   creator?: CreatorHook
   move?: EditMove
+  structure?: Structure
   sound?: boolean
 }
 type RecipeEntry = readonly [title: string, previewId: string, useCase: string, prompt: string]
@@ -87,7 +88,8 @@ export const formatCollections = {
 
 export const techniques: Technique[] = [...advancedTechniques, ...catalog]
 const recipes = Object.values(formatCollections).flatMap(list => list.flatMap(group => group.items))
-export const byId = new Map([...techniques, ...recipes, ...creatorHooks.short, ...creatorHooks.long, ...moveTechniques]
+export const byId = new Map([...techniques, ...recipes, ...creatorHooks.short, ...creatorHooks.long, ...moveTechniques,
+  ...structureTechniques.short, ...structureTechniques.long]
   .map(technique => [technique.id, technique]))
 
 export const sections = [

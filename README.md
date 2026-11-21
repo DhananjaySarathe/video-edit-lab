@@ -1,6 +1,6 @@
 # Video Edit Lab
 
-A React and TypeScript library for building a brief for an AI video editor. It opens on 184 talking-head hooks and 15 edit moves made for creators who film themselves. Each hook gives the line to say, the on-screen text, the first frame, the edit move and what comes next, with a rendered preview. The staged hook collection adds 2,100 original openings. Each has a first shot, an opening line, a timed turn, a handoff into the body, a playback check and an editable prompt. The library also includes 340 other format recipes, 28 edit breakdowns and 117 individual techniques. [Open Video Edit Lab](https://dhananjaysarathe.github.io/video-edit-lab/)
+A React and TypeScript library for building a brief for an AI video editor. It opens on 14 whole-video structures, then 184 talking-head hooks and 15 edit moves made for creators who film themselves. Each hook gives the line to say, the on-screen text, the first frame, the edit move and what comes next, with a rendered preview. The staged hook collection adds 2,100 original openings. Each has a first shot, an opening line, a timed turn, a handoff into the body, a playback check and an editable prompt. The library also includes 340 other format recipes, 28 edit breakdowns and 117 individual techniques. [Open Video Edit Lab](https://dhananjaysarathe.github.io/video-edit-lab/)
 
 ## Run locally
 
@@ -15,6 +15,7 @@ Pushes to `main` build and publish the app through the GitHub Pages workflow.
 
 ## Browse the library
 
+- **Structures** is the starting view: 8 Reels/Shorts structures (tip, mini-story, how-to, list, product demo, podcast clip, reaction, before and after) and 6 Long Form ones (explainer, tutorial, story, list, test, podcast episode). Each lays out the whole video beat by beat on a timeline: what to say, what goes on screen, which edit moves to use and an example line. A rendered example is cut to each structure. Select a beat to play the example from that point.
 - **Talking-head hooks** are the default hook view: 120 Reels/Shorts hooks in 12 types and 64 Long Form hooks in 8 types. Filter them by the footage you have (talking head, talking head + screen, podcast, faceless, product, vlog). Numbers in the examples are placeholders.
 - **Edit moves** covers the 15 edits creators use most: jump cuts, punch-ins, word-by-word captions, stakes text, slams, cutaways, receipts, phone inserts, split screens, sound effects, reactions, freezes, counters and re-hooks. Each move says what it fixes, when to use it and how often. Its preview ends on the raw take for comparison.
 - **Reels/Shorts** opens with 100 samples in each of 10 hook types. All previews in this tab are native 9:16. The body and finish shelves have 112 and 18 entries respectively.
@@ -26,7 +27,7 @@ Add techniques, reorder them, enter your footage and goal, and copy the combined
 
 ## Change the catalog or media
 
-The talking-head hooks and edit moves live in `src/creator-hooks/` (`short.json`, `long.json`, `moves.json`). Hook IDs come from the type and position, so keep the order stable. Format recipes and breakdowns live in `src/format-content/`. The 21 hook families, their shootable samples and their timings live in `src/hook-library/`. Existing IDs come from each sample's file and row. Keep those positions stable so personal selections and shared links continue to work.
+The structures, talking-head hooks and edit moves live in `src/creator-hooks/` (`structures.json`, `short.json`, `long.json`, `moves.json`). `structure-timings.json` is written by the renderer and records where each beat starts in the example. Hook IDs come from the type and position, so keep the order stable. Format recipes and breakdowns live in `src/format-content/`. The 21 hook families, their shootable samples and their timings live in `src/hook-library/`. Existing IDs come from each sample's file and row. Keep those positions stable so personal selections and shared links continue to work.
 
 The gallery ships with its MP4s and WebP posters. To regenerate them locally, use Python with Pillow and install FFmpeg on PATH.
 

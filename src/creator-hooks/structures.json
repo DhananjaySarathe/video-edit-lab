@@ -1,0 +1,375 @@
+{
+  "short": [
+    {
+      "id": "tip",
+      "title": "Talking-head tip",
+      "bestFor": "One useful point, said straight to camera, with one example you can show.",
+      "length": "30–40 s",
+      "footage": "One take of you making the point, plus a shot or screen recording of the example.",
+      "example": "Worked example: why your captions get covered.",
+      "for": ["talking-head"],
+      "hookTypes": ["mistake", "myth", "contrarian"],
+      "rhythm": "Something changes on screen every 2–3 seconds: a cut, a punch-in, a caption pop or a cutaway.",
+      "every": 2.5,
+      "checks": [
+        "Mute it. Can you follow the tip from the on-screen text and captions alone?",
+        "Scrub through. Is there any stretch of 3 seconds where nothing changes?",
+        "Play the last line straight into the first. Does the loop make sense?"
+      ],
+      "beats": [
+        {"role": "hook", "title": "Hook", "t": [0, 2.5], "goal": "Name the mistake in one breath, with the stakes on screen from the first frame.", "show": "Your face, a stakes line in the upper third, captions on.", "moves": ["stakes-text", "punch-in"], "line": "If your captions sit at the bottom of the screen, half your viewers can't read them.", "render": {"move": "punch-in", "text": "Your captions are hidden"}},
+        {"role": "promise", "title": "Why it happens", "t": [2.5, 6], "goal": "Say why it happens in one sentence. No intro, no 'so today'.", "show": "The problem itself: the app's buttons sitting over the captions.", "moves": ["inside-device"], "line": "The app puts its own buttons and caption right on top of that space.", "render": {"move": "inside-device", "prop": "post", "note": "captions under the buttons"}},
+        {"role": "point", "title": "The fix", "t": [6, 13], "goal": "Give the fix as one instruction they can copy today.", "show": "Back on your face, punching in on the key word.", "moves": ["punch-in", "jump-cut"], "line": "Move them up to just below the middle of the frame, and keep each line to three words.", "render": {"move": "punch-in"}},
+        {"role": "proof", "title": "Show it working", "t": [13, 19], "goal": "Prove it with a before and after on the same clip.", "show": "Split screen: captions at the bottom on top, moved up underneath.", "moves": ["split-screen"], "line": "Same clip, same captions. Only the position changed, and nothing covers them now.", "render": {"move": "split-screen", "cut": "phone-live", "note": "BOTTOM|MOVED UP"}},
+        {"role": "rehook", "title": "Re-hook", "t": [19, 23], "goal": "Open one more question so they stay for the last part.", "show": "A quick zoom, a new line of text and one sound.", "moves": ["rehook", "sfx-layer"], "line": "But there's one more spot people forget to check.", "render": {"move": "rehook", "note": "One more spot"}},
+        {"role": "point", "title": "The extra tip", "t": [23, 30], "goal": "Pay off the re-hook straight away.", "show": "Zoom into the exact spot on the screen.", "moves": ["zoom-to-detail"], "line": "The top of the screen. Your username and the audio label sit there, so keep text below them.", "render": {"move": "zoom-to-detail", "cut": "editing-live"}},
+        {"role": "payoff", "title": "Verdict", "t": [30, 34], "goal": "Say the whole tip again in one short line.", "show": "A full-screen slam on the key words.", "moves": ["kinetic-slam"], "line": "Middle of the frame, three words a line. That's it.", "render": {"move": "kinetic-slam", "note": "MIDDLE. 3 WORDS."}},
+        {"role": "loop", "title": "End", "t": [34, 37], "goal": "End on a line that sends them back to the start, or a soft ask to save it. No end card.", "show": "Your face. Hold one beat, then cut.", "moves": ["jump-cut"], "line": "Now go and check your last Reel.", "render": {"move": "jump-cut", "text": "Check your last Reel"}}
+      ]
+    },
+    {
+      "id": "story",
+      "title": "Mini-story with a lesson",
+      "bestFor": "Something that happened to you, told fast, ending on one thing the viewer can use.",
+      "length": "40–60 s",
+      "footage": "One take telling the story, plus photos, screenshots or clips of the moments you mention.",
+      "example": "Worked example: the week our editor quit.",
+      "for": ["talking-head"],
+      "hookTypes": ["story-cold-open", "cost", "result-first"],
+      "rhythm": "A change every 2–4 seconds, slower on the emotional lines so they can land.",
+      "every": 3,
+      "checks": [
+        "Does the first line start after the boring part of the story?",
+        "Is there a moment of doubt before things turn?",
+        "Can you say the lesson in one sentence?"
+      ],
+      "beats": [
+        {"role": "hook", "title": "Drop into the moment", "t": [0, 3], "goal": "Start at the worst or strangest moment and skip the setup.", "show": "Tight on your face, no smile, the stakes on screen.", "moves": ["punch-in", "stakes-text"], "line": "Three days before launch, our only editor quit.", "render": {"move": "punch-in", "text": "3 days to launch"}},
+        {"role": "context", "title": "Just enough context", "t": [3, 9], "goal": "Two sentences of who, what and why it mattered. Nothing more.", "show": "Cut to a photo or clip of the situation while you keep talking.", "moves": ["broll-cutaway"], "line": "We had forty videos to deliver, a client waiting, and nobody else who could edit.", "render": {"move": "broll-cutaway", "cut": "editing-live"}},
+        {"role": "point", "title": "What you tried", "t": [9, 17], "goal": "Show the first attempt and why it didn't work. The struggle keeps them watching.", "show": "A receipt on screen with your face in a corner.", "moves": ["green-screen", "jump-cut"], "line": "So I tried to do it all myself, and two days later I'd finished four.", "render": {"move": "green-screen", "prop": "calendar", "note": "Edit, edit, edit"}},
+        {"role": "rehook", "title": "The turn", "t": [17, 21], "goal": "Mark the moment things changed with a visual reset.", "show": "A quick zoom, a new text line, one sound.", "moves": ["rehook"], "line": "Then a friend asked me one question that changed the plan.", "render": {"move": "rehook", "note": "One question"}},
+        {"role": "point", "title": "What changed", "t": [21, 32], "goal": "Say what you did differently, in concrete terms.", "show": "The key number slammed on screen.", "moves": ["kinetic-slam", "broll-cutaway"], "line": "She asked how many of the forty actually needed me. The honest answer was six.", "render": {"move": "kinetic-slam", "note": "SIX"}},
+        {"role": "proof", "title": "How it ended", "t": [32, 42], "goal": "Show the outcome with proof, not just a claim.", "show": "Freeze on the result with a label.", "moves": ["freeze-frame"], "line": "We delivered all of it on time, and I only edited the six that mattered.", "render": {"move": "freeze-frame", "cut": "editing-live", "note": "delivered"}},
+        {"role": "payoff", "title": "The lesson", "t": [42, 48], "goal": "One sentence they can use. Say it, then stop.", "show": "Your face, punching in on the key word.", "moves": ["punch-in"], "line": "You don't need more hours. You need to know which work actually needs you.", "render": {"move": "punch-in"}},
+        {"role": "cta", "title": "End", "t": [48, 51], "goal": "Stop on the lesson, or ask one question for the comments.", "show": "Hold a beat, then cut.", "moves": ["jump-cut"], "line": "Which part of your week is that?", "render": {"move": "jump-cut"}}
+      ]
+    },
+    {
+      "id": "tutorial",
+      "title": "Quick how-to",
+      "bestFor": "Teaching one task in a few steps, on a screen or with your hands.",
+      "length": "30–45 s",
+      "footage": "The finished result, a screen recording or close-ups of each step, and you on camera for the opening.",
+      "example": "Worked example: a two-minute colour grade on phone footage.",
+      "for": ["screen"],
+      "hookTypes": ["result-first", "show-first", "number-list"],
+      "rhythm": "A change every 2–3 seconds. Zoom on every control you touch and speed up any waiting.",
+      "every": 2.5,
+      "checks": [
+        "Can someone follow every step with the sound off?",
+        "Is every button and setting readable at phone size?",
+        "Is the before and after the same clip, at the same size and speed?"
+      ],
+      "beats": [
+        {"role": "hook", "title": "Show the result", "t": [0, 3], "goal": "Open on the finished result, then say how long it takes.", "show": "The result full screen, with the time it took on screen.", "moves": ["freeze-frame", "stakes-text"], "line": "This is a two-minute colour grade on phone footage.", "render": {"move": "freeze-frame", "for": ["vlog"], "cut": "walk-live", "text": "2-minute grade", "note": "this light"}},
+        {"role": "promise", "title": "What they'll learn", "t": [3, 6], "goal": "Promise the exact steps, with a number.", "show": "Your face, with a step counter appearing.", "moves": ["progress-counter"], "line": "Three sliders, in this order.", "render": {"move": "progress-counter", "note": "0/3"}},
+        {"role": "point", "title": "Step 1", "t": [6, 14], "goal": "One action per step. Name it, do it, show the change.", "show": "The screen recording, zoomed on the control.", "moves": ["zoom-to-detail", "progress-counter"], "line": "First, pull the highlights down until the sky has colour again.", "render": {"move": "zoom-to-detail", "cut": "editing-live", "counter": "1/3"}},
+        {"role": "point", "title": "Step 2", "t": [14, 22], "goal": "Same pattern: name it, do it, show it.", "show": "Back to your face for a beat, then the control.", "moves": ["punch-in", "progress-counter"], "line": "Then lift the shadows just enough to see the face clearly.", "render": {"move": "punch-in", "counter": "2/3"}},
+        {"role": "point", "title": "Step 3", "t": [22, 30], "goal": "Finish the steps on the change that matters most.", "show": "Zoom into the setting on the phone.", "moves": ["zoom-to-detail", "progress-counter"], "line": "Last, warm it up a touch. Most phone footage comes out too blue.", "render": {"move": "zoom-to-detail", "cut": "phone-live", "counter": "3/3"}},
+        {"role": "proof", "title": "Before and after", "t": [30, 36], "goal": "Show the full before and after at the same size.", "show": "Split screen of the same clip.", "moves": ["split-screen"], "line": "Raw on top, graded underneath. It's the same clip.", "render": {"move": "split-screen", "cut": "walk-live", "note": "RAW|GRADED"}},
+        {"role": "cta", "title": "End", "t": [36, 40], "goal": "Tell them what to do with it next: try it, save it, or the one mistake to avoid.", "show": "Your face, with one line of text.", "moves": ["stakes-text"], "line": "Save this and try it on the next clip you film.", "render": {"move": "jump-cut", "text": "Save it for your next edit"}}
+      ]
+    },
+    {
+      "id": "list",
+      "title": "List of three",
+      "bestFor": "Three tips, tools or mistakes, with the best one saved for last.",
+      "length": "30–45 s",
+      "footage": "You on camera, plus a shot, screen or screenshot for each item.",
+      "example": "Worked example: three cuts that save a boring take.",
+      "for": ["talking-head"],
+      "hookTypes": ["number-list", "mistake", "test"],
+      "rhythm": "A change every 2–3 seconds, with a counter that updates on every item.",
+      "every": 2.5,
+      "checks": [
+        "Does every item start with its number and its name?",
+        "Is the best item last, with a re-hook just before it?",
+        "Would the list still make sense with the sound off?"
+      ],
+      "beats": [
+        {"role": "hook", "title": "Promise the number", "t": [0, 3], "goal": "Say the number and tease the best item.", "show": "Your face with the promise on screen.", "moves": ["stakes-text", "punch-in"], "line": "Three cuts that save a boring talking-head take. The last one takes two seconds.", "render": {"move": "punch-in", "text": "3 cuts. #3 takes 2 sec."}},
+        {"role": "point", "title": "Item 1", "t": [3, 12], "goal": "Name it in the first three words, then show it.", "show": "A counter in the corner and the item on screen.", "moves": ["progress-counter", "broll-cutaway"], "line": "One. Delete your first sentence. It's almost always a warm-up.", "render": {"move": "kinetic-slam", "note": "DELETE IT", "counter": "1/3"}},
+        {"role": "point", "title": "Item 2", "t": [12, 21], "goal": "Keep the same pattern so viewers know where they are.", "show": "Jump cuts on your face, counter updated.", "moves": ["jump-cut", "progress-counter"], "line": "Two. Cut every pause longer than a breath, but keep your sentences whole.", "render": {"move": "jump-cut", "counter": "2/3"}},
+        {"role": "rehook", "title": "Re-hook before the best one", "t": [21, 24], "goal": "Tell them the last item is the one worth waiting for.", "show": "A quick zoom and a new line of text.", "moves": ["rehook"], "line": "And the last one is the one nobody bothers with.", "render": {"move": "rehook", "note": "The one nobody does", "counter": "2/3"}},
+        {"role": "point", "title": "Item 3, the best", "t": [24, 35], "goal": "Deliver the best item with the most visual energy.", "show": "Punch in hard on the key word.", "moves": ["punch-in", "progress-counter"], "line": "Three. Punch in on the one word that matters in each sentence. That's the two-second fix.", "render": {"move": "punch-in", "counter": "3/3"}},
+        {"role": "payoff", "title": "Recap", "t": [35, 40], "goal": "Run through all three in one breath, with the list on screen.", "show": "The checklist full screen, your face in a corner.", "moves": ["green-screen"], "line": "First sentence, pauses, punch-ins. Do all three on your next take.", "render": {"move": "green-screen", "prop": "checklist", "note": "Your next take"}},
+        {"role": "cta", "title": "End", "t": [40, 43], "goal": "Ask which one they'll try, or loop back to the hook.", "show": "Your face. Cut on the last word.", "moves": ["jump-cut"], "line": "Which one are you skipping?", "render": {"move": "jump-cut"}}
+      ]
+    },
+    {
+      "id": "product",
+      "title": "Product or UGC demo",
+      "bestFor": "Showing a product solving one real problem, without sounding like an ad.",
+      "length": "20–35 s",
+      "footage": "The product in use, the problem it solves, close-ups of two or three details, and the result.",
+      "example": "Worked example: a phone grip that fixes shaky shots.",
+      "for": ["product"],
+      "hookTypes": ["show-first", "result-first", "before-after"],
+      "rhythm": "Fast: a change every 1.5–2.5 seconds, with a sound on every contact and detail.",
+      "every": 2,
+      "checks": [
+        "Is the product in the first frame?",
+        "Is every claim shown on screen, not just said?",
+        "Is the ask a single line, with no fake urgency?"
+      ],
+      "beats": [
+        {"role": "hook", "title": "Show it working", "t": [0, 2.5], "goal": "Open on the product mid-use, with the one claim on screen.", "show": "The product in hand, with a short claim.", "moves": ["stakes-text", "sfx-layer"], "line": "This is a fifteen-dollar phone grip, and it fixed my shaky shots.", "render": {"move": "sfx-layer", "cut": "phone-live", "text": "The $15 fix"}},
+        {"role": "promise", "title": "The problem", "t": [2.5, 7], "goal": "Show the problem in one shot, ideally one the viewer has had too.", "show": "The shaky footage, frozen on its worst frame.", "moves": ["freeze-frame"], "line": "Every handheld walk I filmed looked like this.", "render": {"move": "freeze-frame", "cut": "walk-live", "note": "shaky"}},
+        {"role": "point", "title": "The details", "t": [7, 15], "goal": "Two or three details up close, one per cut, each with a word on screen.", "show": "Zoom into each detail as you name it.", "moves": ["zoom-to-detail", "broll-cutaway"], "line": "It clips on in a second, the grip is rubber, and it folds flat in a pocket.", "render": {"move": "zoom-to-detail", "cut": "camera-live"}},
+        {"role": "proof", "title": "In real use", "t": [15, 22], "goal": "Show it working somewhere real, not in a studio.", "show": "The same walk, filmed with it on.", "moves": ["jump-cut", "broll-cutaway"], "line": "Here's the same walk, filmed with it on.", "render": {"move": "jump-cut", "cut": "steps-live"}},
+        {"role": "proof", "title": "Before and after", "t": [22, 27], "goal": "Put the without and with side by side.", "show": "Split screen, labeled.", "moves": ["split-screen"], "line": "Without it on top. With it underneath.", "render": {"move": "split-screen", "cut": "walk-live", "note": "WITHOUT|WITH"}},
+        {"role": "cta", "title": "Soft ask", "t": [27, 30], "goal": "Say who it's for, in one line. No hard sell.", "show": "One slammed line.", "moves": ["kinetic-slam"], "line": "If your shots shake, it's the cheapest fix I've found.", "render": {"move": "kinetic-slam", "cut": "phone-live", "note": "CHEAPEST FIX"}}
+      ]
+    },
+    {
+      "id": "podcast-clip",
+      "title": "Podcast or interview clip",
+      "bestFor": "Turning the best minute of a conversation into a clip that works on its own.",
+      "length": "30–60 s",
+      "footage": "A two-camera or two-shot recording, and the best 30–60 seconds of one answer.",
+      "example": "Worked example: raising prices and losing the best clients.",
+      "for": ["podcast"],
+      "hookTypes": ["story-cold-open", "contrarian", "who-its-for"],
+      "rhythm": "Cut on the speaker's rhythm, about every 3–4 seconds, and to the listener when a line lands.",
+      "every": 3.5,
+      "checks": [
+        "Does the clip make sense to someone who never heard the episode?",
+        "Does it start on the most surprising sentence, not the question?",
+        "Does it end on a strong line instead of trailing off?"
+      ],
+      "beats": [
+        {"role": "hook", "title": "Start on the best line", "t": [0, 3], "goal": "Open on the most surprising sentence of the answer, even mid-thought.", "show": "The speaker, with the stakes on screen.", "moves": ["punch-in", "stakes-text"], "line": "I raised my prices and lost my best clients.", "render": {"move": "punch-in", "text": "Raising prices backfired"}},
+        {"role": "context", "title": "The question", "t": [3, 7], "goal": "Put the host's question on screen so the clip stands alone.", "show": "The host reacting, with the question as text.", "moves": ["reaction-insert", "stakes-text"], "line": "Wait, you lost them? How does that even happen?", "render": {"move": "reaction-insert", "text": "How?"}},
+        {"role": "point", "title": "The answer", "t": [7, 22], "goal": "Let the answer run, with cuts on pauses and punch-ins on emphasis.", "show": "The speaker, jump cuts on the pauses.", "moves": ["jump-cut", "punch-in"], "line": "Because the ones paying the most wanted the work. They were never shopping for the cheapest option.", "render": {"move": "jump-cut"}},
+        {"role": "proof", "title": "The reaction", "t": [22, 26], "goal": "Cut to the listener when the line lands.", "show": "The other person's face.", "moves": ["reaction-insert"], "line": "Okay, that actually makes a lot of sense.", "render": {"move": "reaction-insert"}},
+        {"role": "rehook", "title": "Second turn", "t": [26, 30], "goal": "Open the next question before the energy drops.", "show": "A quick zoom with a new line of text.", "moves": ["rehook"], "line": "But here's what I'd do differently next time.", "render": {"move": "rehook", "note": "What I'd do now"}},
+        {"role": "payoff", "title": "The takeaway", "t": [30, 42], "goal": "The practical bit, said plainly.", "show": "The speaker, punching in on the key word.", "moves": ["punch-in"], "line": "Raise prices for new clients first, and leave your best ones alone for a year.", "render": {"move": "punch-in"}},
+        {"role": "cta", "title": "End on the strongest line", "t": [42, 45], "goal": "End on the strongest sentence, then cut. Name the full episode in the caption, not on screen.", "show": "One slammed line.", "moves": ["kinetic-slam"], "line": "That one change kept every one of them.", "render": {"move": "kinetic-slam", "note": "KEPT ALL OF THEM"}}
+      ]
+    },
+    {
+      "id": "reaction",
+      "title": "React to a receipt",
+      "bestFor": "Answering a comment, post or chart with your own evidence.",
+      "length": "25–40 s",
+      "footage": "You on camera and the screenshot, comment or chart, with private details blurred.",
+      "example": "Worked example: a comment saying my edits are too fast.",
+      "for": ["talking-head"],
+      "hookTypes": ["react", "myth", "contrarian"],
+      "rhythm": "A change every 2–3 seconds. Put every receipt on screen while you talk about it.",
+      "every": 2.5,
+      "checks": [
+        "Is every receipt readable on a phone?",
+        "Are private names, emails and numbers blurred?",
+        "Do you say where you stand before you show the evidence?"
+      ],
+      "beats": [
+        {"role": "hook", "title": "Show the receipt", "t": [0, 3], "goal": "Put the comment or post on screen in the first second and read the key words.", "show": "The receipt full screen, your face in a corner circle.", "moves": ["green-screen", "stakes-text"], "line": "Someone said my edits are way too fast to follow. Let's check.", "render": {"move": "green-screen", "prop": "comment", "note": "way too fast to follow tbh", "text": "'Way too fast'"}},
+        {"role": "promise", "title": "Your take, fast", "t": [3, 7], "goal": "Say where you stand in one sentence before the evidence.", "show": "Your face, punching in on the turn in the sentence.", "moves": ["punch-in"], "line": "Honestly, I thought they might be right.", "render": {"move": "punch-in"}},
+        {"role": "proof", "title": "The evidence", "t": [7, 16], "goal": "Put the data on screen and point at the exact line.", "show": "The chart full screen with the key part highlighted.", "moves": ["green-screen", "zoom-to-detail"], "line": "So I pulled the numbers on my fastest and my slowest edits.", "render": {"move": "green-screen", "prop": "chart", "note": "Avg watch time"}},
+        {"role": "rehook", "title": "The twist", "t": [16, 20], "goal": "Show the part that surprised you.", "show": "A quick zoom and a new line of text.", "moves": ["rehook"], "line": "The fast one held people longer, but only for the first ten seconds.", "render": {"move": "rehook", "note": "Only for 10 seconds"}},
+        {"role": "point", "title": "What it means", "t": [20, 30], "goal": "Turn the evidence into something the viewer can use.", "show": "Split screen of the two edits.", "moves": ["split-screen"], "line": "So the start needs to be fast, and the middle needs room to breathe.", "render": {"move": "split-screen", "cut": "editing-live", "note": "START|MIDDLE"}},
+        {"role": "cta", "title": "Answer the comment", "t": [30, 34], "goal": "Close the loop with the person who commented.", "show": "Your face, with one line of text.", "moves": ["stakes-text"], "line": "So you were half right. Thanks for the comment.", "render": {"move": "jump-cut", "text": "Half right"}}
+      ]
+    },
+    {
+      "id": "transformation",
+      "title": "Before and after",
+      "bestFor": "A visible change: a build, a fix, a makeover, a clean-up.",
+      "length": "15–25 s",
+      "footage": "The before and after from the same angle, and three to five quick shots of the process.",
+      "example": "Worked example: an old fence board turned into a shelf.",
+      "for": ["product"],
+      "hookTypes": ["before-after", "result-first", "show-first"],
+      "rhythm": "Very fast in the middle: process shots under 2 seconds each, then a long hold on the reveal.",
+      "every": 1.5,
+      "checks": [
+        "Are the before and after shot from the same angle?",
+        "Is every process shot under two seconds?",
+        "Does the last frame cut cleanly back into the first?"
+      ],
+      "beats": [
+        {"role": "hook", "title": "The before", "t": [0, 2.5], "goal": "Show the starting state and say what it is in a few words.", "show": "The before shot, frozen for a beat, with a label.", "moves": ["freeze-frame", "stakes-text"], "line": "This board came off an old fence.", "render": {"move": "freeze-frame", "cut": "workshop-live", "text": "Fence wood", "note": "the before"}},
+        {"role": "point", "title": "The process, fast", "t": [2.5, 12], "goal": "Three to five quick shots of the work, each under two seconds, with a sound on every contact.", "show": "Quick cuts of the work.", "moves": ["sfx-layer", "jump-cut"], "line": "Sand it, square the edges, then two coats of oil.", "render": {"move": "sfx-layer", "cut": "workshop-live"}},
+        {"role": "payoff", "title": "The reveal", "t": [12, 18], "goal": "Hard cut to the after, from the same angle. Hold it.", "show": "Before and after, side by side.", "moves": ["split-screen"], "line": "And now it's the shelf in my kitchen.", "render": {"move": "split-screen", "cut": "workshop-live", "note": "BEFORE|AFTER"}},
+        {"role": "loop", "title": "Loop", "t": [18, 21], "goal": "End on a line that cuts straight back into the first frame.", "show": "One slammed line, then back to the start.", "moves": ["kinetic-slam"], "line": "One afternoon. Same board.", "render": {"move": "kinetic-slam", "cut": "workshop-live", "note": "ONE AFTERNOON"}}
+      ]
+    }
+  ],
+  "long": [
+    {
+      "id": "explainer",
+      "title": "Talking-head explainer",
+      "bestFor": "Teaching one idea or system in depth, mostly to camera.",
+      "length": "8–12 min",
+      "footage": "One long take of you, B-roll or screenshots for each claim, and the finished result.",
+      "example": "Worked example: a one-page weekly plan.",
+      "for": ["talking-head"],
+      "hookTypes": ["promise-proof", "big-question", "contrarian-thesis"],
+      "rhythm": "A visible change every 4–8 seconds. B-roll, screens or graphics for about a quarter of the runtime.",
+      "every": 6,
+      "checks": [
+        "Is the promise in the first 30 seconds, and specific?",
+        "Does every chapter start with a question or a claim, not 'okay, so'?",
+        "Does the ending return to the opening result?"
+      ],
+      "beats": [
+        {"role": "hook", "title": "Cold open", "t": [0, 20], "goal": "Show the result or the most surprising claim in the first 10 seconds.", "show": "The result, then your face with the title on screen.", "moves": ["broll-cutaway", "stakes-text"], "line": "This one page plans my whole week in ten minutes.", "render": {"move": "broll-cutaway", "cut": "notebook-live", "text": "One page, whole week"}},
+        {"role": "promise", "title": "Promise", "t": [20, 45], "goal": "Say exactly what they'll be able to do by the end, and who it's for.", "show": "Your face, punching in on the promise.", "moves": ["punch-in"], "line": "By the end of this video, you'll have built one too, from a blank page.", "render": {"move": "punch-in"}},
+        {"role": "context", "title": "Roadmap", "t": [45, 60], "goal": "Show the chapters on screen in one beat, in under 15 seconds.", "show": "The chapter list full screen, your face in a corner.", "moves": ["green-screen", "progress-counter"], "line": "It has four sections, and we'll start with the one most people skip.", "render": {"move": "green-screen", "prop": "checklist", "note": "Four sections"}},
+        {"role": "point", "title": "Chapter 1", "t": [60, 190], "goal": "Start the chapter with a question or a claim, then teach one thing.", "show": "A chapter card, then your face with cutaways on every example.", "moves": ["kinetic-slam", "broll-cutaway"], "line": "Section one is the part nobody plans: the things you won't do this week.", "render": {"move": "kinetic-slam", "note": "CHAPTER 1"}},
+        {"role": "point", "title": "Chapter 2", "t": [190, 320], "goal": "Same shape: open with a claim, teach, show an example.", "show": "Your face, screens and cutaways.", "moves": ["broll-cutaway", "zoom-to-detail"], "line": "Section two is where the real tasks go, three a day at most."},
+        {"role": "rehook", "title": "Mid-video re-hook", "t": [320, 340], "goal": "Around the middle, open a new loop: a mistake, a twist or a 'but'.", "show": "A visual reset and a new line on screen.", "moves": ["rehook"], "line": "But this is where I nearly gave up on the whole system."},
+        {"role": "point", "title": "Chapter 3", "t": [340, 470], "goal": "Pay off the re-hook inside this chapter.", "show": "Your face, a receipt or two.", "moves": ["green-screen", "punch-in"], "line": "The fix was a single box for the one thing that has to happen."},
+        {"role": "point", "title": "Chapter 4", "t": [470, 560], "goal": "The last section, kept tight.", "show": "Your face and the page being filled in.", "moves": ["broll-cutaway"], "line": "Section four takes two minutes on a Sunday night."},
+        {"role": "payoff", "title": "Payoff", "t": [560, 590], "goal": "Return to the opening result and show it again with what they now know.", "show": "The finished page from the cold open.", "moves": ["freeze-frame"], "line": "Here's my page from this week, filled in."},
+        {"role": "endscreen", "title": "End screen", "t": [590, 610], "goal": "Point at one specific next video, not 'check out my other videos'.", "show": "Your face with one video card beside you.", "moves": ["inside-device"], "line": "If planning isn't your problem but finishing is, watch this one next."}
+      ]
+    },
+    {
+      "id": "tutorial-long",
+      "title": "Tutorial walkthrough",
+      "bestFor": "A full how-to people will follow along with, step by step.",
+      "length": "10–15 min",
+      "footage": "Screen recordings or overhead shots of every step, you on camera for the intro and the checks, and the result.",
+      "example": "Worked example: editing a ten-minute video in one evening.",
+      "for": ["screen"],
+      "hookTypes": ["promise-proof", "mistakes-preview", "challenge"],
+      "rhythm": "A change every 4–6 seconds. Zoom on every control and cut every wait.",
+      "every": 5,
+      "checks": [
+        "Could someone follow it with the video beside their own screen?",
+        "Is every control readable, with a zoom on each click?",
+        "Is there a check at the end so viewers know they did it right?"
+      ],
+      "beats": [
+        {"role": "hook", "title": "Show the result", "t": [0, 20], "goal": "Open on the finished result and how long it took.", "show": "The result playing, with the time on screen.", "moves": ["inside-device", "stakes-text"], "line": "This is a ten-minute video I edited in one evening.", "render": {"move": "inside-device", "text": "One evening, one edit"}},
+        {"role": "promise", "title": "Promise and who it's for", "t": [20, 40], "goal": "Say what they'll make and what they need to start.", "show": "Your face with the steps counter.", "moves": ["progress-counter"], "line": "You'll have the exact order I do it in, and you only need a free editor.", "render": {"move": "progress-counter", "note": "0/5"}},
+        {"role": "context", "title": "Setup", "t": [40, 90], "goal": "Everything they need ready before step one, in under a minute.", "show": "The screen, zoomed on the settings.", "moves": ["zoom-to-detail"], "line": "Before we start, set your project to the same frame rate as your footage.", "render": {"move": "zoom-to-detail", "cut": "editing-live"}},
+        {"role": "point", "title": "Steps 1–2", "t": [90, 300], "goal": "One chapter per step. Name it, do it, show the result.", "show": "A chapter card, then the screen with zooms.", "moves": ["kinetic-slam", "zoom-to-detail", "progress-counter"], "line": "Step one: cut the whole thing down before you touch anything else.", "render": {"move": "kinetic-slam", "note": "STEP 1"}},
+        {"role": "rehook", "title": "The common mistake", "t": [300, 330], "goal": "Show the mistake most people make here, before they make it.", "show": "The wrong version, frozen with a label.", "moves": ["freeze-frame", "rehook"], "line": "This is the point where most people start adding music. Don't, yet."},
+        {"role": "point", "title": "Steps 3–5", "t": [330, 660], "goal": "Same shape for each step. Speed up anything slow.", "show": "Screen, zooms, counter.", "moves": ["zoom-to-detail", "progress-counter"], "line": "Step three is captions, and this is the setting that saves an hour."},
+        {"role": "payoff", "title": "Check the result", "t": [660, 700], "goal": "Show how they can check they did it right.", "show": "The finished export, played full screen.", "moves": ["split-screen"], "line": "Play it back at full speed and check these three things."},
+        {"role": "endscreen", "title": "End screen", "t": [700, 720], "goal": "One next video that continues the skill.", "show": "Your face with one video card.", "moves": ["inside-device"], "line": "Next, here's how to make the first three seconds actually work."}
+      ]
+    },
+    {
+      "id": "story-long",
+      "title": "Story or documentary",
+      "bestFor": "Something that happened, told with tension, ending on what it means.",
+      "length": "12–20 min",
+      "footage": "Your narration or interview, footage or photos of each moment, and the place where it happened if you can film it.",
+      "example": "Worked example: building a shelf that nearly didn't hold.",
+      "for": ["product"],
+      "hookTypes": ["cold-open-peak", "confession", "big-question"],
+      "rhythm": "A change every 5–8 seconds, slower on the emotional beats. Use the place and the objects to carry scenes.",
+      "every": 7,
+      "checks": [
+        "Does the cold open make sense with no context?",
+        "Is there a real setback before the midpoint?",
+        "Does the climax return to the cold-open moment?"
+      ],
+      "beats": [
+        {"role": "hook", "title": "Cold open on the peak", "t": [0, 25], "goal": "Open on the most intense moment from later in the story, then cut away before it resolves.", "show": "The peak moment, frozen just before the outcome.", "moves": ["freeze-frame", "stakes-text"], "line": "'It's not going to hold.' Okay. Three weeks earlier, this was a pile of boards.", "render": {"move": "freeze-frame", "cut": "workshop-live", "text": "3 weeks earlier"}},
+        {"role": "promise", "title": "What's at stake", "t": [25, 60], "goal": "Say what you were trying to do and why it mattered.", "show": "The project and the deadline on screen.", "moves": ["kinetic-slam"], "line": "I had one weekend to build a bookshelf strong enough for all of these.", "render": {"move": "kinetic-slam", "cut": "workshop-live", "note": "ONE WEEKEND"}},
+        {"role": "context", "title": "The world before", "t": [60, 150], "goal": "Set up where you started, briefly, with the details that will matter later.", "show": "Footage of the starting point.", "moves": ["broll-cutaway"], "line": "I'd built small things before, but never anything that had to carry weight.", "render": {"move": "jump-cut", "cut": "workshop-live"}},
+        {"role": "point", "title": "First attempt", "t": [150, 360], "goal": "What you tried, what went wrong, and what it cost.", "show": "The process, with a freeze on the mistake.", "moves": ["freeze-frame", "jump-cut"], "line": "The first frame looked perfect until I leaned on it."},
+        {"role": "rehook", "title": "Midpoint twist", "t": [360, 400], "goal": "Something changes the direction of the story.", "show": "A visual reset and a new line.", "moves": ["rehook"], "line": "That's when I found out the problem wasn't the wood at all."},
+        {"role": "point", "title": "Second attempt", "t": [400, 720], "goal": "The new approach, step by step, with rising tension.", "show": "Process shots and close-ups.", "moves": ["zoom-to-detail", "sfx-layer"], "line": "This time I built the joints first and the shelf around them."},
+        {"role": "payoff", "title": "Climax", "t": [720, 820], "goal": "Return to the cold-open moment and finally show the outcome.", "show": "The same shot as the cold open, played through.", "moves": ["freeze-frame"], "line": "So, back to that moment. Last book, full weight."},
+        {"role": "payoff", "title": "What it means", "t": [820, 880], "goal": "The lesson or the change in you, said simply.", "show": "Your face, quieter.", "moves": ["punch-in"], "line": "It held. And I learned to test the hardest part first."},
+        {"role": "endscreen", "title": "End screen", "t": [880, 900], "goal": "One next video that continues the story.", "show": "One video card.", "moves": ["inside-device"], "line": "The next build is the one that actually broke. It's here."}
+      ]
+    },
+    {
+      "id": "list-long",
+      "title": "List or mistakes video",
+      "bestFor": "Five to ten tips, tools or mistakes, counted down to the most important one.",
+      "length": "8–12 min",
+      "footage": "You on camera, plus an example, screen or demo for every item.",
+      "example": "Worked example: five editing mistakes in beginners' first videos.",
+      "for": ["talking-head"],
+      "hookTypes": ["mistakes-preview", "tested", "contrarian-thesis"],
+      "rhythm": "A change every 4–6 seconds, and a chapter card with a counter on every item.",
+      "every": 5,
+      "checks": [
+        "Does the hook tease the most important item without giving it away?",
+        "Does every item have an example on screen?",
+        "Is there a re-hook before the last item?"
+      ],
+      "beats": [
+        {"role": "hook", "title": "Tease the worst one", "t": [0, 20], "goal": "Say the number and tease the item you still struggle with.", "show": "Your face with a counter.", "moves": ["progress-counter", "stakes-text"], "line": "These are the five editing mistakes I see in almost every first video. Number four, I still make.", "render": {"move": "progress-counter", "note": "1/5", "text": "5 mistakes. I still make #4."}},
+        {"role": "promise", "title": "Why it matters", "t": [20, 45], "goal": "Say what fixing these will change for them.", "show": "A receipt that shows the cost.", "moves": ["green-screen"], "line": "Each one quietly costs you viewers in the first ten seconds.", "render": {"move": "green-screen", "prop": "chart", "note": "Viewers still watching"}},
+        {"role": "point", "title": "Mistake 5", "t": [45, 140], "goal": "Name it, show an example, show the fix.", "show": "A chapter card, then the example and the fix side by side.", "moves": ["kinetic-slam", "split-screen"], "line": "Number five: starting with 'hey guys, welcome back'.", "render": {"move": "kinetic-slam", "note": "MISTAKE 5"}},
+        {"role": "point", "title": "Mistakes 4–2", "t": [140, 430], "goal": "Same pattern for each one, with the counter updated.", "show": "Chapter cards, examples and fixes.", "moves": ["progress-counter", "split-screen", "zoom-to-detail"], "line": "Number four is the one I still catch myself doing: music that's too loud."},
+        {"role": "rehook", "title": "Before the last one", "t": [430, 450], "goal": "Tell them the last mistake is the one that matters most.", "show": "A visual reset.", "moves": ["rehook"], "line": "The last one is the reason most of these videos never get finished."},
+        {"role": "point", "title": "Mistake 1", "t": [450, 560], "goal": "The most important item, with the strongest example.", "show": "Your face, a slam, the fix in action.", "moves": ["kinetic-slam", "broll-cutaway"], "line": "Number one: trying to make the first video perfect."},
+        {"role": "payoff", "title": "Recap", "t": [560, 585], "goal": "All five on screen as a checklist.", "show": "The checklist full screen.", "moves": ["green-screen"], "line": "Here are all five. Check your last video against them."},
+        {"role": "endscreen", "title": "End screen", "t": [585, 600], "goal": "One next video.", "show": "One video card.", "moves": ["inside-device"], "line": "If you fixed all five, this one's next."}
+      ]
+    },
+    {
+      "id": "test-long",
+      "title": "Test or comparison",
+      "bestFor": "Testing several options under the same rules and naming a winner.",
+      "length": "10–15 min",
+      "footage": "Every option filmed the same way, the test itself, and the results.",
+      "example": "Worked example: five AI editing tools on the same raw clip.",
+      "for": ["screen"],
+      "hookTypes": ["tested", "challenge", "big-question"],
+      "rhythm": "A change every 4–6 seconds. Split screens for every head-to-head, with scores on screen.",
+      "every": 5,
+      "checks": [
+        "Did every option get the same conditions?",
+        "Are the scores on screen, not just said?",
+        "Is the verdict clear, with who each option suits?"
+      ],
+      "beats": [
+        {"role": "hook", "title": "The surprising result", "t": [0, 20], "goal": "Open on the most surprising result without naming the winner.", "show": "Two results side by side.", "moves": ["split-screen", "stakes-text"], "line": "I tested five AI editing tools on the same raw clip. One of them cut my best line.", "render": {"move": "split-screen", "cut": "editing-live", "note": "TOOL A|TOOL B", "text": "5 tools, 1 raw clip"}},
+        {"role": "promise", "title": "The rules", "t": [20, 60], "goal": "Explain the test and what counts as a win.", "show": "The rules as a checklist.", "moves": ["green-screen"], "line": "Same clip, same prompt, and I score each one on three things.", "render": {"move": "green-screen", "prop": "checklist", "note": "The rules"}},
+        {"role": "context", "title": "The contenders", "t": [60, 100], "goal": "Introduce each option in one line.", "show": "Each option on screen with a counter.", "moves": ["progress-counter"], "line": "Five tools, two free and three paid. Let's start with the cheapest.", "render": {"move": "progress-counter", "note": "1/5"}},
+        {"role": "point", "title": "Rounds", "t": [100, 500], "goal": "One round per option or per criterion, scores on screen after each.", "show": "Split screens and score cards.", "moves": ["split-screen", "freeze-frame"], "line": "Tool one got the pacing right but missed every punch-in."},
+        {"role": "rehook", "title": "The twist", "t": [500, 530], "goal": "The result that changes the ranking.", "show": "A visual reset.", "moves": ["rehook"], "line": "Then I watched them all with the sound off, and the ranking flipped."},
+        {"role": "payoff", "title": "Verdict", "t": [530, 640], "goal": "Name the winner and why, then who should pick each of the others.", "show": "The final scores, slammed.", "moves": ["kinetic-slam", "split-screen"], "line": "The winner wasn't the most expensive one."},
+        {"role": "endscreen", "title": "End screen", "t": [640, 660], "goal": "One next video, ideally the deeper look at the winner.", "show": "One video card.", "moves": ["inside-device"], "line": "Here's my full edit using the winner."}
+      ]
+    },
+    {
+      "id": "podcast-long",
+      "title": "Podcast episode",
+      "bestFor": "A full conversation that people stay with, with clips you can cut later.",
+      "length": "30–60 min",
+      "footage": "A two-camera or three-camera recording, with each person on their own microphone.",
+      "example": "Worked example: an interview about pricing your work.",
+      "for": ["podcast"],
+      "hookTypes": ["cold-open-peak", "big-question", "contrarian-thesis"],
+      "rhythm": "Cut on intention, about every 5–10 seconds. Mark 3–5 moments in the edit that will work as Shorts.",
+      "every": 8,
+      "checks": [
+        "Is the cold open the best 20–30 seconds of the whole episode?",
+        "Do chapters have titles viewers can search for?",
+        "Have you marked the 3–5 moments that will become clips?"
+      ],
+      "beats": [
+        {"role": "hook", "title": "Cold open", "t": [0, 30], "goal": "The best 20–30 seconds of the whole episode, before any intro.", "show": "The guest at their sharpest, with the line on screen.", "moves": ["punch-in", "stakes-text"], "line": "We were forty minutes in when she said the thing that made us scrap the plan.", "render": {"move": "punch-in", "text": "Minute 40"}},
+        {"role": "promise", "title": "Who and why now", "t": [30, 75], "goal": "Who the guest is and why this conversation matters now, in under a minute.", "show": "Both people, with a lower third.", "moves": ["jump-cut"], "line": "She's priced over two hundred creative projects, and she thinks most of us are doing it backwards.", "render": {"move": "jump-cut"}},
+        {"role": "point", "title": "Chapter 1", "t": [75, 600], "goal": "Open each chapter with a question that works as a title.", "show": "A chapter card, then the conversation.", "moves": ["kinetic-slam", "reaction-insert"], "line": "So let's start with the first price you ever charged.", "render": {"move": "kinetic-slam", "note": "CHAPTER 1"}},
+        {"role": "point", "title": "Chapter 2", "t": [600, 1200], "goal": "Keep the strongest exchanges, cut the warm-ups.", "show": "The conversation, with reactions.", "moves": ["reaction-insert", "punch-in"], "line": "When did you first lose a client over price?"},
+        {"role": "rehook", "title": "Mid-episode tease", "t": [1200, 1230], "goal": "Tease the moment from the cold open so people stay for it.", "show": "A visual reset and a line on screen.", "moves": ["rehook"], "line": "And in a few minutes, she explains the one rule that changed everything."},
+        {"role": "point", "title": "Chapter 3", "t": [1230, 2100], "goal": "The cold-open moment, in full context.", "show": "The conversation.", "moves": ["punch-in", "reaction-insert"], "line": "Here's the rule: price the outcome, not the hours."},
+        {"role": "payoff", "title": "Last question", "t": [2100, 2280], "goal": "A short final question that gives the episode an ending.", "show": "Both people.", "moves": ["jump-cut"], "line": "What would you tell yourself on your first project?"},
+        {"role": "endscreen", "title": "Outro", "t": [2280, 2310], "goal": "One next episode, by name.", "show": "One episode card.", "moves": ["inside-device"], "line": "If this helped, the episode on contracts is the natural next one."}
+      ]
+    }
+  ]
+}

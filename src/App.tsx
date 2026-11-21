@@ -1,20 +1,21 @@
 import {
-  ArrowDown, ArrowRight, BookOpen, Check, ChevronDown, ChevronRight,
+  ArrowDown, ArrowRight, BookOpen, ChartGantt, Check, ChevronDown, ChevronRight,
   Film, ListOrdered, Plus, Scissors, Search, Smartphone, X,
 } from 'lucide-react'
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { byId, formatBreakdowns, formatCollections, modes, sections, stageLabels, techniques, withSound, type FormatMode, type Stage, type Technique } from './catalog'
 import { addItems, readEdit, removeItem, saveEdit, writeClipboard } from './edit'
 import { footageGroups, hookCollections, hookExamples, hookGuidance, hookHash } from './hook-library/catalog'
-import { creatorCollections, creatorHash, creatorHooks, hookTypes, moveGroups, moveTechniqueId, moveTechniques, presets, type Preset } from './creator-hooks/catalog'
+import { creatorCollections, creatorHash, creatorHooks, hookTypes, moveGroups, moveTechniqueId, moveTechniques, presets, structureHash, structureTechniques, type Preset } from './creator-hooks/catalog'
+import { StructureCard } from './StructureCard'
 import { EditBuilder } from './EditBuilder'
 import { Preview } from './Preview'
 import { TechniqueCard } from './TechniqueCard'
 import { starters } from './starters'
 
-type Shelf = Stage | 'breakdowns' | 'techniques' | 'moves'
+type Shelf = Stage | 'breakdowns' | 'techniques' | 'moves' | 'structures'
 type HookSource = 'creator' | 'staged'
-const initialShelf: Shelf = 'hook'
+const initialShelf: Shelf = 'structures'
 const batchSize = (shelf: Shelf) => shelf === 'breakdowns' ? 6 : 12
 const stages: Record<FormatMode, readonly Stage[]> = {
   short: ['hook', 'body', 'finish'],
@@ -24,15 +25,15 @@ const stages: Record<FormatMode, readonly Stage[]> = {
 const guide = {
   short: {
     title: 'Edit a Short from hook to payoff.',
-    description: 'Pick a hook you can say on camera, add the edit moves people actually use, and give viewers a payoff worth the setup.',
-    spotlight: 'th-short-result-first-02',
-    focus: 'Lead with the result, then show the receipt',
+    description: 'Start from a structure, pick a hook you can say on camera, and add the edit moves people actually use.',
+    spotlight: 'structure-short-tip',
+    focus: 'A talking-head tip, beat by beat',
   },
   long: {
     title: 'Shape the whole story.',
-    description: 'Earn the opening promise with evidence, guide viewers through the story, and bring the ending back to the first scene.',
-    spotlight: 'th-long-contrarian-thesis-01',
-    focus: 'Lead with your thesis and the evidence',
+    description: 'Start from a structure, make the promise in the first 30 seconds, and bring the ending back to the first scene.',
+    spotlight: 'structure-long-explainer',
+    focus: 'The first minute of an explainer',
   },
 }
 
@@ -43,12 +44,16 @@ function readLocation() {
   const [format, type, ordinal] = window.location.hash.slice(1).split('/')
   const mode: FormatMode = format === 'long-form' ? 'long' : 'short'
   if (type === 'hook' && ordinal?.startsWith(`th-${mode}-`) && byId.has(ordinal)) {
-    return { mode, collection: '', sample: ordinal, worked: false, staged: false }
+    return { mode, collection: '', sample: ordinal, worked: false, staged: false, shelf: 'hook' as Shelf }
+  }
+  if (type === 'structure' && byId.has(`structure-${mode}-${ordinal}`)) {
+    return { mode, collection: '', sample: `structure-${mode}-${ordinal}`, worked: false, staged: false, shelf: 'structures' as Shelf }
   }
   const collection = hookCollections[mode].some(group => group.id === type) ? type : ''
   const id = collection && ordinal ? `hook-${mode}-${collection}-${ordinal}` : ''
   const worked = type === 'worked'
-  return { mode, collection, sample: byId.has(id) ? id : '', worked, staged: worked || !!collection }
+  const staged = worked || !!collection
+  return { mode, collection, sample: byId.has(id) ? id : '', worked, staged, shelf: (staged ? 'hook' : initialShelf) as Shelf }
 }
 
 function interleave<T>(groups: T[][]) {
@@ -59,7 +64,7 @@ function interleave<T>(groups: T[][]) {
 export function App() {
   const [edit, setEdit] = useState(readEdit)
   const [mode, setMode] = useState<FormatMode>(() => readLocation().mode)
-  const [shelf, setShelf] = useState<Shelf>(initialShelf)
+  const [shelf, setShelf] = useState<Shelf>(() => readLocation().shelf)
   const [collection, setCollection] = useState(() => readLocation().collection)
   const [linkedSample, setLinkedSample] = useState(() => readLocation().sample)
   const [query, setQuery] = useState('')
@@ -68,7 +73,7 @@ export function App() {
   const [preset, setPreset] = useState<Preset | ''>('')
   const [hookSource, setHookSource] = useState<HookSource>(() => readLocation().staged ? 'staged' : 'creator')
   const [onlySelected, setOnlySelected] = useState(false)
-  const [limit, setLimit] = useState(() => batchSize(initialShelf))
+  const [limit, setLimit] = useState(() => batchSize(readLocation().shelf))
   const [starterIndex, setStarterIndex] = useState(0)
   const [playing, setPlaying] = useState<string | null>(null)
   const [copied, setCopied] = useState<string | null>(null)
@@ -93,8 +98,8 @@ export function App() {
       const route = readLocation()
       setMode(route.mode)
       setStarterIndex(0)
-      setShelf(initialShelf)
-      resetFilters(initialShelf)
+      setShelf(route.shelf)
+      resetFilters(route.shelf)
       setCollection(route.collection)
       setLinkedSample(route.sample)
       setHookSource(route.staged ? 'staged' : 'creator')
@@ -146,6 +151,7 @@ export function App() {
       const linked = linkedSample && list.find(item => item.id === linkedSample)
       return linked ? [linked, ...list.filter(item => item.id !== linkedSample)] : list
     }
+    if (shelf === 'structures') return linkedFirst(structureTechniques[mode])
     if (shelf === 'moves') return linkedFirst(moveTechniques.filter(item => !collection || item.section === collection))
     if (shelf === 'hook' && hookSource === 'creator') {
       const groups = creatorCollections[mode].filter(group => !collection || group.id === collection)
@@ -233,6 +239,12 @@ export function App() {
     resetFilters('hook')
   }
 
+  function openHookType(id: string) {
+    chooseShelf('hook')
+    setHookSource('creator')
+    setCollection(id)
+  }
+
   function openMove(id: string) {
     chooseShelf('moves')
     setLinkedSample(moveTechniqueId(id))
@@ -308,9 +320,11 @@ export function App() {
   }
 
   const builderProps = { edit, setEdit, copied: copied === 'combined', onCopy: (text: string) => { void copy('combined', text) } }
-  const shelfName = shelf === 'techniques' ? 'Technique library' : shelf === 'breakdowns' ? 'Edit breakdowns' : shelf === 'moves' ? 'Edit moves' : stageLabels[shelf]
+  const shelfName = shelf === 'techniques' ? 'Technique library' : shelf === 'breakdowns' ? 'Edit breakdowns' : shelf === 'moves' ? 'Edit moves'
+    : shelf === 'structures' ? 'Structures' : stageLabels[shelf]
   const libraryTitle = shelf === 'techniques' || shelf === 'breakdowns' ? shelfName : `${modes[mode].label} ${shelfName.toLowerCase()}`
-  const resultNoun = shelf === 'techniques' ? 'techniques' : shelf === 'breakdowns' ? 'breakdowns' : shelf === 'moves' ? 'moves' : creator ? 'hooks' : 'recipes'
+  const resultNoun = shelf === 'techniques' ? 'techniques' : shelf === 'breakdowns' ? 'breakdowns' : shelf === 'moves' ? 'moves'
+    : shelf === 'structures' ? 'structures' : creator ? 'hooks' : 'recipes'
 
   return (
     <>
@@ -342,10 +356,11 @@ export function App() {
             <h1 id="mode-title">{activeGuide.title}</h1>
             <p>{activeGuide.description}</p>
             <div className="hero-actions">
-              <button className="button hero-action" type="button" onClick={() => chooseShelf('hook')}>
-                Explore hooks <ArrowDown size={16} aria-hidden="true" />
+              <button className="button hero-action" type="button" onClick={() => chooseShelf('structures')}>
+                Pick a structure <ArrowDown size={16} aria-hidden="true" />
               </button>
               <div className="hero-links">
+                <button type="button" className="hero-secondary" onClick={() => chooseShelf('hook')}>Hooks</button>
                 <button type="button" className="hero-secondary" onClick={() => chooseShelf('moves')}>Edit moves</button>
                 <button type="button" className="hero-secondary" onClick={() => chooseShelf('breakdowns')}>Breakdowns</button>
                 <button type="button" className="hero-secondary" onClick={() => chooseShelf('body')}>Editing styles</button>
@@ -392,6 +407,9 @@ export function App() {
         <div className="workspace">
           <section className="library" id="recipe-library" ref={library} tabIndex={-1} aria-labelledby="library-title">
             <nav className="shelf-nav" aria-label="Edit stages">
+              <button type="button" aria-pressed={shelf === 'structures'} onClick={() => chooseShelf('structures')}>
+                <ChartGantt size={15} aria-hidden="true" /> Structures <span>{structureTechniques[mode].length}</span>
+              </button>
               <button type="button" aria-pressed={shelf === 'breakdowns'} onClick={() => chooseShelf('breakdowns')}>
                 Breakdowns <span>{breakdowns.length}</span>
               </button>
@@ -419,6 +437,8 @@ export function App() {
                   Staged shot hooks <span>{stagedHookCount.toLocaleString('en-US')}</span>
                 </button>
               </div>}
+              {shelf === 'structures' && <p>Start here. Each structure lays out a whole video beat by beat: what to say, what goes on screen and
+                which edit moves to use, with an example cut to it. Select a beat to play the example from that point.</p>}
               {shelf === 'techniques' && <p>Original technique demonstrations for either format.</p>}
               {shelf === 'moves' && <p>The edits people actually use on talking-head videos: what each one fixes, when to use it and how often.
                 Every preview ends on the raw take, so you can see the difference.</p>}
@@ -468,7 +488,7 @@ export function App() {
                 </button>)}
               </div>
             </details>)}
-            <div className="filters" aria-label="Filter recipes">
+            {shelf !== 'structures' && <><div className="filters" aria-label="Filter recipes">
               <div className="search-field">
                 <Search size={18} aria-hidden="true" />
                 <input type="search" aria-label="Search recipes" placeholder={`Search ${shelfName.toLowerCase()}…`} value={query}
@@ -523,10 +543,22 @@ export function App() {
                   <input type="checkbox" checked={onlySelected} onChange={event => { setOnlySelected(event.target.checked); resetResults() }} /> Selected only
                 </label>
               </div>
-            </div>
+            </div></>}
 
             {shown.length ? <div className="technique-grid">
-              {shown.map(technique => (
+              {shown.map(technique => technique.structure ? (
+                <StructureCard key={`${mode}-${technique.id}${linkedSample === technique.id ? '-linked' : ''}`}
+                  initialExpanded={linkedSample === technique.id} technique={technique} vertical={mode === 'short'}
+                  selected={selected.has(technique.id)} copied={copied === technique.id} playing={playing === technique.id}
+                  onPlay={updatePlayback} linkCopied={copied === `link:${technique.id}`}
+                  onCopyLink={() => {
+                    const link = new URL(window.location.href)
+                    link.hash = structureHash(technique.id)!
+                    void copy(`link:${technique.id}`, link.href)
+                  }}
+                  onOpenMove={openMove} onOpenHookType={openHookType}
+                  onSelect={() => changeSelection(technique.id)} onCopy={() => { void copy(technique.id, technique.prompt) }} />
+              ) : (
                 <TechniqueCard key={`${mode}-${technique.id}${linkedSample === technique.id ? '-linked' : ''}`}
                   initialExpanded={linkedSample === technique.id} technique={technique} vertical={mode === 'short'} selected={selected.has(technique.id)}
                   copied={copied === technique.id} playing={playing === technique.id} onPlay={updatePlayback}

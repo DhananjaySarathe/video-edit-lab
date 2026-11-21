@@ -484,3 +484,67 @@ input::placeholder, textarea::placeholder { color: var(--muted); opacity: 1; }
 .card-more[hidden] { display: none; }
 .card-more h4 { margin: 12px 0 5px; font-size: .88rem; font-weight: 680; }
 .card-more .card-prompt { white-space: pre-line; padding: 11px 12px; border-radius: 7px; background: #f0f4ed; font-size: .86rem; }
+
+/* Structure templates */
+.is-structure .card-content h3 { margin-bottom: 4px; }
+.timeline { margin-top: 14px; }
+.timeline-head {
+  display: flex; justify-content: space-between; margin-bottom: 5px;
+  color: var(--muted); font-size: .72rem; font-weight: 680; letter-spacing: .04em; text-transform: uppercase;
+}
+.timeline-bar { display: flex; gap: 2px; height: 40px; }
+.timeline-beat {
+  flex: 0 1 auto; min-width: 5px; padding: 0 6px; overflow: hidden;
+  border: 0; border-radius: 4px; text-align: left; font-size: .72rem; font-weight: 680; line-height: 1.15;
+  transition: box-shadow .12s, filter .12s;
+}
+.timeline-beat span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.timeline-beat:hover { filter: brightness(1.06); }
+.timeline-beat.is-active { box-shadow: inset 0 0 0 2px var(--white), 0 0 0 2px var(--ink); }
+.timeline-rhythm {
+  height: 6px; margin-top: 3px; background-image: linear-gradient(to right, #9fb29a 1.5px, transparent 1.5px);
+  background-repeat: repeat-x;
+}
+.timeline-note { margin-top: 6px; color: var(--muted); font-size: .8rem; }
+.role-hook { background: #294630; color: #fff; }
+.role-promise, .role-context { background: #6f9670; color: #fff; }
+.role-point { background: #dfe8d8; color: var(--ink); }
+.role-proof { background: #c9dbbf; color: var(--ink); }
+.role-rehook { background: #ffd23f; color: #2a2a1a; }
+.role-payoff { background: #3f6b48; color: #fff; }
+.role-cta, .role-loop, .role-endscreen { background: #b4c6ae; color: var(--ink); }
+.beat-detail {
+  display: grid; gap: 5px; margin: 12px 0 10px; padding: 11px 13px;
+  border: 1px solid var(--line); border-radius: 8px; background: #f3f6f0; color: var(--muted); font-size: .88rem;
+}
+.beat-detail-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; color: var(--ink); }
+.beat-detail-head .beat-play { margin-left: auto; }
+.beat-role { padding: 1px 7px; border-radius: 4px; font-size: .68rem; font-weight: 720; letter-spacing: .04em; text-transform: uppercase; }
+.beat-time { color: var(--muted); font-size: .8rem; font-variant-numeric: tabular-nums; }
+.beat-line { color: var(--ink); font-style: italic; }
+.beat-detail p strong { margin-right: 3px; color: var(--ink); font-weight: 680; }
+.beat-moves { display: flex; flex-wrap: wrap; gap: 6px; }
+.beat-moves button {
+  display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px;
+  border: 1px solid #c8d7c3; border-radius: 999px; background: var(--white); color: var(--forest); font-size: .78rem; font-weight: 650;
+}
+.beat-moves button:is(:hover, :focus-visible) { background: var(--tint); }
+.structure-hooks { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 4px 0 6px; font-size: .82rem; }
+.structure-hooks span { margin-right: 2px; color: var(--ink); font-weight: 680; }
+.structure-hooks button {
+  padding: 3px 10px; border: 0; border-radius: 999px; background: var(--tint);
+  color: var(--strong-green); font-size: .8rem; font-weight: 650;
+}
+.structure-hooks button:is(:hover, :focus-visible) { background: #dce8d5; }
+.structure-plan[hidden] { display: none; }
+.structure-beats { display: grid; gap: 6px; margin: 11px 0 0; padding: 0; list-style: none; }
+.structure-beats li { display: grid; grid-template-columns: 7.4rem minmax(0, 1fr); align-items: start; gap: 10px; padding: 8px; border-radius: 7px; }
+.structure-beats li.is-active { background: #f3f6f0; }
+.structure-beats strong { color: var(--ink); font-weight: 680; }
+.structure-beats p { margin-top: 3px; }
+.structure-checks { display: grid; gap: 5px; margin: 0; padding-left: 18px; }
+@media (max-width: 640px) {
+  .structure-beats li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .timeline-bar { height: 34px; }
+}
+.is-structure:not(.is-portrait-card) .card-video { align-self: start; }

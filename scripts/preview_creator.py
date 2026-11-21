@@ -150,7 +150,7 @@ def receipt(kind, note, w, h, dark=False):
             draw.text((pad, y), line, font=big, fill=fg)
             y += 25 * s
         mark = (pad - 4, pad + 42 * s, pad + max(draw.textlength(l, font=big) for l in lines) + 4, y + 2)
-        draw.text((pad, y + 10 * s), '♥ 1,284    Reply', font=mid, fill=sub)
+        draw.text((pad, y + 10 * s), '1,284 likes    Reply', font=mid, fill=sub)
     elif kind == 'post':
         avatar(draw, (pad, pad, pad + 26 * s, pad + 26 * s), (230, 140, 120))
         draw.text((pad + 34 * s, pad + 13 * s), 'yourhandle', font=mid, fill=fg, anchor='lm')
@@ -158,8 +158,9 @@ def receipt(kind, note, w, h, dark=False):
         grad = Image.linear_gradient('L').resize((w - pad * 2, max(4, round(bottom - top))))
         tile = ImageOps.colorize(grad, (255, 196, 120), (214, 92, 120))
         card.paste(tile, (pad, round(top)))
-        draw.text((w / 2, (top + bottom) / 2), '▶', font=font(40 * s, 'bold'), fill=(255, 255, 255), anchor='mm')
-        draw.text((pad, bottom + 12 * s), '♥ 2.1k   ✉ 316', font=mid, fill=fg)
+        cx, cy, r = w / 2, (top + bottom) / 2, 16 * s
+        draw.polygon(((cx - r * 0.6, cy - r), (cx - r * 0.6, cy + r), (cx + r, cy)), fill=(255, 255, 255))
+        draw.text((pad, bottom + 12 * s), '2.1k likes   316 comments', font=small, fill=sub)
         draw.text((pad, bottom + 34 * s), note, font=mid, fill=fg)
         mark = (pad - 4, bottom + 30 * s, pad + draw.textlength(note, font=mid) + 4, bottom + 52 * s)
     elif kind == 'article':
@@ -262,7 +263,7 @@ def receipt(kind, note, w, h, dark=False):
 class Plan:
     """Everything one preview needs: timing, layout and which shots to use."""
 
-    def __init__(self, hook, mode, index, demo=False):
+    def __init__(self, hook, mode, index, demo=False, pad=(0.12, 0.63)):
         self.hook = hook
         self.demo = demo
         self.wide = mode == 'long'
@@ -273,6 +274,7 @@ class Plan:
         self.cut = hook.get('cut')
         self.prop = hook.get('prop')
         self.note = hook.get('note', '')
+        self.counter = hook.get('counter')
         self.text = hook.get('text')
         if self.preset == 'podcast':
             self.presenter, self.other = 'portrait-live', 'host-live'
@@ -288,8 +290,9 @@ class Plan:
         self.words = hook['say'].split()
         count = len(self.words)
         self.speech = min(5.4, max(2.6, count / 3.0))
-        self.dur = round((self.speech + 0.75) * FPS) / FPS
-        start, end = 0.12, 0.12 + self.speech
+        lead_in, after = pad
+        self.dur = round((self.speech + (lead_in + after)) * FPS) / FPS
+        start, end = lead_in, lead_in + self.speech
         weights = [len(clean(word)) + 2 for word in self.words]
         total, acc, self.times = sum(weights), 0, []
         for weight in weights:
@@ -666,7 +669,7 @@ def draw_subtitles(img, plan, t):
 
 
 def draw_counter(img, plan, t):
-    note = plan.note or '1/3'
+    note = plan.counter or plan.note or '1/3'
     if ':' in note:
         minutes, seconds = note.split(':')
         left = max(0, int(minutes) * 60 + int(seconds) - int(t))
@@ -756,7 +759,7 @@ def decorate(img, plan, t):
             img = draw_subtitles(img, plan, t)
         else:
             img = draw_captions(img, plan, t, 31 if m == 'word-captions' else 27)
-    if m == 'progress-counter':
+    if m == 'progress-counter' or plan.counter:
         img = draw_counter(img, plan, t)
     return img
 
@@ -798,71 +801,114 @@ def sound_events(plan):
     return events
 
 
+def write_audio(path, total, events, bed_end, stop_at=None):
+    rng = random.Random(11)
+    n = round(RATE * total)
+    out = [0.0] * n
+    # Soft chord bed under everything, like a quiet music track.
+    notes = (196.0, 246.9, 293.7, 392.0)
+    for i in range(round(RATE * bed_end)):
+        t = i / RATE
+        if stop_at is not None and t > stop_at:
+            break
+        env = min(1, t / 0.3) * (1 - progress(t, bed_end - 0.25, bed_end))
+        out[i] += 0.045 * env * sum(math.sin(math.tau * f * t + k) for k, f in enumerate(notes)) * (0.8 + 0.2 * math.sin(t * 3))
+    if stop_at is not None:
+        start = round(stop_at * RATE)
+        phase = 0.0
+        for i in range(round(0.35 * RATE)):
+            t = i / RATE
+            freq = 300 * (1 - t / 0.35) + 30
+            phase += math.tau * freq / RATE
+            if start + i < n:
+                out[start + i] += 0.25 * (1 - t / 0.35) * math.sin(phase)
+    for at, kind in events:
+        start = max(0, round(at * RATE))
+        if kind == 'pop':
+            length, phase = round(0.08 * RATE), 0.0
+            for i in range(length):
+                t = i / RATE
+                phase += math.tau * (1150 - 6500 * t) / RATE
+                if start + i < n:
+                    out[start + i] += 0.32 * math.exp(-t * 45) * math.sin(phase)
+        elif kind == 'whoosh':
+            length, low = round(0.42 * RATE), 0.0
+            for i in range(length):
+                t = i / RATE
+                x = t / 0.42
+                alpha = 0.04 + 0.4 * math.sin(math.pi * x)
+                low += alpha * (rng.uniform(-1, 1) - low)
+                if start + i < n:
+                    out[start + i] += 0.55 * math.sin(math.pi * x) ** 2 * low
+        elif kind == 'hit':
+            length, phase = round(0.5 * RATE), 0.0
+            for i in range(length):
+                t = i / RATE
+                phase += math.tau * (95 - 70 * min(1, t / 0.25)) / RATE
+                tone = math.exp(-t * 7) * math.sin(phase)
+                noise = math.exp(-t * 40) * rng.uniform(-1, 1)
+                if start + i < n:
+                    out[start + i] += 0.62 * tone + 0.18 * noise
+        elif kind == 'shutter':
+            for offset in (0, round(0.06 * RATE)):
+                for i in range(round(0.012 * RATE)):
+                    if start + offset + i < n:
+                        out[start + offset + i] += 0.45 * rng.uniform(-1, 1) * (1 - i / (0.012 * RATE))
+    samples = array('h', (round(32767 * max(-0.95, min(0.95, value))) for value in out))
+    if sys.byteorder == 'big':
+        samples.byteswap()
+    with wave.open(str(path), 'wb') as recording:
+        recording.setparams((1, 2, RATE, 0, 'NONE', 'not compressed'))
+        recording.writeframes(samples.tobytes())
+
+
 def sound_for(plan):
     events = sound_events(plan)
     stop_at = plan.ts if 'music' in plan.hook['say'].lower() else None
+    return lambda path: write_audio(path, plan.total, events, plan.dur, stop_at)
 
-    def write(path):
-        rng = random.Random(11)
-        n = round(RATE * plan.total)
-        out = [0.0] * n
-        # Soft chord bed under everything, like a quiet music track.
-        notes = (196.0, 246.9, 293.7, 392.0)
-        for i in range(round(RATE * plan.dur)):
-            t = i / RATE
-            if stop_at is not None and t > stop_at:
-                break
-            env = min(1, t / 0.3) * (1 - progress(t, plan.dur - 0.25, plan.dur))
-            out[i] += 0.045 * env * sum(math.sin(math.tau * f * t + k) for k, f in enumerate(notes)) * (0.8 + 0.2 * math.sin(t * 3))
-        if stop_at is not None:
-            start = round(stop_at * RATE)
-            phase = 0.0
-            for i in range(round(0.35 * RATE)):
-                t = i / RATE
-                freq = 300 * (1 - t / 0.35) + 30
-                phase += math.tau * freq / RATE
-                if start + i < n:
-                    out[start + i] += 0.25 * (1 - t / 0.35) * math.sin(phase)
-        for at, kind in events:
-            start = max(0, round(at * RATE))
-            if kind == 'pop':
-                length, phase = round(0.08 * RATE), 0.0
-                for i in range(length):
-                    t = i / RATE
-                    phase += math.tau * (1150 - 6500 * t) / RATE
-                    if start + i < n:
-                        out[start + i] += 0.32 * math.exp(-t * 45) * math.sin(phase)
-            elif kind == 'whoosh':
-                length, low = round(0.42 * RATE), 0.0
-                for i in range(length):
-                    t = i / RATE
-                    x = t / 0.42
-                    alpha = 0.04 + 0.4 * math.sin(math.pi * x)
-                    low += alpha * (rng.uniform(-1, 1) - low)
-                    if start + i < n:
-                        out[start + i] += 0.55 * math.sin(math.pi * x) ** 2 * low
-            elif kind == 'hit':
-                length, phase = round(0.5 * RATE), 0.0
-                for i in range(length):
-                    t = i / RATE
-                    phase += math.tau * (95 - 70 * min(1, t / 0.25)) / RATE
-                    tone = math.exp(-t * 7) * math.sin(phase)
-                    noise = math.exp(-t * 40) * rng.uniform(-1, 1)
-                    if start + i < n:
-                        out[start + i] += 0.62 * tone + 0.18 * noise
-            elif kind == 'shutter':
-                for offset in (0, round(0.06 * RATE)):
-                    for i in range(round(0.012 * RATE)):
-                        if start + offset + i < n:
-                            out[start + offset + i] += 0.45 * rng.uniform(-1, 1) * (1 - i / (0.012 * RATE))
-        samples = array('h', (round(32767 * max(-0.95, min(0.95, value))) for value in out))
-        if sys.byteorder == 'big':
-            samples.byteswap()
-        with wave.open(str(path), 'wb') as recording:
-            recording.setparams((1, 2, RATE, 0, 'NONE', 'not compressed'))
-            recording.writeframes(samples.tobytes())
 
-    return write
+# ---------------------------------------------------------------- structures
+
+class Sequence:
+    """A whole structure: one plan per rendered beat, played back to back."""
+
+    def __init__(self, template, mode, index):
+        self.wide = mode == 'long'
+        self.size = WIDE if self.wide else VERTICAL
+        self.parts = []
+        offset = 0.0
+        for number, beat in enumerate(template['beats']):
+            spec = beat.get('render')
+            if not spec:
+                continue
+            hook = {'say': beat['line'], 'for': template['for'], **spec}
+            plan = Plan(hook, mode, index, pad=(0.06, 0.24))
+            self.parts.append((number, offset, plan))
+            offset = round((offset + plan.dur) * FPS) / FPS
+        self.total = self.dur = offset
+        first = self.parts[0][2]
+        self.poster = max(0.6, min(first.poster, first.dur - 0.1))
+
+    def scene(self, t):
+        for _, offset, plan in reversed(self.parts):
+            if t >= offset - 1e-9:
+                return scene(plan, min(t - offset, plan.dur - 1 / FPS))
+        return scene(self.parts[0][2], 0)
+
+    def timings(self):
+        return {'beats': {str(number): round(offset, 2) for number, offset, _ in self.parts}, 'total': self.total}
+
+    def sound(self, path):
+        events, previous = [], None
+        for number, offset, plan in self.parts:
+            if previous is not None and plan.move != previous:
+                events.append((offset - 0.14, 'whoosh'))
+            if plan.text:
+                events.append((offset, 'pop'))
+            events += [(offset + at, kind) for at, kind in sound_events(plan)[1:]]
+            previous = plan.move
+        write_audio(path, self.total, sorted(events), self.total)
 
 
 # ---------------------------------------------------------------- catalog
@@ -912,8 +958,18 @@ def move_jobs():
     return jobs
 
 
+def structure_jobs():
+    data = json.loads((DATA / 'structures.json').read_text())
+    return {f'structure-{mode}-{template["id"]}': (mode, template, index)
+            for mode in ('short', 'long') for index, template in enumerate(data[mode])}
+
+
 def build(key):
     """Return (plan, scene function, sound writer) for a preview key."""
+    if key.startswith('structure-'):
+        mode, template, index = structure_jobs()[key]
+        sequence = Sequence(template, mode, index)
+        return sequence, sequence.scene, sequence.sound
     if key.startswith('move-'):
         mode, hook, index = move_jobs()[key]
         plan = Plan(hook, mode, index, demo=True)
