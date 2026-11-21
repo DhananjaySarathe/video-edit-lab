@@ -14,7 +14,10 @@ LIVE_SIZES = {'host-live': (640, 360), 'portrait-live': (216, 384),
               'phone-live': (640, 360), 'steps-live': (640, 360),
               'host-live-matte': (640, 360), 'workshop-live': (360, 640),
               'editing-live': (360, 640), 'notebook-live': (640, 360),
-              'cooking-live': (360, 640), 'camera-live': (360, 640), 'sewing-live': (640, 360)}
+              'cooking-live': (360, 640), 'camera-live': (360, 640), 'sewing-live': (640, 360),
+              # The channel's own footage, used by the creator previews.
+              'me-wide': (960, 540), 'me-close': (540, 960), 'me-laptop': (960, 540),
+              'me-writing': (960, 540), 'me-walk': (960, 540)}
 FRAME_RATE = 20
 
 

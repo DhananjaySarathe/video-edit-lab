@@ -100,7 +100,7 @@ export function StructureCard({ technique, vertical, selected, copied, playing, 
       <figure className="card-video">
         <Preview ref={preview} technique={technique} playing={playing} vertical={vertical} onPlay={onPlay} />
         <figcaption>{structure.example}{structure.exampleTotal
-          ? ` ${long ? `The first ${Math.round(structure.exampleTotal)} seconds` : `${Math.round(structure.exampleTotal)} seconds`}, cut to this structure.` : ''}</figcaption>
+          ? ` ${long ? `The whole structure in ${Math.round(structure.exampleTotal)} seconds, one short line per beat.` : `${Math.round(structure.exampleTotal)} seconds, cut to this structure.`}` : ''}</figcaption>
       </figure>
       <div className="card-content">
         <p className="card-demo card-kicker">Structure · {structure.length}</p>

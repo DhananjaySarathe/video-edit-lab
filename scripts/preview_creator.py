@@ -30,19 +30,33 @@ INK = (16, 16, 16)
 SOFT = (238, 240, 243)
 
 # Face position (fraction of the source frame) for each presenter plate.
-FACE = {'host-live': (0.435, 0.2), 'portrait-live': (0.47, 0.24)}
+FACE = {'host-live': (0.435, 0.2), 'portrait-live': (0.47, 0.24), 'me-wide': (0.45, 0.27), 'me-close': (0.5, 0.33)}
+# The presenter is the channel's own footage. The podcast guest stays a stock performer, since a two-person
+# layout needs someone else in it.
+HOST, CLOSE, GUEST = 'me-wide', 'me-close', 'portrait-live'
+# Hook data names stock shots. These ones resolve to the channel's own clips of the same kind of shot.
+# Screen close-ups keep the stock laptop, because the channel's laptop shots show the back of the laptop.
+OWN_SHOTS = {'notebook-live': 'me-writing', 'walk-live': 'me-walk', 'editing-live': 'me-laptop'}
+
+
+def own_shot(name, move):
+    if not name or (name == 'editing-live' and move == 'zoom-to-detail'):
+        return name
+    return OWN_SHOTS.get(name, name)
 # Where the interesting part of each plate sits.
 PLATE_FOCUS = {
     'phone-live': (0.39, 0.5), 'editing-live': (0.5, 0.36), 'coffee-live': (0.38, 0.55),
     'cooking-live': (0.5, 0.45), 'workshop-live': (0.5, 0.48), 'camera-live': (0.5, 0.5),
     'notebook-live': (0.62, 0.55), 'sewing-live': (0.6, 0.55), 'walk-live': (0.62, 0.62),
     'steps-live': (0.55, 0.6),
+    'me-laptop': (0.44, 0.45), 'me-writing': (0.46, 0.55), 'me-walk': (0.38, 0.55),
 }
 # Where a zoom-to-detail lands in each plate.
 ZOOM_TARGET = {
     'editing-live': (0.42, 0.22), 'phone-live': (0.39, 0.45), 'camera-live': (0.48, 0.42),
     'sewing-live': (0.66, 0.62), 'notebook-live': (0.7, 0.62), 'workshop-live': (0.48, 0.5),
     'coffee-live': (0.33, 0.62), 'cooking-live': (0.48, 0.5),
+    'me-writing': (0.49, 0.68), 'me-laptop': (0.36, 0.72),
 }
 NUMBER_WORDS = {
     'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'fifteen',
@@ -271,16 +285,16 @@ class Plan:
         self.W, self.H = self.size
         self.move = hook['move']
         self.preset = hook['for'][0]
-        self.cut = hook.get('cut')
+        self.cut = own_shot(hook.get('cut'), self.move)
         self.prop = hook.get('prop')
         self.note = hook.get('note', '')
         self.counter = hook.get('counter')
         self.text = hook.get('text')
         if self.preset == 'podcast':
-            self.presenter, self.other = 'portrait-live', 'host-live'
+            self.presenter, self.other = CLOSE, GUEST
         else:
-            self.presenter = 'host-live' if (self.wide or index % 2 == 0) else 'portrait-live'
-            self.other = 'portrait-live' if self.presenter == 'host-live' else 'host-live'
+            self.presenter = HOST if (self.wide or index % 2 == 0) else CLOSE
+            self.other = GUEST
         if self.preset in ('faceless', 'product', 'vlog'):
             self.main = 'plate'
         elif self.preset == 'podcast' and self.wide:
@@ -374,8 +388,8 @@ def plate_shot(plan, name, t, zoom=1.0, size=None, focus=None, offset=0.0):
 def podcast_two_up(plan, t, zoom=1.0):
     canvas = Image.new('RGB', plan.size, (14, 14, 16))
     w = (plan.W - 6) // 2
-    left = fill(frame('host-live', t), (w, plan.H), 1.0 * zoom, (0.435, 0.42))
-    right = fill(frame('portrait-live', t + 0.4), (w, plan.H), 1.05 * zoom, (0.47, 0.45))
+    left = fill(frame(HOST, t), (w, plan.H), 1.0 * zoom, (FACE[HOST][0], 0.42))
+    right = fill(frame(GUEST, t + 0.4), (w, plan.H), 1.05 * zoom, (0.47, 0.45))
     canvas.paste(left, (0, 0))
     canvas.paste(right, (w + 6, 0))
     return canvas
@@ -421,7 +435,7 @@ def split_shot(plan, t):
         if plan.cut:
             picture = treat(plate_shot(plan, plan.cut, t, 1.0, size=half, offset=0.5 * i), before=i == 0)
         else:
-            name = ('portrait-live', 'host-live')[i]
+            name = (CLOSE, GUEST)[i]
             picture = fill(frame(name, t + 0.3 * i), half, 1.05, presenter_focus(plan, name, 1.05))
         canvas.paste(picture, spot)
         label_in = progress(t, plan.lead + 0.1 + 0.15 * i, plan.lead + 0.25 + 0.15 * i)
@@ -443,7 +457,7 @@ def face_circle(plan, t, radius):
     else:
         name = plan.presenter
         fx, fy = FACE[name]
-        picture = fill(frame(name, t), (radius * 2, radius * 2), 2.2 if name == 'host-live' else 1.6, (fx, fy + 0.08))
+        picture = fill(frame(name, t), (radius * 2, radius * 2), 2.0 if name == HOST else 1.4, (fx, fy + 0.08))
     mask = Image.new('L', (radius * 8, radius * 8), 0)
     ImageDraw.Draw(mask).ellipse((0, 0, radius * 8 - 1, radius * 8 - 1), fill=255)
     return picture, mask.resize((radius * 2, radius * 2), Image.Resampling.LANCZOS)
@@ -529,6 +543,51 @@ def device_shot(plan, t):
     return fill(phone_frame(plan, t, plan.prop), plan.size, push, (0.39, 0.48))
 
 
+def end_screen(plan, t):
+    """The video shrinks into a window and a generic 'watch next' card pops in beside it."""
+    W, H = plan.size
+    base = main_shot(plan, t)
+    back = ImageEnhance.Brightness(base.resize((W // 8, H // 8)).filter(ImageFilter.GaussianBlur(2)).resize(plan.size)).enhance(0.35)
+    if plan.wide:
+        ww = round(W * 0.44)
+        window = (round(W * 0.05), round(H * 0.5 - ww * 9 / 32), round(W * 0.05) + ww, round(H * 0.5 + ww * 9 / 32))
+        cw = round(W * 0.38)
+        card = (round(W * 0.56), round(H * 0.5 - cw * 9 / 32) - 6, round(W * 0.56) + cw, round(H * 0.5 + cw * 9 / 32) - 6)
+    else:
+        ww = round(W * 0.8)
+        window = (round(W * 0.1), round(H * 0.12), round(W * 0.1) + ww, round(H * 0.12 + ww * 1.0))
+        cw = round(W * 0.8)
+        card = (round(W * 0.1), window[3] + 46, round(W * 0.1) + cw, window[3] + 46 + round(cw * 9 / 16))
+    k = ease(progress(t, 0.05, 0.4))
+    box = tuple(round(full + (end - full) * k) for full, end in zip((0, 0, W, H), window))
+    canvas = Image.blend(base, back, k)
+    shown = base.resize((max(1, box[2] - box[0]), max(1, box[3] - box[1])))
+    mask = Image.new('L', shown.size, 0)
+    ImageDraw.Draw(mask).rounded_rectangle((0, 0, shown.width - 1, shown.height - 1), radius=round(12 * k), fill=255)
+    canvas.paste(shown, box[:2], mask)
+    pop = ease(progress(t, 0.35, 0.55))
+    if pop > 0:
+        cw, ch = card[2] - card[0], card[3] - card[1]
+        grad = Image.linear_gradient('L').rotate(90).resize((cw, ch))
+        thumb = ImageOps.colorize(grad, (255, 168, 92), (204, 70, 112)).convert('RGB')
+        draw = ImageDraw.Draw(thumb)
+        r = ch * 0.16
+        cx, cy = cw / 2, ch / 2
+        draw.ellipse((cx - r * 1.6, cy - r * 1.6, cx + r * 1.6, cy + r * 1.6), fill=(0, 0, 0))
+        draw.polygon(((cx - r * 0.55, cy - r * 0.8), (cx - r * 0.55, cy + r * 0.8), (cx + r * 0.85, cy)), fill=WHITE)
+        scale = 0.85 + 0.15 * pop
+        thumb = thumb.resize((round(cw * scale), round(ch * scale)))
+        tmask = Image.new('L', thumb.size, 0)
+        ImageDraw.Draw(tmask).rounded_rectangle((0, 0, thumb.width - 1, thumb.height - 1), radius=8, fill=255)
+        ox = card[0] + (cw - thumb.width) // 2
+        oy = card[1] + (ch - thumb.height) // 2
+        canvas.paste(thumb, (ox, oy), tmask)
+        draw = ImageDraw.Draw(canvas)
+        draw.text((card[0], card[1] - 10), 'WATCH NEXT', font=font(12 if plan.wide else 14, 'black'), fill=ACCENT, anchor='ls')
+        draw.text((card[0], card[3] + 18), plan.note or 'Next video', font=font(15 if plan.wide else 18, 'bold'), fill=WHITE, anchor='ls')
+    return canvas
+
+
 def slam_frame(plan, local):
     words = (plan.note or plan.text or '').upper()
     canvas = Image.new('RGB', plan.size, ACCENT if not plan.wide else INK)
@@ -559,7 +618,7 @@ def reaction_frame(plan, local):
         return picture
     name = plan.presenter
     fx, fy = FACE[name]
-    zoom = (2.1 if name == 'host-live' else 1.8) + 0.25 * ease(progress(local, 0, 0.5))
+    zoom = (1.7 if name == HOST else 1.5) + 0.2 * ease(progress(local, 0, 0.5))
     picture = fill(frame(name, plan.ts + local), plan.size, zoom, (fx + 0.01 * math.sin(local * 60), fy + 0.05))
     return ImageOps.grayscale(picture).convert('RGB')
 
@@ -724,6 +783,8 @@ def picture(plan, t):
     if m == 'rehook':
         crash = 1 + 0.3 * ease(progress(t, plan.ts, plan.ts + 0.12))
         return main_shot(plan, t, crash)
+    if m == 'end-screen':
+        return end_screen(plan, t)
     return main_shot(plan, t)
 
 

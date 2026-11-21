@@ -22,6 +22,27 @@ const canvas: Record<string, [number, number]> = {
 const compactJson = (value: Record<string, unknown>) =>
   `{\n${Object.entries(value).map(([key, item]) => `  "${key}": ${JSON.stringify(item)}`).join(',\n')}\n}`
 
+const UNIT = '(s|secs?|seconds?|m|mins?|minutes?)\\b'
+
+/** Read a length such as "20 seconds", "35s", "1:30" or "8–12 min" as seconds. Ranges give their midpoint. */
+export function parseSeconds(text: string): number | undefined {
+  const value = text.toLowerCase().replace(/[–—]/g, '-')
+  const clock = value.match(/\b(\d{1,2}):(\d{2})\b/)
+  if (clock) return Number(clock[1]) * 60 + Number(clock[2])
+  const range = parseRange(value)
+  if (range) return (range[0] + range[1]) / 2
+  const single = value.match(new RegExp(`(\\d+(?:\\.\\d+)?)\\s*${UNIT}`))
+  if (single) return Number(single[1]) * (single[2].startsWith('m') ? 60 : 1)
+}
+
+function parseRange(text: string): [number, number] | undefined {
+  const value = text.toLowerCase().replace(/[–—]/g, '-')
+  const match = value.match(new RegExp(`(\\d+(?:\\.\\d+)?)\\s*-\\s*(\\d+(?:\\.\\d+)?)\\s*${UNIT}`))
+  if (!match) return
+  const scale = match[3].startsWith('m') ? 60 : 1
+  return [Number(match[1]) * scale, Number(match[2]) * scale]
+}
+
 const firstSentence = (text: string) => (text.match(/^.*?[.!?](\s|$)/)?.[0] ?? text).trim()
 const timing = (item: EditItem) => item.cue.trim() ? ` Timing: ${item.cue.trim()}.` : ''
 
@@ -45,9 +66,9 @@ function hookBlock(picked: Picked, edit: Edit, short: boolean, transcript: boole
       `Model line: “${hook.say}” ${lineAdvice}`,
       `On-screen text: “${hook.text}”, ${vertical
         ? 'one line in the upper third from the first frame to about 2.5 seconds'
-        : 'a bold title on the side of the frame away from my face for the first 3–5 seconds'}. Adapt the wording to my topic.`,
+        : 'a bold title on the side of the frame away from my face or the main subject, for the first 3–5 seconds'}. Adapt the wording to my topic.`,
     ]
-    if (!short) lines.push(`First frame: ${firstPerson(hook.frame)}`)
+    lines.push(`First frame: ${firstPerson(hook.frame)}`)
     lines.push(`Edit move: ${hook.move.title}.`)
     if (!short) {
       lines.push(`${vertical ? 'Next 3 seconds' : 'By 30 seconds'}: ${firstPerson(hook.next)}`)
@@ -195,14 +216,28 @@ export function compilePrompt(edit: Edit): Compiled {
 
   const hookMove = hooks[0]?.technique.creator?.move
   const targetLength = edit.length.trim() || structure?.length || ''
+  const targetSeconds = parseSeconds(edit.length)
+  const scale = structure && targetSeconds ? targetSeconds / structure.total : 1
+  const scaled = Math.abs(scale - 1) > 0.05
+  const round = (value: number) => mode === 'short' ? Math.round(value * scale * 2) / 2 : Math.round(value * scale)
+  if (structure && targetSeconds) {
+    const range = parseRange(structure.length)
+    if (range && targetSeconds < range[0] * 0.85) {
+      warnings.push(`A target of ${edit.length.trim()} is shorter than this structure’s ${structure.length}. The beat times are scaled to fit, so expect a beat or two to go.`)
+    } else if (range && targetSeconds > range[1] * 1.15) {
+      warnings.push(`A target of ${edit.length.trim()} is longer than this structure’s ${structure.length}. The beat times are scaled to fit, so each beat runs longer.`)
+    }
+  }
   if (structure) {
     add(`Structure: ${structure.title} (${structure.length})`, [
       structure.bestFor,
       `Pacing: ${structure.rhythm}`,
       hooks.length > 0 && 'Use the hook below for the first beat. Its first frame and edit move replace what is listed for that beat.',
+      scaled && `Beat times are scaled from the structure’s ${structure.length} to my target of ${edit.length.trim()}. If a beat can’t fit, merge it with the next one or drop it, and say which.`,
       !script && 'Beat times are targets. Keep my sentences whole and let beats shift a little, but still land on the target length.',
       ...structure.beats.map((beat, index) => {
-        const head = `${index + 1}. ${beat.title} (${beatTime(beat, structure.mode)}): ${firstPerson(beat.goal)}`
+        const times = scaled ? { start: round(beat.start), end: round(beat.end) } : beat
+        const head = `${index + 1}. ${beat.title} (${beatTime(times, structure.mode)}): ${firstPerson(beat.goal)}`
         if (short) return head
         const parts = [head, `On screen: ${firstPerson(beat.show)}`]
         if (beat.moves.length && !script) parts.push(`Moves: ${beat.moves.map(move => move.title).join('; ')}.`)

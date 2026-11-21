@@ -1,6 +1,6 @@
 import {
   ArrowDown, ArrowRight, BookOpen, ChartGantt, Check, ChevronDown, ChevronRight,
-  Film, ListOrdered, Plus, Scissors, Search, Smartphone, X,
+  Film, ListOrdered, Plus, Scissors, Search, Smartphone, X, Youtube,
 } from 'lucide-react'
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { byId, formatBreakdowns, formatCollections, modes, sections, stageLabels, techniques, withSound, type FormatMode, type Stage, type Technique } from './catalog'
@@ -343,10 +343,16 @@ export function App() {
               <Film size={16} aria-hidden="true" /> Long Form
             </button>
           </nav>
-          <button type="button" className="button primary header-edit" onClick={openBuilder}>
-            <ListOrdered size={17} aria-hidden="true" /> Your edit
-            <span className="edit-count">{edit.items.length}</span>
-          </button>
+          <div className="header-actions">
+            <a className="channel-link" href="https://www.youtube.com/@ChilledBeer" target="_blank" rel="noopener noreferrer"
+              title="The previews use footage from this channel">
+              <Youtube size={17} aria-hidden="true" /> <span>ChilledBeer on YouTube</span>
+            </a>
+            <button type="button" className="button primary header-edit" onClick={openBuilder}>
+              <ListOrdered size={17} aria-hidden="true" /> Your edit
+              <span className="edit-count">{edit.items.length}</span>
+            </button>
+          </div>
         </div>
       </header>
 

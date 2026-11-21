@@ -79,10 +79,10 @@ function hookPrompt(mode: FormatMode, type: RawType, hook: RawHook, move: EditMo
       ? 'Edit the opening of my vertical 9:16 video around this hook. If my take has a stronger version of the line, use my words, and keep my sentences whole.'
       : 'Edit the first 30 seconds of my horizontal 16:9 video around this hook. If my take has a stronger version of the line, use my words, and keep my sentences whole.',
     `Hook type — ${type.title}. ${type.why}`,
-    `${short ? 'Spoken line, from the first frame' : 'Spoken opening, first 10 seconds'} — “${hook.say}” Start on me already talking, with no logo, title card or fade-in.`,
+    `${short ? 'Spoken line, starting in the first second' : 'Spoken opening, first 10 seconds'} — “${hook.say}” No logo, title card or slow fade-in. Open on the first frame described below.`,
     short
       ? `On-screen text — “${hook.text}” One short line in the upper third from the first frame until about 2.5 seconds, clear of my face.`
-      : `On-screen title — “${hook.text}” Bold, on the side of the frame away from my face, for the first 3–5 seconds.`,
+      : `On-screen title — “${hook.text}” Bold, on the side of the frame away from my face or the main subject, for the first 3–5 seconds.`,
     `First frame — ${firstPerson(hook.frame)}`,
     `Edit move — ${move.title}. ${move.prompt}`,
     `${short ? 'Next 3 seconds' : 'By 30 seconds'} — ${firstPerson(hook.next)}`,
