@@ -9,7 +9,7 @@ from preview_data import lines_until
 from preview_landscape_repairs import FLOOR_X, FLOOR_Y, PLUME
 from preview_live_action import GOLD, INK, MINT, PAPER, cup_cutout, face_track, gesture, type_at
 from preview_phone import device, screen_track, screen_ui
-from preview_plates import shot, source
+from preview_plates import FRAME_RATE, shot, source
 from preview_sound import IMPACT_CUE, LAND_CUE, duck_gain, playhead, swell, wave_track, window
 from preview_spatial import warp
 from preview_typography import place_glyph
@@ -937,6 +937,90 @@ def portrait_timeline(t):
     return frame
 
 
+def portrait_payoff_montage(t):
+    if t < .52:
+        stamp = 2.53+.75*t
+        return crop(source('coffee-live', stamp), (127, 0, 329.5, 360))
+    if t < 1.01:
+        return shot('walk-live', .41+1.08*(t-.52), x=-10, size=SIZE)
+    if t < 1.50:
+        center = 330+30*ease(progress(t, 1.01, 1.50))
+        return crop(source('notebook-live', t-.81), (center-101.25, 0, center+101.25, 360))
+    frame = shot('portrait-live', .25+(t-1.50)*.89, size=SIZE)
+    tag(frame, 'Let’s cut a morning', 18, 461, 28)
+    tag(frame, 'in three shots.', 18, 510, 28)
+    return frame
+
+
+STEP_APPROACH = .65
+STEP_CONTACT = .70
+
+
+def step_proof(stamp, tight=False):
+    pane = (132, 39, 312.5625, 360) if tight else (110, 0, 312.5, 360)
+    return crop(source('steps-live', stamp), pane)
+
+
+def portrait_proof_burst(t):
+    replay = t >= 2.15
+    if t < .57 or replay:
+        elapsed = t-2.15 if replay else t
+        stamp = round((.60+elapsed/1.5)*FRAME_RATE)/FRAME_RATE
+        if replay:
+            stamp = min(stamp, STEP_CONTACT)
+        landed = stamp >= STEP_CONTACT
+        frame = step_proof(stamp, tight=landed)
+        tag(frame, 'Cut on contact', 17, 54, 23, GOLD if landed else None)
+        if replay and landed:
+            tag(frame, 'Edit point  0.70s', 17, 516, 21, MINT)
+        return frame
+    if t < 1.72:
+        before = t < 1.13
+        frame = step_proof(STEP_APPROACH if before else STEP_CONTACT)
+        tag(frame, 'The sole is still in the air' if before else 'The sole meets the ground',
+            17, 54, 23, None if before else GOLD)
+        tag(frame, 'Source  0.65s' if before else 'Source  0.70s', 17, 516, 21)
+        return frame
+    frame = Image.new('RGB', SIZE, '#182c26')
+    for i, (stamp, label) in enumerate(((STEP_APPROACH, '0.65s  Before contact'), (STEP_CONTACT, '0.70s  First contact'))):
+        y = i*300
+        proof = shot('steps-live', stamp, 1.29, -95, 18, (W, 240))
+        frame.paste(proof, (0, y+53))
+        type_at(frame, (17, y+28), label, 22, PAPER if i == 0 else GOLD, 'lm')
+    return frame
+
+
+def portrait_slow_push(t):
+    return_to_wide = t >= 2.66
+    stamp = .11+t*.89
+    eye_x, eye_y = face_track(stamp)
+    point = 0 if return_to_wide else ease(progress(t, .31, 2.58))
+    ratio = .55-.084*point
+    left = eye_x-176*ratio
+    top = eye_y-91*ratio
+    frame = crop(source('host-live', stamp), (left, top, left+W*ratio, top+H*ratio))
+    if return_to_wide:
+        tag(frame, 'Back to the wide shot', 17, 511, 24)
+    else:
+        tag(frame, 'Let the pause land.', 17, 462, 25)
+        tag(frame, f'Gradual push  {round(100*.55/ratio)}%', 17, 516, 19, MINT)
+    return frame
+
+
+def portrait_punch_in(t):
+    tight = .90 <= t < 1.76
+    stamp = 1.65+.83*t if t < 1.76 else .68*(t-1.76)+.46
+    face = source('portrait-live', stamp)
+    frame = crop(face, (17, 14, 188, 318)) if tight else face.resize(SIZE, Image.Resampling.LANCZOS)
+    if tight:
+        tag(frame, 'Exactly.', 17, 511, 30, GOLD)
+    elif t < .90:
+        tag(frame, 'Wait for the reaction.', 17, 511, 24)
+    else:
+        tag(frame, 'Then finish the thought.', 17, 511, 24)
+    return frame
+
+
 SCENES = {
     'subject-locked-reframe': subject_locked,
     'vertical-safe-zone': safe_zone,
@@ -975,6 +1059,10 @@ SCENES = {
     'map-evidence-annotation': portrait_map_evidence,
     'document-highlight': portrait_document,
     'timeline-first-ai-edit': portrait_timeline,
+    'payoff-montage': portrait_payoff_montage,
+    'short-proof-burst': portrait_proof_burst,
+    'slow-push-in': portrait_slow_push,
+    'punch-in': portrait_punch_in,
 }
 POSTERS = {
     'subject-locked-reframe': 1.49,
@@ -1014,4 +1102,8 @@ POSTERS = {
     'map-evidence-annotation': 1.73,
     'document-highlight': 1.62,
     'timeline-first-ai-edit': 2.17,
+    'payoff-montage': .18,
+    'short-proof-burst': 1.89,
+    'slow-push-in': 1.79,
+    'punch-in': 1.08,
 }

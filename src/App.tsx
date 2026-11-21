@@ -42,7 +42,7 @@ function readLocation() {
   const mode: FormatMode = format === 'long-form' ? 'long' : 'short'
   const collection = hookCollections[mode].some(group => group.id === type) ? type : ''
   const id = collection && ordinal ? `hook-${mode}-${collection}-${ordinal}` : ''
-  return { mode, collection, sample: byId.has(id) ? id : '' }
+  return { mode, collection, sample: byId.has(id) ? id : '', worked: type === 'worked' }
 }
 
 export function App() {
@@ -52,7 +52,7 @@ export function App() {
   const [collection, setCollection] = useState(() => readLocation().collection)
   const [linkedSample, setLinkedSample] = useState(() => readLocation().sample)
   const [query, setQuery] = useState('')
-  const [media, setMedia] = useState('')
+  const [media, setMedia] = useState(() => readLocation().worked ? 'worked' : '')
   const [footage, setFootage] = useState('')
   const [onlySelected, setOnlySelected] = useState(false)
   const [limit, setLimit] = useState(() => batchSize(initialShelf))
@@ -84,6 +84,7 @@ export function App() {
       resetFilters(initialShelf)
       setCollection(route.collection)
       setLinkedSample(route.sample)
+      if (route.worked) setMedia('worked')
     }
     window.addEventListener('popstate', followFormat)
     return () => {
@@ -94,8 +95,10 @@ export function App() {
   }, [])
 
   useEffect(() => {
-    if (linkedSample) library.current?.scrollIntoView({ block: 'start' })
-  }, [linkedSample])
+    if (linkedSample || (media === 'worked' && window.location.hash.endsWith('/worked'))) {
+      library.current?.scrollIntoView({ block: 'start' })
+    }
+  }, [linkedSample, media])
 
   const selected = useMemo(() => new Set(edit.items.map(item => item.id)), [edit.items])
   const activeGuide = guide[mode]
@@ -195,7 +198,17 @@ export function App() {
     if (shelf === 'hook') {
       const format = mode === 'long' ? '#long-form' : '#reels-shorts'
       const type = hookCollections[mode].some(group => group.id === next)
-      window.history.replaceState(null, '', `${format}${type ? `/${next}` : ''}`)
+      const path = type ? `/${next}` : !next && media === 'worked' ? '/worked' : ''
+      window.history.replaceState(null, '', format + path)
+    }
+    resetResults()
+  }
+
+  function choosePreviewKind(next: string) {
+    setMedia(next)
+    if (shelf === 'hook' && !collection && (next === 'worked' || window.location.hash.endsWith('/worked'))) {
+      const format = mode === 'long' ? '#long-form' : '#reels-shorts'
+      window.history.replaceState(null, '', format + (next === 'worked' ? '/worked' : ''))
     }
     resetResults()
   }
@@ -346,7 +359,16 @@ export function App() {
               <h2 id="library-title">{libraryTitle}</h2>
               {shelf === 'techniques' && <p>Original technique demonstrations for either format.</p>}
               {shelf === 'breakdowns' && <p>See the shot order, the timing, and what to check in your own cut.</p>}
-              {shelf === 'hook' && <p>{activeType ? activeType.question : `Choose from ${hookCollections[mode].length} hook types. Worked examples demonstrate the edit. Timed shot plans use stand-in footage to show what to film and when to cut.`}</p>}
+              {shelf === 'hook' && (activeType ? <p>{activeType.question}</p> : !collection && <p>
+                Choose from {hookCollections[mode].length} hook types.{' '}
+                {media === 'worked' ? <>Showing the edit in action.{' '}</> : <>Timed shot plans use stand-in footage to show what to film and when to cut.{' '}</>}
+                <a className="worked-link" href={(mode === 'long' ? '#long-form' : '#reels-shorts') + (media === 'worked' ? '' : '/worked')}
+                  onClick={event => {
+                    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+                    event.preventDefault()
+                    choosePreviewKind(media === 'worked' ? '' : 'worked')
+                  }}>{media === 'worked' ? 'See all hook previews' : 'Watch worked examples'}</a>
+              </p>)}
             </div>
             {shelf === 'hook' && (activeType ? <div className="hook-type-note">
               <p><strong>Footage to look for</strong> {hookGuidance[activeType.id].footage}</p>
@@ -398,7 +420,7 @@ export function App() {
                 </div>}
                 <div className="select-wrap">
                   <select value={media} aria-label="Filter previews"
-                    onChange={event => { setMedia(event.target.value); resetResults() }}>
+                    onChange={event => choosePreviewKind(event.target.value)}>
                     <option value="">All previews</option>
                     {shelf === 'hook' && <><option value="worked">Worked examples</option><option value="storyboard">Timed shot plans</option></>}
                     <option value="visual">Visual only</option><option value="sound">With sound</option>
@@ -427,7 +449,7 @@ export function App() {
             </div> : <div className="no-results">
               <Search size={24} strokeWidth={1.5} /><h3>No matching recipes</h3>
               <p>Try a different search or clear your filters.</p>
-              <button type="button" className="button secondary" onClick={() => { chooseCollection(''); resetFilters() }}>Clear filters</button>
+              <button type="button" className="button secondary" onClick={() => chooseShelf(shelf)}>Clear filters</button>
             </div>}
 
             {visible.length > batchSize(shelf) && <div className="results-end" ref={moreResults}>

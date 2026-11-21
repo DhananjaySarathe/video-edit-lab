@@ -333,6 +333,8 @@ input::placeholder, textarea::placeholder { color: var(--muted); opacity: 1; }
 .library-heading { margin: 18px 0 12px; }
 .library-heading h2 { font-size: clamp(2rem, 3vw, 2.75rem); letter-spacing: -.02em; line-height: 1.03; }
 .library-heading p { color: var(--muted); margin: 5px 0 14px; font-size: .92rem; }
+.worked-link { display: inline-block; color: var(--forest); font-weight: 670; text-underline-offset: 3px; }
+.worked-link:hover { text-decoration-thickness: 2px; }
 .hook-finder { margin: -3px 0 14px; color: var(--forest); font-size: .9rem; }
 .hook-finder summary { display: flex; align-items: center; gap: 6px; width: fit-content; padding: 4px 0; cursor: pointer; font-weight: 670; list-style: none; }
 .hook-finder summary::-webkit-details-marker { display: none; }
