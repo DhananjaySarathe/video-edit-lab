@@ -15,6 +15,18 @@ type Starter = {
 export const starters: Record<FormatMode, Starter[]> = {
   short: [
     {
+      title: 'Talking-head tip',
+      footage: 'A vertical take of you on camera making one point, with one example you can show.',
+      steps: [
+        { id: 'th-short-mistake-01', stage: 'Hook', cue: 'Open on my strongest line about the mistake, with the stakes on screen from the first frame.' },
+        { id: 'move-jump-cut', stage: 'Body', cue: 'Cut every pause and restart, and keep my sentences whole.' },
+        { id: 'move-punch-in', stage: 'Body', cue: 'Punch in on the stressed word of each key sentence, at least 3 seconds apart.' },
+        { id: 'move-word-captions', stage: 'Body', cue: 'Word-by-word captions for the whole video.' },
+        { id: 'move-broll-cutaway', stage: 'Body', cue: 'Show the example as soon as I name it.' },
+        { id: 'vertical-safe-zone', stage: 'Finish', cue: 'Check the whole export against the platform overlay at phone size.' },
+      ],
+    },
+    {
       title: 'One-person sketch',
       footage: 'Two takes with different eyelines and the same camera position.',
       steps: [
@@ -32,17 +44,19 @@ export const starters: Record<FormatMode, Starter[]> = {
         { id: 'short-match-loop', stage: 'Finish', cue: 'Return to the setup gesture just before the cut back to the opening.' },
       ],
     },
-    {
-      title: 'Talking-head tip',
-      footage: 'A vertical presenter take with one claim and one concrete example.',
-      steps: [
-        { id: 'text-behind-subject', stage: 'Hook', cue: 'Reveal a short phrase behind me on the first claim and leave my face clear.' },
-        { id: 'caption-hierarchy', stage: 'Body', cue: 'Emphasize one meaningful word per phrase and let the example hold.' },
-        { id: 'vertical-safe-zone', stage: 'Finish', cue: 'Check the whole export against the platform overlay at phone size.' },
-      ],
-    },
   ],
   long: [
+    {
+      title: 'Talking-head explainer',
+      footage: 'One long take of you on camera, a few screen recordings or B-roll shots, and the finished result.',
+      steps: [
+        { id: 'th-long-promise-proof-01', stage: 'Hook', cue: 'Show the finished result first, then promise exactly what viewers will be able to do.' },
+        { id: 'move-jump-cut', stage: 'Body', cue: 'Remove restarts and long pauses. Keep a breath before the big points.' },
+        { id: 'move-broll-cutaway', stage: 'Body', cue: 'Cut to the thing I name while my voice carries on.' },
+        { id: 'move-rehook', stage: 'Body', cue: 'Open each chapter with a new question and a visual reset.' },
+        { id: 'long-payoff-back', stage: 'Finish', cue: 'Return to the opening result and show what changed.' },
+      ],
+    },
     {
       title: 'Story-led explainer',
       footage: 'Narration, a strong reveal, and evidence that explains how you got there.',

@@ -11,6 +11,7 @@ FONT_NAMES = {
     'bold': ('Arial Bold.ttf', 'DejaVuSans-Bold.ttf'),
     'serif': ('Georgia.ttf', 'DejaVuSerif.ttf'),
     'mono': ('Courier New.ttf', 'DejaVuSansMono.ttf'),
+    'black': ('Arial Black.ttf', 'DejaVuSans-Bold.ttf'),
 }
 
 @lru_cache(maxsize=128)

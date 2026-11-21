@@ -1,7 +1,7 @@
-import { Check, ChevronDown, ChevronUp, Clipboard, Link, Play, Plus } from 'lucide-react'
+import { ArrowRight, Check, ChevronDown, ChevronUp, Clipboard, Link, Play, Plus } from 'lucide-react'
 import { useId, useRef, useState } from 'react'
 import type { Breakdown } from './breakdown'
-import { byId, stageLabels } from './catalog'
+import { byId, stageLabels, type Technique } from './catalog'
 import { Preview, type PreviewHandle, type PreviewProps } from './Preview'
 
 type CardProps = PreviewProps & {
@@ -12,6 +12,54 @@ type CardProps = PreviewProps & {
   initialExpanded?: boolean
   linkCopied?: boolean
   onCopyLink?: () => void
+  onOpenMove?: (id: string) => void
+}
+
+function HookLayers({ technique, vertical, expanded, id, onOpenMove }: {
+  technique: Technique; vertical?: boolean; expanded: boolean; id: string; onOpenMove?: (id: string) => void
+}) {
+  const hook = technique.creator!
+  return (
+    <>
+      <dl className="hook-layers">
+        <div><dt>On screen</dt><dd className="layer-text">{hook.text}</dd></div>
+        <div><dt>First frame</dt><dd>{hook.frame}</dd></div>
+        <div><dt>Edit move</dt><dd>{onOpenMove
+          ? <button type="button" className="layer-move" onClick={() => onOpenMove(hook.move.id)}
+            aria-label={`See the edit move ${hook.move.title}`}>{hook.move.title} <ArrowRight size={13} aria-hidden="true" /></button>
+          : hook.move.title}</dd></div>
+      </dl>
+      <div className="card-more" id={id} hidden={!expanded}>
+        <dl className="hook-layers">
+          <div><dt>{vertical ? 'Next 3 seconds' : 'By 30 seconds'}</dt><dd>{hook.next}</dd></div>
+          <div><dt>Formula</dt><dd>{hook.formula}</dd></div>
+          <div><dt>Muted check</dt><dd>{hook.check}</dd></div>
+        </dl>
+        <h4>AI editor prompt</h4>
+        <p className="card-prompt">{technique.prompt}</p>
+      </div>
+    </>
+  )
+}
+
+function MoveDetails({ technique, vertical, expanded, id }: { technique: Technique; vertical?: boolean; expanded: boolean; id: string }) {
+  const move = technique.move!
+  return (
+    <>
+      <dl className="hook-layers">
+        <div><dt>When</dt><dd>{move.when}</dd></div>
+        <div><dt>How often</dt><dd>{vertical ? move.often.short : move.often.long}</dd></div>
+      </dl>
+      <div className="card-more" id={id} hidden={!expanded}>
+        <dl className="hook-layers">
+          <div><dt>Avoid</dt><dd>{move.avoid}</dd></div>
+          <div><dt>{vertical ? 'On long form' : 'On Reels and Shorts'}</dt><dd>{vertical ? move.often.long : move.often.short}</dd></div>
+        </dl>
+        <h4>AI editor prompt</h4>
+        <p className="card-prompt">{move.prompt}</p>
+      </div>
+    </>
+  )
 }
 
 function BreakdownDetails({ breakdown, id, onCue }: { breakdown: Breakdown; id: string; onCue: (seconds: number) => void }) {
@@ -44,12 +92,13 @@ function BreakdownDetails({ breakdown, id, onCue }: { breakdown: Breakdown; id: 
   )
 }
 
-export function TechniqueCard({ technique, selected, playing, vertical, copied, initialExpanded, linkCopied, onCopyLink, onSelect, onPlay, onCopy }: CardProps) {
+export function TechniqueCard({ technique, selected, playing, vertical, copied, initialExpanded, linkCopied, onCopyLink, onOpenMove, onSelect, onPlay, onCopy }: CardProps) {
   const [expanded, setExpanded] = useState(!!initialExpanded)
   const promptId = useId()
   const preview = useRef<PreviewHandle>(null)
   const demo = technique.previewId ? byId.get(technique.previewId) : undefined
   const breakdown = technique.breakdown
+  const custom = technique.creator || technique.move
   return (
     <article className={`technique-card${breakdown ? ' is-breakdown' : ''}${vertical ? ' is-portrait-card' : ''}${selected ? ' is-selected' : ''}`} aria-label={technique.title}>
       <figure className="card-video">
@@ -57,11 +106,15 @@ export function TechniqueCard({ technique, selected, playing, vertical, copied, 
         {breakdown?.previewLabel && <figcaption>{breakdown.previewLabel}</figcaption>}
       </figure>
       <div className="card-content">
-        <h3>{technique.title}</h3>
-        {technique.useCase && <p className="card-reason">{technique.useCase}</p>}
-        {!breakdown && <p className={expanded || technique.useCase ? 'card-prompt' : 'card-prompt excerpt'} id={promptId}
+        <h3>{technique.creator ? `“${technique.title}”` : technique.title}</h3>
+        {technique.creator && <p className="card-demo card-kicker">{technique.section} · {technique.creator.presetLabels.join(', ')}</p>}
+        {technique.move && <p className="card-demo card-kicker">{technique.section}{technique.sound ? ' · With sound' : ''}</p>}
+        {technique.useCase && <p className="card-reason">{technique.move ? <><strong>Fixes</strong> {technique.useCase}</> : technique.useCase}</p>}
+        {technique.creator && <HookLayers technique={technique} vertical={vertical} expanded={expanded} id={promptId} onOpenMove={onOpenMove} />}
+        {technique.move && <MoveDetails technique={technique} vertical={vertical} expanded={expanded} id={promptId} />}
+        {!breakdown && !custom && <p className={expanded || technique.useCase ? 'card-prompt' : 'card-prompt excerpt'} id={promptId}
           hidden={!!technique.useCase && !expanded}>{technique.prompt}</p>}
-        {!breakdown && demo && <p className="card-demo">Demo · {demo.title}</p>}
+        {!breakdown && !custom && demo && <p className="card-demo">Demo · {demo.title}</p>}
         {breakdown && <p className="card-demo">{breakdown.opener ? technique.section : stageLabels[breakdown.stage]}
           {breakdown.previewKind && <> · {breakdown.duration} s · {breakdown.previewKind === 'worked' ? 'Worked example' : 'Timed shot plan'}</>}
         </p>}
@@ -75,7 +128,7 @@ export function TechniqueCard({ technique, selected, playing, vertical, copied, 
         </div>}
         <button type="button" className="read-prompt" aria-expanded={expanded} aria-controls={promptId}
           onClick={() => setExpanded(value => !value)}>
-          {expanded ? 'Show less' : breakdown ? 'Read cut plan' : 'Read full prompt'}
+          {expanded ? 'Show less' : breakdown ? 'Read cut plan' : technique.creator ? 'Read full hook' : technique.move ? 'Avoid and prompt' : 'Read full prompt'}
           {expanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
         </button>
         <div className="card-actions">

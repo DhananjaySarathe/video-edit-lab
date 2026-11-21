@@ -1,0 +1,197 @@
+[
+  {
+    "id": "jump-cut",
+    "group": "Cuts and camera",
+    "title": "Cut the dead air",
+    "fixes": "Pauses, restarts and filler words that make a good take feel slow.",
+    "when": "On every talking-head take, before you add anything else.",
+    "often": {
+      "short": "Remove every pause longer than about a quarter of a second.",
+      "long": "Remove restarts and long pauses. Keep a breath before the big points."
+    },
+    "avoid": "Cutting in the middle of a word or sentence, or stripping every breath out of an emotional line.",
+    "prompt": "Remove pauses, false starts, repeated takes of the same line and filler words. Keep the last complete take of any line I repeat, and keep my sentences whole. At each cut, switch between my normal framing and a slightly tighter one (about 1.1×) so the jump looks intentional. Leave a short breath before the most important line."
+  },
+  {
+    "id": "punch-in",
+    "group": "Cuts and camera",
+    "title": "Punch in on the word that matters",
+    "fixes": "A talking head that stays the same size for too long.",
+    "when": "On the word that carries the point: a number, a name, a \"never\", or the turn in the sentence.",
+    "often": {
+      "short": "Every 3–5 seconds, alternating with a reset to the wider framing.",
+      "long": "Every 8–15 seconds, saved for real emphasis."
+    },
+    "avoid": "Zooming so far that the picture goes soft, or punching in on every sentence until it stops meaning anything.",
+    "prompt": "Find the stressed word in each key sentence. Cut to a tighter crop (about 1.15–1.2×) centered on my eyes exactly on that word and hold it to the end of the sentence. Go back to the wider framing on the next sentence. Keep at least 3 seconds between punches, never punch in twice in a row, and never crop so far that my face goes soft."
+  },
+  {
+    "id": "word-captions",
+    "group": "Text on screen",
+    "title": "Captions that move with your voice",
+    "fixes": "People watching with the sound off.",
+    "when": "Always on Reels and Shorts. On long form, for key lines, fast talkers or mixed-language speech.",
+    "often": {
+      "short": "The whole video, 2–4 words at a time.",
+      "long": "Key lines on screen, with full subtitles as a separate track."
+    },
+    "avoid": "Full sentences on screen, captions over your mouth, or captions at the very bottom where the app's own text covers them.",
+    "prompt": "Add word-by-word captions from my audio, 2–4 words at a time, in a bold sans serif with a dark outline. Highlight the word being spoken in one accent color. Place them in the lower-middle of the frame, above the area the app covers with its caption and buttons, and move them up if they would cover my mouth or a graphic. Fix any misspelled names before export."
+  },
+  {
+    "id": "stakes-text",
+    "group": "Text on screen",
+    "title": "Put the stakes on screen in frame one",
+    "fixes": "Viewers who can't tell in one second why they should stay.",
+    "when": "The first frame of every Reel. On long form, the first five seconds.",
+    "often": {
+      "short": "Once, at the start. Use the same style again for a re-hook.",
+      "long": "Once, in the cold open."
+    },
+    "avoid": "Copying your spoken line word for word, or opening on a title card before your face.",
+    "prompt": "Put one line of on-screen text (six words or fewer) in the upper third from the very first frame. It should say what's at stake, not repeat what I say. Pop it in with a quick scale, keep it up for about 2.5 seconds and keep it clear of my face. If the background is busy, put the text on a solid plate."
+  },
+  {
+    "id": "kinetic-slam",
+    "group": "Text on screen",
+    "title": "Slam the verdict on screen",
+    "fixes": "The most important line getting lost among the captions.",
+    "when": "On the punchline, the verdict or the number you want people to remember.",
+    "often": {
+      "short": "Once or twice per video.",
+      "long": "Once per chapter at most."
+    },
+    "avoid": "Using it so often it turns into noise, or putting more than three words in it.",
+    "prompt": "On the key line, fill the frame with one to three words in large bold type for 0.6–1.2 seconds, landing exactly on the spoken word with a short hit sound. Hide the regular captions while it's up. Cut back to my face right after."
+  },
+  {
+    "id": "broll-cutaway",
+    "group": "Show, don't tell",
+    "title": "Show the thing you just named",
+    "fixes": "Telling viewers about something they never get to see.",
+    "when": "When you name an object, a place, a screen or a result. Cut to it while your voice carries on.",
+    "often": {
+      "short": "A cutaway every 4–8 seconds, each 1–2.5 seconds long.",
+      "long": "Somewhere between a fifth and a third of the runtime."
+    },
+    "avoid": "Generic stock that doesn't match the word, or covering your face during the emotional line.",
+    "prompt": "Every time I name a concrete thing (an object, a place, an app, a result), cut to footage of it for 1–2.5 seconds while my voice keeps going, starting on the word. Use my own B-roll first. Only use stock if it shows the exact thing, and list any shots I still need to film. Come back to my face for opinions, jokes and the final line."
+  },
+  {
+    "id": "green-screen",
+    "group": "Show, don't tell",
+    "title": "Talk over the receipt",
+    "fixes": "Claims with no proof on screen.",
+    "when": "When you quote a comment, a post, an article, a chart or a result.",
+    "often": {
+      "short": "One or two receipts per video, 2–5 seconds each.",
+      "long": "Whenever a claim needs evidence."
+    },
+    "avoid": "Tiny screenshots nobody can read, or private names and numbers left visible.",
+    "prompt": "When I mention a screenshot, comment, article or chart, show it full screen and put my face in a circle in a lower corner. Highlight or underline the exact line I'm reading as I say it, and zoom in until it's readable on a phone. Blur private names, emails and account numbers. Return to my full frame after the line."
+  },
+  {
+    "id": "zoom-to-detail",
+    "group": "Show, don't tell",
+    "title": "Zoom into the part that matters",
+    "fixes": "Screen recordings, screenshots and close work that nobody can read on a phone.",
+    "when": "When you click a button, read a line, point at a setting or show a small detail.",
+    "often": {
+      "short": "On every screen step.",
+      "long": "On every step you want people to copy."
+    },
+    "avoid": "Constant zooming that makes people seasick, or zooming into the wrong spot.",
+    "prompt": "Zoom in 2–3× on the button, setting, line or detail I'm talking about, with a smooth ease, and mark it with a highlight box or ring. Hold until I finish the sentence, then zoom back out so viewers can see where it sits. Speed up loading screens and waiting."
+  },
+  {
+    "id": "inside-device",
+    "group": "Layouts",
+    "title": "Put the video inside the phone you're talking about",
+    "fixes": "Topics like apps, posts, messages and websites that give the viewer nothing to look at.",
+    "when": "When the line mentions a phone, an app, a post, a message or a website.",
+    "often": {
+      "short": "Once every 15–20 seconds at most, never twice in a row.",
+      "long": "Once per chapter."
+    },
+    "avoid": "Real brand logos in a mockup, or a screen so small that nothing on it can be read.",
+    "prompt": "When I mention an app, a post, a message or a website, cut to a shot of a phone (or laptop) with that content on its screen: my own footage, a screen recording or a generic interface. Use generic graphics with no real logos, and make anything on the screen readable at phone size. Go back to my full frame on the next point."
+  },
+  {
+    "id": "split-screen",
+    "group": "Layouts",
+    "title": "Split the screen for the comparison",
+    "fixes": "Before-and-after or this-versus-that stories that are hard to picture.",
+    "when": "Comparisons, before-and-after results and reactions.",
+    "often": {
+      "short": "For one or two beats, not the whole video.",
+      "long": "For the comparison section only."
+    },
+    "avoid": "Leaving the split up for most of the video, which flattens everything.",
+    "prompt": "For the comparison, split the frame: top and bottom for 9:16, left and right for 16:9. Label each side in one to three words. Keep both halves the same size, crop and speed so the only thing that differs is the thing being compared. Go back to one full-frame shot once the comparison has landed."
+  },
+  {
+    "id": "sfx-layer",
+    "group": "Sound",
+    "title": "Give every landing a sound",
+    "fixes": "Flat audio, where cuts and text arrive in silence.",
+    "when": "On transitions, text landing, taps on screen and the reveal.",
+    "often": {
+      "short": "Up to about 12 a minute.",
+      "long": "Up to about 8 a minute."
+    },
+    "avoid": "A sound on every cut, the same whoosh every time, or music loud enough to compete with your voice.",
+    "prompt": "Add sound effects that match what happens on screen: a soft whoosh on transitions, a pop when text lands, a click on taps, a riser into the reveal and a low hit on it. Start each sound one frame before the picture. Keep music well under my voice (about 12 dB under on Reels, more on long form), duck it while I talk and let it come up in pauses."
+  },
+  {
+    "id": "reaction-insert",
+    "group": "Pace and structure",
+    "title": "Drop in a quick reaction",
+    "fixes": "A punchline or surprise that lands flat.",
+    "when": "Right after a surprising number, a mistake or a joke.",
+    "often": {
+      "short": "One every 15 seconds at most, 0.5–1 second long.",
+      "long": "Only for real surprises."
+    },
+    "avoid": "Meme clips you don't have the rights to, or inserts that need context to make sense.",
+    "prompt": "Right after the surprising line, cut to a short reaction for 0.5–1 second: a tight close-up of my own face from the take, a reaction I filmed, or a sticker. Put one sound on it, then go back to the main shot. Only use clips I have the rights to."
+  },
+  {
+    "id": "freeze-frame",
+    "group": "Pace and structure",
+    "title": "Freeze on the moment",
+    "fixes": "The key moment going past too fast to notice.",
+    "when": "On the result, the mistake, or the exact frame you want people to look at.",
+    "often": {
+      "short": "Once or twice per video, 0.5–1 second each.",
+      "long": "At the turning points."
+    },
+    "avoid": "Freezing on a blurry frame, or holding it so long the energy drops.",
+    "prompt": "Freeze the frame for 0.5–1 second on the exact moment that proves the point. Add a quick white flash or shutter sound and a short label pointing at the detail, then carry on. If the setup before it is slow, speed it up to 1.5–2× and play the moment itself at normal speed."
+  },
+  {
+    "id": "progress-counter",
+    "group": "Pace and structure",
+    "title": "Show how far through the list we are",
+    "fixes": "List videos where people can't tell how much is left.",
+    "when": "Any video built on steps, tips, a countdown or a clock.",
+    "often": {
+      "short": "On every item change.",
+      "long": "As a chapter roadmap, updated at each chapter."
+    },
+    "avoid": "Lists longer than about seven items in a Reel, or a counter that covers your face.",
+    "prompt": "Add a small counter (like 2/5) in an upper corner that changes each time I move to the next item, with a soft pop on each change. Add a thin progress bar along the top that fills across the video. Put the item's short title on screen when it starts."
+  },
+  {
+    "id": "rehook",
+    "group": "Pace and structure",
+    "title": "Re-hook in the middle",
+    "fixes": "The drop-off halfway through a video.",
+    "when": "Around the middle of a Reel, and at the start of every chapter in long form.",
+    "often": {
+      "short": "Once or twice per Reel.",
+      "long": "At every chapter change."
+    },
+    "avoid": "Teasing something the video never pays off.",
+    "prompt": "Around the middle of the video, find a line of mine that opens a new question (something like \"but this is the part that surprised me\"). Mark it with a visual reset: a quick zoom or a new framing, a short new line of on-screen text and one sound. Check that the video answers that question later."
+  }
+]

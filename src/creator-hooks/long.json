@@ -1,0 +1,138 @@
+[
+  {
+    "id": "cold-open-peak",
+    "title": "Cold open on the best moment",
+    "why": "Opening on the most intense moment from later in the video promises that it's coming.",
+    "formula": "[5–10 seconds of the peak moment.] Cut. \"[Time marker] earlier…\"",
+    "check": "Does the cold open make sense without context, and does the video really reach that moment?",
+    "hooks": [
+      {"say": "'It's not going to hold.' … Okay. Three weeks earlier, this was a pile of boards.", "text": "3 weeks earlier", "frame": "The shelf wobbling as you put the last book on it.", "move": "freeze-frame", "next": "Introduce the project, the deadline and the one part you weren't sure would work.", "for": ["product", "vlog"], "cut": "workshop-live"},
+      {"say": "This is the moment the client saw the final cut. To get here, I threw away the first two.", "text": "Version 3", "frame": "The client's face lit by the laptop, silent.", "move": "reaction-insert", "next": "Say in one sentence what was wrong with version one, then promise what changed.", "for": ["talking-head", "vlog"]},
+      {"say": "We were forty minutes in when she said the thing that made us scrap the episode plan.", "text": "Minute 40", "frame": "The guest mid-sentence, the host completely still.", "move": "punch-in", "next": "Cut to the start of the conversation and tell viewers that moment is coming.", "for": ["podcast"]},
+      {"say": "That's the sound of a two-thousand-dollar camera hitting the floor. Let me explain how we got here.", "text": "How we got here", "frame": "A black screen and the crash, then the camera on the floor.", "move": "sfx-layer", "next": "Rewind to the morning of the shoot and lay out what was supposed to happen.", "for": ["vlog", "faceless"], "cut": "camera-live"},
+      {"say": "The timeline froze, the export failed, and we had ninety minutes until the deadline.", "text": "90 minutes left", "frame": "The laptop screen with an error message.", "move": "zoom-to-detail", "next": "Put the clock on screen and introduce the project.", "for": ["screen", "vlog"], "cut": "editing-live"},
+      {"say": "At the end of this video, I hand a coffee to a judge who has tasted thousands of them.", "text": "The judge's cup", "frame": "The cup sliding across the counter.", "move": "freeze-frame", "next": "Jump back to day one of practice and show your first bad pour.", "for": ["product", "vlog"], "cut": "coffee-live"},
+      {"say": "This is the last step of a walk I've done every week for a year. The first one is where I nearly quit.", "text": "Week 52", "frame": "Shoes stopping at the top of a staircase.", "move": "jump-cut", "next": "Go back to week one, say why you started and what changed.", "for": ["vlog"], "cut": "steps-live"},
+      {"say": "I'm about to read you the most honest feedback I've ever had. It took me a month to open it.", "text": "A month to open it", "frame": "The message full screen, your face in a corner circle.", "move": "green-screen", "next": "Say who sent it and why it mattered, then promise the changes you made.", "for": ["talking-head"], "prop": "dm", "note": "okay, honest feedback:"}
+    ]
+  },
+  {
+    "id": "promise-proof",
+    "title": "Show the result, then promise the method",
+    "why": "Proof first, then a clear promise of what viewers will be able to do by the end.",
+    "formula": "This is [the result]. By the end of this video, you'll [be able to do it yourself].",
+    "check": "Is the promise specific enough that viewers can tell whether you delivered?",
+    "hooks": [
+      {"say": "This is a ten-minute video I edited in one evening. By the end of this, you'll have the exact order I do it in.", "text": "One evening, one edit", "frame": "The finished video playing on a screen, then your face.", "move": "inside-device", "next": "Show the five steps as a roadmap on screen, then start step one.", "for": ["talking-head", "screen"]},
+      {"say": "This shelf cost me thirty dollars in wood. I'll show you every cut, including the one I got wrong.", "text": "$30 shelf, every cut", "frame": "The finished shelf, with a slow push in.", "move": "broll-cutaway", "next": "List the tools on screen, show the sketch and start measuring.", "for": ["product", "faceless"], "cut": "workshop-live"},
+      {"say": "That's latte art from a home machine. By the end, you'll know the three things the machine doesn't do for you.", "text": "3 things your machine won't do", "frame": "The finished heart, from above.", "move": "progress-counter", "next": "Introduce the three things as chapters and start with milk temperature.", "for": ["product"], "cut": "coffee-live", "note": "1/3"},
+      {"say": "This one page plans my whole week in ten minutes. We're going to build it together from a blank page.", "text": "Blank page → whole week", "frame": "The finished spread, then a fresh page.", "move": "split-screen", "next": "Show the four sections you'll draw and start with the first.", "for": ["product", "faceless"], "cut": "notebook-live", "note": "BLANK|DONE"},
+      {"say": "This audio was recorded in a bedroom. By the end of this, yours will sound like this, with no new gear.", "text": "Bedroom audio, no new gear", "frame": "Your face at a microphone, levels steady.", "move": "sfx-layer", "next": "Play the before clip, then lay out the three fixes.", "for": ["podcast", "talking-head"]},
+      {"say": "These are my last ten Reels. They all use the same structure, and I'm going to give it to you.", "text": "One structure, 10 Reels", "frame": "A grid of the ten Reels full screen, you in a corner circle.", "move": "green-screen", "next": "Name the four parts of the structure on screen and start with part one.", "for": ["talking-head", "screen"], "prop": "post", "note": "My last 10 Reels"},
+      {"say": "This dress started as two old curtains. You'll be able to make one by the end of this video, even as a beginner.", "text": "Two old curtains", "frame": "The curtains on the left, the finished dress on the right.", "move": "split-screen", "next": "Show the materials and pattern pieces, then cut the first piece.", "for": ["product", "vlog"], "cut": "sewing-live", "note": "CURTAINS|DRESS"},
+      {"say": "This phone footage was graded in two minutes. I'll show you the exact sliders.", "text": "2 minutes, 4 sliders", "frame": "The graded shot, freezing as the label lands.", "move": "freeze-frame", "next": "Open the editing app and name the four sliders before touching them.", "for": ["screen"], "cut": "walk-live"}
+    ]
+  },
+  {
+    "id": "big-question",
+    "title": "Ask the question the video answers",
+    "why": "A real question, asked early, gives the whole video a reason to exist.",
+    "formula": "Why does [something people notice but can't explain]? I spent [time] finding out.",
+    "check": "Is it a question your viewers have actually wondered about?",
+    "hooks": [
+      {"say": "Why do some badly lit videos get millions of views while beautiful ones die? I went through two hundred of them to find out.", "text": "Why do ugly videos win?", "frame": "A rough phone clip on the left, a polished one on the right.", "move": "split-screen", "next": "Explain how you picked the videos and what you measured.", "for": ["talking-head", "screen"], "cut": "phone-live", "note": "ROUGH|POLISHED"},
+      {"say": "Why does café coffee taste better than mine when I use the same beans? I asked three baristas.", "text": "Same beans. Why?", "frame": "Your face, then two cups side by side on a counter.", "move": "broll-cutaway", "next": "Introduce the baristas and the test you'll run with them.", "for": ["talking-head", "vlog"], "cut": "coffee-live"},
+      {"say": "Why does every handmade table wobble a little? It turns out it's not the legs.", "text": "It's not the legs", "frame": "A hand pressing on a table corner as it rocks.", "move": "kinetic-slam", "next": "Show three likely causes and say which one you'll test first.", "for": ["product", "faceless"], "cut": "workshop-live", "note": "NOT THE LEGS"},
+      {"say": "Why can I remember a song from ten years ago but not what I studied yesterday? The answer changed how I take notes.", "text": "Songs stick. Notes don't.", "frame": "Headphones on, then a notebook opening.", "move": "punch-in", "next": "Explain the idea behind it in plain words and show the note layout you'll build.", "for": ["talking-head"]},
+      {"say": "Why are two-person podcasts easier to listen to than solo ones? We recorded the same episode both ways.", "text": "One voice or two?", "frame": "Two hosts at their microphones, side by side.", "move": "split-screen", "next": "Play ten seconds of each version and say what you'll compare.", "for": ["podcast"], "note": "SOLO|DUO"},
+      {"say": "Why do some streets feel safe at night and others don't, with the same street lights? I walked both for a week.", "text": "Same lights, different feeling", "frame": "Walking down a street at dusk.", "move": "freeze-frame", "next": "Show the two streets on a simple map and what you'll be looking for.", "for": ["vlog", "faceless"], "cut": "walk-live"},
+      {"say": "Why does your video look fine on your phone and awful on a laptop? It's one setting.", "text": "Fine on phone, awful on laptop", "frame": "The same clip on a phone and a laptop.", "move": "zoom-to-detail", "next": "Show the setting, then explain why it matters before changing it.", "for": ["screen"], "cut": "editing-live"},
+      {"say": "Why do beginners break so many needles in their first week? I broke six to find out.", "text": "6 needles later", "frame": "A close-up of the needle punching through fabric.", "move": "sfx-layer", "next": "Line up the six causes as a countdown.", "for": ["product"], "cut": "sewing-live"}
+    ]
+  },
+  {
+    "id": "challenge",
+    "title": "Set the challenge and the clock",
+    "why": "A goal, a limit and a deadline give viewers a reason to stay for the outcome.",
+    "formula": "I have [time or budget] to [goal]. If I [fail], [consequence].",
+    "check": "Is the clock or budget on screen whenever it matters?",
+    "hooks": [
+      {"say": "I have one hour to edit a full YouTube video with only free tools. If I go over, I post it unfinished.", "text": "1 hour. Free tools.", "frame": "A timer starting on screen beside you.", "move": "progress-counter", "next": "Show how much raw footage you have and the tools you're allowed.", "for": ["talking-head", "screen"], "note": "60:00"},
+      {"say": "Twenty dollars, one weekend, and I need a bookshelf strong enough to hold all of these.", "text": "$20. One weekend.", "frame": "A stack of books next to a pile of scrap wood.", "move": "kinetic-slam", "next": "Break down the budget and sketch the design.", "for": ["product", "vlog"], "cut": "workshop-live", "note": "$20"},
+      {"say": "I'm making a café-quality latte at home with no espresso machine, and a barista is judging it.", "text": "No machine. Judged.", "frame": "An empty counter and your friend with their arms crossed.", "move": "reaction-insert", "next": "Introduce the judge, the score sheet and your three attempts.", "for": ["product", "vlog"], "cut": "coffee-live"},
+      {"say": "Can I film, edit and post a video every day for a week while working full time? Day one starts now.", "text": "7 days, full-time job", "frame": "Walking out of the office, phone up.", "move": "jump-cut", "next": "Put the daily schedule on screen and the rule if you miss a day.", "for": ["vlog"], "cut": "walk-live"},
+      {"say": "I have to explain this whole topic in ten minutes, or the next guest gets my slot.", "text": "10 minutes or I'm out", "frame": "A timer on the desk between the microphones.", "move": "progress-counter", "next": "State the rules and start the timer.", "for": ["podcast"], "note": "10:00"},
+      {"say": "I'm walking every street in my neighbourhood in one day. There are forty-one of them.", "text": "41 streets, 1 day", "frame": "Shoes on the first step of the route.", "move": "progress-counter", "next": "Show the route on a map and say when you'll stop if you can't finish.", "for": ["vlog"], "cut": "steps-live", "note": "0/41"},
+      {"say": "I'm going to sew a jacket in a day, and I've never made a sleeve.", "text": "Never made a sleeve", "frame": "Pattern pieces laid out, the needle ready.", "move": "freeze-frame", "next": "Show the pattern, set the deadline and admit the hardest part.", "for": ["product"], "cut": "sewing-live"},
+      {"say": "One phone, no lights, and I have to make this product look like an ad by sunset.", "text": "One phone. By sunset.", "frame": "A product on a table, phone in hand, the sun getting low.", "move": "kinetic-slam", "next": "Show what you have to work with and the reference you're trying to match.", "for": ["product"], "cut": "camera-live", "note": "BY SUNSET"}
+    ]
+  },
+  {
+    "id": "tested",
+    "title": "Test it so they don't have to",
+    "why": "Viewers love skipping the trial and error. A fair test with a clear winner pays that off.",
+    "formula": "I tried [N options] for [time]. [One surprising result].",
+    "check": "Did every option get the same conditions?",
+    "hooks": [
+      {"say": "I tested five AI editing tools on the same raw clip. One of them cut my best line.", "text": "5 tools, 1 raw clip", "frame": "Two versions of the same clip side by side.", "move": "split-screen", "next": "Explain the rules of the test and what counts as a win.", "for": ["screen", "talking-head"], "cut": "editing-live", "note": "TOOL A|TOOL B"},
+      {"say": "I bought the four most recommended microphones under a hundred dollars. The cheapest one surprised me.", "text": "4 mics under $100", "frame": "Your face at the first microphone, with a counter in the corner.", "move": "progress-counter", "next": "Play the same sentence on each mic before naming any of them.", "for": ["podcast", "talking-head"], "note": "1/4"},
+      {"say": "I tried every cold brew method I could find. One takes twelve hours and loses to one that takes five minutes.", "text": "12 hours lost to 5 minutes", "frame": "Jars of cold brew lined up on the counter.", "move": "kinetic-slam", "next": "List the methods and explain the taste test.", "for": ["product"], "cut": "coffee-live", "note": "5 MIN WINS"},
+      {"say": "I used three planners for a month each. I'm keeping one and binning two.", "text": "3 planners, 3 months", "frame": "Three notebooks stacked, one being opened.", "move": "progress-counter", "next": "Show what you'll measure: tasks done, missed days and time spent planning.", "for": ["product", "talking-head"], "cut": "notebook-live", "note": "1/3"},
+      {"say": "Same scene, four phones, no editing. Can you tell which one is the cheapest?", "text": "Spot the cheapest phone", "frame": "The same street shot side by side.", "move": "split-screen", "next": "Explain how you filmed each one and ask viewers to guess.", "for": ["vlog", "screen"], "cut": "walk-live", "note": "A|B"},
+      {"say": "I sanded this board with five different sanders. The best finish came from the slowest one.", "text": "The slowest won", "frame": "The sander on the first test strip.", "move": "zoom-to-detail", "next": "Explain how you'll judge the finish and start with the cheapest sander.", "for": ["product"], "cut": "workshop-live"},
+      {"say": "I tried four ways of learning lines for a video. One of them let me record in a single take.", "text": "One take", "frame": "You reading off a phone, then not needing it.", "move": "jump-cut", "next": "List the four methods on screen and start with the one most people use.", "for": ["talking-head"]},
+      {"say": "We asked five guests the same question. Their answers were the opposite of what I expected.", "text": "Same question, 5 guests", "frame": "Quick cuts between guests at the microphone.", "move": "jump-cut", "next": "Put the question on screen and play the first answer.", "for": ["podcast"]}
+    ]
+  },
+  {
+    "id": "contrarian-thesis",
+    "title": "Lead with your thesis",
+    "why": "A clear position in the first ten seconds tells viewers exactly what you're going to prove.",
+    "formula": "Everyone says [belief]. After [your experience], I think [your view], and here's the evidence.",
+    "check": "Will you show evidence, not just opinion?",
+    "hooks": [
+      {"say": "Everyone says you have to niche down. I grew fastest when I made whatever I was curious about, and I'll show you the numbers.", "text": "Don't niche down (yet)", "frame": "Your subscriber graph full screen, you in a corner circle.", "move": "green-screen", "next": "Walk through your channel history in three phases.", "for": ["talking-head"], "prop": "chart", "note": "Subscribers"},
+      {"say": "The part of good coffee worth spending on isn't the machine. It's the grinder, and I can prove it with one cup.", "text": "It's the grinder", "frame": "A grinder next to a cheap machine.", "move": "kinetic-slam", "next": "Set up the blind taste test.", "for": ["product", "talking-head"], "cut": "coffee-live", "note": "THE GRINDER"},
+      {"say": "Productivity systems don't fail because you're lazy. They fail because they're built for someone with no kids, no commute and no bad days.", "text": "Built for someone else", "frame": "Your face, then a perfect planner page with coffee spilled on it.", "move": "broll-cutaway", "next": "Show the three assumptions most systems make.", "for": ["talking-head"], "cut": "notebook-live"},
+      {"say": "Good editing is mostly deleting. In this video I'll cut a ten-minute talk to three, and you'll like it more.", "text": "10 min → 3 min", "frame": "A long timeline shrinking.", "move": "jump-cut", "next": "Play the first minute raw so viewers have something to compare with.", "for": ["screen", "talking-head"], "cut": "editing-live"},
+      {"say": "Hand tools are faster than power tools for most small jobs. I timed it.", "text": "Hand tools are faster", "frame": "A hand saw on one side, a power tool on the other.", "move": "split-screen", "next": "Explain the timing rules and the three jobs.", "for": ["product"], "cut": "workshop-live", "note": "HAND|POWER"},
+      {"say": "Walking is a better creative habit than journaling, and I've done both every day for a year.", "text": "Walk, don't journal", "frame": "Shoes on the pavement, a closed notebook on a bench.", "move": "freeze-frame", "next": "Show your two logs side by side and how you scored the ideas.", "for": ["vlog", "faceless"], "cut": "walk-live"},
+      {"say": "Most podcast advice is about gear. What actually made our show better was a list of bad questions.", "text": "A list of bad questions", "frame": "A notepad of crossed-out questions on the desk.", "move": "punch-in", "next": "Read the first bad question and explain why it fails.", "for": ["podcast"]},
+      {"say": "Beginners should skip the beginner projects. Make the thing you actually want to wear.", "text": "Skip the tote bag", "frame": "A pile of half-finished tote bags.", "move": "kinetic-slam", "next": "Show the project you'll make and the two skills it teaches.", "for": ["product", "talking-head"], "cut": "sewing-live", "note": "SKIP IT"}
+    ]
+  },
+  {
+    "id": "confession",
+    "title": "Open with a confession",
+    "why": "Admitting a mistake builds trust quickly and sets up the lesson.",
+    "formula": "For [time], I [did the wrong thing]. This is what I wish I'd known.",
+    "check": "Is the confession real, and does the video deliver the fix?",
+    "hooks": [
+      {"say": "For two years I edited every video like a trailer, and my audience hated it. This is what I changed.", "text": "My audience hated it", "frame": "Fast flashes of an old edit, then your face, still.", "move": "jump-cut", "next": "Show one old video and one new one, and name the three changes.", "for": ["talking-head"]},
+      {"say": "I undercharged every client for my first three years. This is the price list I use now, line by line.", "text": "3 years undercharging", "frame": "The old invoice full screen, you in a corner circle.", "move": "green-screen", "next": "Explain how you worked out the new numbers before showing them.", "for": ["talking-head"], "prop": "receipt", "note": "Old rate"},
+      {"say": "I ran a café for a year and never once tasted our espresso the way a customer would.", "text": "Never tasted it like a customer", "frame": "Your face, then espresso pouring, close.", "move": "broll-cutaway", "next": "Tell the moment you realized, and what you tasted.", "for": ["talking-head", "vlog"], "cut": "coffee-live"},
+      {"say": "I've started this video four times because the topic embarrasses me. So I'll just say it: I can't read a map.", "text": "Fourth attempt", "frame": "Four quick restarts of the same opening.", "move": "jump-cut", "next": "Admit how it has affected you and what you're going to try.", "for": ["talking-head", "vlog"]},
+      {"say": "We nearly cancelled this podcast after episode ten. Nobody was listening, including my co-host.", "text": "Episode 10", "frame": "A host at the microphone glancing at a phone.", "move": "reaction-insert", "next": "Show the download numbers and what you changed in episode eleven.", "for": ["podcast"]},
+      {"say": "I've sold eighty tables, and I've never told anyone I can't cut a straight line by hand.", "text": "80 tables. No straight lines.", "frame": "A wobbly pencil line on the wood.", "move": "zoom-to-detail", "next": "Show the jig you use to cheat, then build it.", "for": ["product", "talking-head"], "cut": "workshop-live"},
+      {"say": "I said yes to every brand deal for six months. These are the three I regret.", "text": "3 deals I regret", "frame": "Your face with a counter in the corner.", "move": "progress-counter", "next": "Explain why you said yes, then start with the worst one.", "for": ["talking-head"], "note": "1/3"},
+      {"say": "My first ten videos got zero views because I never watched them back. Let's watch one together.", "text": "0 views. Let's watch.", "frame": "The old video playing on a phone screen.", "move": "inside-device", "next": "Pause on the first mistake and explain it.", "for": ["talking-head", "screen"]}
+    ]
+  },
+  {
+    "id": "mistakes-preview",
+    "title": "Preview the mistakes",
+    "why": "A numbered list of mistakes promises useful fixes and a clear end point.",
+    "formula": "[N] mistakes I see in [thing]. [Tease the worst one].",
+    "check": "Is each mistake something viewers can check in their own work today?",
+    "hooks": [
+      {"say": "These are the five editing mistakes I see in almost every beginner's first video. Number four is the one I still make.", "text": "5 mistakes. I still make #4.", "frame": "Your face with a 1/5 counter in the corner.", "move": "progress-counter", "next": "Go straight into mistake one with an example on screen.", "for": ["talking-head", "screen"], "note": "1/5"},
+      {"say": "I reviewed thirty channels that asked for feedback. The same three mistakes came up in almost all of them.", "text": "30 channels, same 3 mistakes", "frame": "A channel page full screen, you in a corner circle.", "move": "green-screen", "next": "Show how you reviewed them, then reveal mistake one.", "for": ["talking-head", "screen"], "prop": "post", "note": "Channel review"},
+      {"say": "Four milk-steaming mistakes, and the reason your foam disappears in thirty seconds.", "text": "Why your foam disappears", "frame": "Foam collapsing in a cup.", "move": "freeze-frame", "next": "Steam one jug the wrong way, then name mistake one.", "for": ["product"], "cut": "coffee-live"},
+      {"say": "Six things people get wrong when they start woodworking. I made every one of them.", "text": "I made all 6", "frame": "The sander working along the edge of a board.", "move": "progress-counter", "next": "Show mistake one on a scrap piece.", "for": ["product", "faceless"], "cut": "workshop-live", "note": "1/6"},
+      {"say": "Three interview mistakes that make guests give short answers, and what to ask instead.", "text": "Why guests give short answers", "frame": "A guest giving a one-word answer.", "move": "reaction-insert", "next": "Play a short answer, then the better question and its answer.", "for": ["podcast"]},
+      {"say": "Five note-taking mistakes students make, ranked by how much time they waste.", "text": "Ranked by time wasted", "frame": "Pages of copied-out notes being flipped.", "move": "progress-counter", "next": "Start with the smallest time waster and build up.", "for": ["faceless", "talking-head"], "cut": "notebook-live", "note": "5/5"},
+      {"say": "The four camera settings I see wrong most often in phone videos. You can fix all of them before your next shoot.", "text": "Fix before your next shoot", "frame": "A thumb on the camera dial.", "move": "zoom-to-detail", "next": "Open the settings and fix setting one on camera.", "for": ["screen", "product"], "cut": "camera-live"},
+      {"say": "Three mistakes that make beginner sewing look homemade, in a bad way. None of them are about skill.", "text": "Not a skill problem", "frame": "A puckered seam next to a flat one.", "move": "split-screen", "next": "Name mistake one and show the fix on the same seam.", "for": ["product"], "cut": "sewing-live", "note": "PUCKERED|FLAT"}
+    ]
+  }
+]

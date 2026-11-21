@@ -8,6 +8,7 @@ import { shortAdvancedFinishes } from './format-content/short-advanced-finishes'
 import { longAdvancedFinishes } from './format-content/long-advanced-finishes'
 import { advancedTechniques } from './format-content/advanced-techniques'
 import { hookCollections } from './hook-library/catalog'
+import { creatorHooks, moveTechniques, type CreatorHook, type EditMove } from './creator-hooks/catalog'
 import type { Breakdown } from './breakdown'
 
 export type FormatMode = 'short' | 'long'
@@ -18,6 +19,9 @@ export type Technique = (typeof catalog)[number] & {
   mode?: FormatMode
   stage?: Stage
   breakdown?: Breakdown
+  creator?: CreatorHook
+  move?: EditMove
+  sound?: boolean
 }
 type RecipeEntry = readonly [title: string, previewId: string, useCase: string, prompt: string]
 type RecipeSource = {
@@ -83,7 +87,8 @@ export const formatCollections = {
 
 export const techniques: Technique[] = [...advancedTechniques, ...catalog]
 const recipes = Object.values(formatCollections).flatMap(list => list.flatMap(group => group.items))
-export const byId = new Map([...techniques, ...recipes].map(technique => [technique.id, technique]))
+export const byId = new Map([...techniques, ...recipes, ...creatorHooks.short, ...creatorHooks.long, ...moveTechniques]
+  .map(technique => [technique.id, technique]))
 
 export const sections = [
   ['Hooks and typography', 'Hooks and typography'],
@@ -99,7 +104,7 @@ export const sections = [
 
 export function withSound(technique: Technique) {
   const id = technique.previewId ?? technique.id
-  return !!technique.breakdown?.sound || byId.get(id)?.section === 'Sound and music' || id === 'beat-synced-cuts' || id === 'short-hyperedit'
+  return !!technique.sound || !!technique.breakdown?.sound || byId.get(id)?.section === 'Sound and music' || id === 'beat-synced-cuts' || id === 'short-hyperedit'
 }
 
 export const mediaUrl = (id: string, extension: 'mp4' | 'webp', vertical: boolean) =>

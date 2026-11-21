@@ -1,17 +1,19 @@
 import {
   ArrowDown, ArrowRight, BookOpen, Check, ChevronDown, ChevronRight,
-  Film, ListOrdered, Plus, Search, Smartphone, X,
+  Film, ListOrdered, Plus, Scissors, Search, Smartphone, X,
 } from 'lucide-react'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { byId, formatBreakdowns, formatCollections, modes, sections, stageLabels, techniques, withSound, type FormatMode, type Stage } from './catalog'
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { byId, formatBreakdowns, formatCollections, modes, sections, stageLabels, techniques, withSound, type FormatMode, type Stage, type Technique } from './catalog'
 import { addItems, readEdit, removeItem, saveEdit, writeClipboard } from './edit'
 import { footageGroups, hookCollections, hookExamples, hookGuidance, hookHash } from './hook-library/catalog'
+import { creatorCollections, creatorHash, creatorHooks, hookTypes, moveGroups, moveTechniqueId, moveTechniques, presets, type Preset } from './creator-hooks/catalog'
 import { EditBuilder } from './EditBuilder'
 import { Preview } from './Preview'
 import { TechniqueCard } from './TechniqueCard'
 import { starters } from './starters'
 
-type Shelf = Stage | 'breakdowns' | 'techniques'
+type Shelf = Stage | 'breakdowns' | 'techniques' | 'moves'
+type HookSource = 'creator' | 'staged'
 const initialShelf: Shelf = 'hook'
 const batchSize = (shelf: Shelf) => shelf === 'breakdowns' ? 6 : 12
 const stages: Record<FormatMode, readonly Stage[]> = {
@@ -22,15 +24,15 @@ const stages: Record<FormatMode, readonly Stage[]> = {
 const guide = {
   short: {
     title: 'Edit a Short from hook to payoff.',
-    description: 'Build a hook that reads in one shot, pace the middle, and give viewers a payoff worth the setup.',
-    spotlight: 'short-clone-split',
-    focus: 'Two characters, one performer',
+    description: 'Pick a hook you can say on camera, add the edit moves people actually use, and give viewers a payoff worth the setup.',
+    spotlight: 'th-short-result-first-02',
+    focus: 'Lead with the result, then show the receipt',
   },
   long: {
     title: 'Shape the whole story.',
     description: 'Earn the opening promise with evidence, guide viewers through the story, and bring the ending back to the first scene.',
-    spotlight: 'long-cold-open',
-    focus: 'Open inside the story',
+    spotlight: 'th-long-contrarian-thesis-01',
+    focus: 'Lead with your thesis and the evidence',
   },
 }
 
@@ -40,9 +42,18 @@ const searchable = (value: string) => value.toLowerCase().normalize('NFKD')
 function readLocation() {
   const [format, type, ordinal] = window.location.hash.slice(1).split('/')
   const mode: FormatMode = format === 'long-form' ? 'long' : 'short'
+  if (type === 'hook' && ordinal?.startsWith(`th-${mode}-`) && byId.has(ordinal)) {
+    return { mode, collection: '', sample: ordinal, worked: false, staged: false }
+  }
   const collection = hookCollections[mode].some(group => group.id === type) ? type : ''
   const id = collection && ordinal ? `hook-${mode}-${collection}-${ordinal}` : ''
-  return { mode, collection, sample: byId.has(id) ? id : '', worked: type === 'worked' }
+  const worked = type === 'worked'
+  return { mode, collection, sample: byId.has(id) ? id : '', worked, staged: worked || !!collection }
+}
+
+function interleave<T>(groups: T[][]) {
+  const count = Math.max(0, ...groups.map(group => group.length))
+  return Array.from({ length: count }, (_, index) => groups.flatMap(group => group[index] ? [group[index]] : [])).flat()
 }
 
 export function App() {
@@ -54,6 +65,8 @@ export function App() {
   const [query, setQuery] = useState('')
   const [media, setMedia] = useState(() => readLocation().worked ? 'worked' : '')
   const [footage, setFootage] = useState('')
+  const [preset, setPreset] = useState<Preset | ''>('')
+  const [hookSource, setHookSource] = useState<HookSource>(() => readLocation().staged ? 'staged' : 'creator')
   const [onlySelected, setOnlySelected] = useState(false)
   const [limit, setLimit] = useState(() => batchSize(initialShelf))
   const [starterIndex, setStarterIndex] = useState(0)
@@ -84,6 +97,7 @@ export function App() {
       resetFilters(initialShelf)
       setCollection(route.collection)
       setLinkedSample(route.sample)
+      setHookSource(route.staged ? 'staged' : 'creator')
       if (route.worked) setMedia('worked')
     }
     window.addEventListener('popstate', followFormat)
@@ -109,16 +123,34 @@ export function App() {
   const collections = formatCollections[mode]
   const breakdowns = formatBreakdowns[mode]
   const stageCollections = collections.filter(group => group.stage === shelf)
-  const activeType = shelf === 'hook' ? hookCollections[mode].find(group => group.id === collection) : undefined
+  const creator = shelf === 'hook' && hookSource === 'creator'
+  const types = hookTypes[mode]
+  const activeCreatorType = creator ? types.find(type => type.id === collection) : undefined
+  const activeType = shelf === 'hook' && !creator ? hookCollections[mode].find(group => group.id === collection) : undefined
   const options = shelf === 'techniques'
     ? sections.map(section => ({ id: section.name, title: section.label }))
-    : shelf === 'breakdowns'
-      ? stages[mode].map(stage => ({ id: stage, title: stageLabels[stage] }))
-      : stageCollections.map(group => ({ id: group.id, title: group.question ? `${group.title} (${group.items.length})` : group.title }))
+    : shelf === 'moves'
+      ? moveGroups.map(group => ({ id: group, title: group }))
+      : creator
+        ? types.map(type => ({ id: type.id, title: `${type.title} (${type.count})` }))
+        : shelf === 'breakdowns'
+          ? stages[mode].map(stage => ({ id: stage, title: stageLabels[stage] }))
+          : stageCollections.map(group => ({ id: group.id, title: group.question ? `${group.title} (${group.items.length})` : group.title }))
+  const stagedHookCount = collections.filter(group => group.stage === 'hook').reduce((total, group) => total + group.items.length, 0)
   const counts = Object.fromEntries(stages[mode].map(stage => [
-    stage, collections.filter(group => group.stage === stage).reduce((total, group) => total + group.items.length, 0),
+    stage, collections.filter(group => group.stage === stage).reduce((total, group) => total + group.items.length, 0)
+      + (stage === 'hook' ? creatorHooks[mode].length : 0),
   ]))
-  const entries = useMemo(() => {
+  const entries = useMemo<Technique[]>(() => {
+    const linkedFirst = <T extends { id: string }>(list: T[]) => {
+      const linked = linkedSample && list.find(item => item.id === linkedSample)
+      return linked ? [linked, ...list.filter(item => item.id !== linkedSample)] : list
+    }
+    if (shelf === 'moves') return linkedFirst(moveTechniques.filter(item => !collection || item.section === collection))
+    if (shelf === 'hook' && hookSource === 'creator') {
+      const groups = creatorCollections[mode].filter(group => !collection || group.id === collection)
+      return linkedFirst(collection ? groups.flatMap(group => group.items) : interleave(groups.map(group => group.items)))
+    }
     if (shelf === 'techniques') return techniques.filter(item => !collection || item.section === collection)
     if (shelf === 'breakdowns') return breakdowns.filter(item => !collection || item.breakdown.stage === collection)
     const current = collections.filter(group => group.stage === shelf && (!collection || group.id === collection))
@@ -126,19 +158,20 @@ export function App() {
     const matches = current.flatMap(group => group.items)
     const linked = linkedSample && matches.find(item => item.id === linkedSample)
     return linked ? [linked, ...matches.filter(item => item.id !== linkedSample)] : matches
-  }, [shelf, collection, breakdowns, collections, mode, linkedSample])
+  }, [shelf, collection, breakdowns, collections, mode, linkedSample, hookSource])
   const visible = useMemo(() => {
     const queryTerms = searchable(query).split(' ').filter(Boolean)
     return entries.filter(item => {
       if (onlySelected && !selected.has(item.id)) return false
       if (footage && item.breakdown?.footageGroup !== footage) return false
+      if (preset && !item.creator?.presets.includes(preset)) return false
       if ((media === 'worked' || media === 'storyboard') && item.breakdown?.previewKind !== media) return false
       if ((media === 'sound' || media === 'visual') && withSound(item) !== (media === 'sound')) return false
       if (!queryTerms.length) return true
-      const words = searchable([item.title, item.useCase, item.section, item.prompt, item.breakdown?.footage].join(' '))
+      const words = searchable([item.title, item.useCase, item.section, item.prompt, item.breakdown?.footage, item.creator?.text].join(' '))
       return queryTerms.every(word => words.includes(word))
     })
-  }, [entries, onlySelected, selected, media, footage, query])
+  }, [entries, onlySelected, selected, media, footage, preset, query])
   const shown = visible.slice(0, limit)
   const hasMore = shown.length < visible.length
 
@@ -161,7 +194,7 @@ export function App() {
       active = false
       observer.disconnect()
     }
-  }, [hasMore, limit, shelf, mode, query, collection, media, footage, onlySelected, visible.length])
+  }, [hasMore, limit, shelf, mode, query, collection, media, footage, preset, onlySelected, hookSource, visible.length])
 
   function resetFilters(nextShelf = shelf) {
     setQuery('')
@@ -169,6 +202,7 @@ export function App() {
     setLinkedSample('')
     setMedia('')
     setFootage('')
+    setPreset('')
     setOnlySelected(false)
     setLimit(batchSize(nextShelf))
     setPlaying(null)
@@ -192,10 +226,24 @@ export function App() {
     revealLibrary()
   }
 
+  function chooseHookSource(next: HookSource) {
+    if (next === hookSource) return
+    window.history.replaceState(null, '', mode === 'long' ? '#long-form' : '#reels-shorts')
+    setHookSource(next)
+    resetFilters('hook')
+  }
+
+  function openMove(id: string) {
+    chooseShelf('moves')
+    setLinkedSample(moveTechniqueId(id))
+  }
+
   function chooseCollection(next: string) {
     setCollection(next)
     setLinkedSample('')
-    if (shelf === 'hook') {
+    if (shelf === 'hook' && hookSource === 'creator') {
+      window.history.replaceState(null, '', mode === 'long' ? '#long-form' : '#reels-shorts')
+    } else if (shelf === 'hook') {
       const format = mode === 'long' ? '#long-form' : '#reels-shorts'
       const type = hookCollections[mode].some(group => group.id === next)
       const path = type ? `/${next}` : !next && media === 'worked' ? '/worked' : ''
@@ -206,7 +254,7 @@ export function App() {
 
   function choosePreviewKind(next: string) {
     setMedia(next)
-    if (shelf === 'hook' && !collection && (next === 'worked' || window.location.hash.endsWith('/worked'))) {
+    if (shelf === 'hook' && !creator && !collection && (next === 'worked' || window.location.hash.endsWith('/worked'))) {
       const format = mode === 'long' ? '#long-form' : '#reels-shorts'
       window.history.replaceState(null, '', format + (next === 'worked' ? '/worked' : ''))
     }
@@ -260,9 +308,9 @@ export function App() {
   }
 
   const builderProps = { edit, setEdit, copied: copied === 'combined', onCopy: (text: string) => { void copy('combined', text) } }
-  const shelfName = shelf === 'techniques' ? 'Technique library' : shelf === 'breakdowns' ? 'Edit breakdowns' : stageLabels[shelf]
+  const shelfName = shelf === 'techniques' ? 'Technique library' : shelf === 'breakdowns' ? 'Edit breakdowns' : shelf === 'moves' ? 'Edit moves' : stageLabels[shelf]
   const libraryTitle = shelf === 'techniques' || shelf === 'breakdowns' ? shelfName : `${modes[mode].label} ${shelfName.toLowerCase()}`
-  const resultNoun = shelf === 'techniques' ? 'techniques' : shelf === 'breakdowns' ? 'breakdowns' : 'recipes'
+  const resultNoun = shelf === 'techniques' ? 'techniques' : shelf === 'breakdowns' ? 'breakdowns' : shelf === 'moves' ? 'moves' : creator ? 'hooks' : 'recipes'
 
   return (
     <>
@@ -298,6 +346,7 @@ export function App() {
                 Explore hooks <ArrowDown size={16} aria-hidden="true" />
               </button>
               <div className="hero-links">
+                <button type="button" className="hero-secondary" onClick={() => chooseShelf('moves')}>Edit moves</button>
                 <button type="button" className="hero-secondary" onClick={() => chooseShelf('breakdowns')}>Breakdowns</button>
                 <button type="button" className="hero-secondary" onClick={() => chooseShelf('body')}>Editing styles</button>
                 <button type="button" className="hero-secondary" onClick={() => chooseShelf('finish')}>
@@ -347,9 +396,14 @@ export function App() {
                 Breakdowns <span>{breakdowns.length}</span>
               </button>
               {stages[mode].map(stage => (
-                <button type="button" key={stage} aria-pressed={shelf === stage} onClick={() => chooseShelf(stage)}>
-                  {stageLabels[stage]} <span>{counts[stage]}</span>
-                </button>
+                <Fragment key={stage}>
+                  <button type="button" aria-pressed={shelf === stage} onClick={() => chooseShelf(stage)}>
+                    {stageLabels[stage]} <span>{counts[stage].toLocaleString('en-US')}</span>
+                  </button>
+                  {stage === 'hook' && <button type="button" aria-pressed={shelf === 'moves'} onClick={() => chooseShelf('moves')}>
+                    <Scissors size={15} aria-hidden="true" /> Edit moves <span>{moveTechniques.length}</span>
+                  </button>}
+                </Fragment>
               ))}
               <button type="button" aria-pressed={shelf === 'techniques'} onClick={() => chooseShelf('techniques')}>
                 <BookOpen size={16} aria-hidden="true" /> Technique library
@@ -357,9 +411,24 @@ export function App() {
             </nav>
             <div className="library-heading">
               <h2 id="library-title">{libraryTitle}</h2>
+              {shelf === 'hook' && <div className="source-switch" role="group" aria-label="Hook library">
+                <button type="button" aria-pressed={hookSource === 'creator'} onClick={() => chooseHookSource('creator')}>
+                  Talking-head hooks <span>{creatorHooks[mode].length}</span>
+                </button>
+                <button type="button" aria-pressed={hookSource === 'staged'} onClick={() => chooseHookSource('staged')}>
+                  Staged shot hooks <span>{stagedHookCount.toLocaleString('en-US')}</span>
+                </button>
+              </div>}
               {shelf === 'techniques' && <p>Original technique demonstrations for either format.</p>}
+              {shelf === 'moves' && <p>The edits people actually use on talking-head videos: what each one fixes, when to use it and how often.
+                Every preview ends on the raw take, so you can see the difference.</p>}
+              {creator && (activeCreatorType ? <p>{activeCreatorType.why}</p> : <p>
+                {creatorHooks[mode].length} hooks you can say on camera, in {types.length} types. Each card gives you the line to say, the text on
+                screen, the first frame and the edit move. The previews use a stand-in presenter. Numbers in the examples are placeholders,
+                so swap in your own.
+              </p>)}
               {shelf === 'breakdowns' && <p>See the shot order, the timing, and what to check in your own cut.</p>}
-              {shelf === 'hook' && (activeType ? <p>{activeType.question}</p> : !collection && <p>
+              {shelf === 'hook' && !creator && (activeType ? <p>{activeType.question}</p> : !collection && <p>
                 Choose from {hookCollections[mode].length} hook types.{' '}
                 {media === 'worked' ? <>Showing the edit in action.{' '}</> : <>Timed shot plans use stand-in footage to show what to film and when to cut.{' '}</>}
                 <a className="worked-link" href={(mode === 'long' ? '#long-form' : '#reels-shorts') + (media === 'worked' ? '' : '/worked')}
@@ -370,7 +439,22 @@ export function App() {
                   }}>{media === 'worked' ? 'See all hook previews' : 'Watch worked examples'}</a>
               </p>)}
             </div>
-            {shelf === 'hook' && (activeType ? <div className="hook-type-note">
+            {creator && (activeCreatorType ? <div className="hook-type-note">
+              <p><strong>Formula</strong> {activeCreatorType.formula}</p>
+              <p><strong>Muted check</strong> {activeCreatorType.check}</p>
+            </div> : !collection && <details className="hook-finder" key={`creator-${mode}`}>
+              <summary>Which hook type should I use? <ChevronDown size={15} aria-hidden="true" /></summary>
+              <div className="hook-type-choices">
+                {types.map(type => <button key={type.id} type="button" onClick={() => {
+                  chooseCollection(type.id); setQuery(''); revealLibrary()
+                }}>
+                  <strong>{type.title} <ArrowRight size={13} aria-hidden="true" /></strong>
+                  <span>{type.why}</span>
+                  <span className="formula">{type.formula}</span>
+                </button>)}
+              </div>
+            </details>)}
+            {shelf === 'hook' && !creator && (activeType ? <div className="hook-type-note">
               <p><strong>Footage to look for</strong> {hookGuidance[activeType.id].footage}</p>
               <p><strong>Playback check</strong> {hookGuidance[activeType.id].check}</p>
             </div> : !collection && <details className="hook-finder" key={mode}>
@@ -392,10 +476,10 @@ export function App() {
                 {query && <button className="icon-button" type="button" aria-label="Clear search" onClick={() => { setQuery(''); resetResults() }}><X size={17} /></button>}
               </div>
               <div className="select-wrap collection-select">
-                <select aria-label={shelf === 'breakdowns' ? 'Filter by edit stage' : shelf === 'hook' ? 'Filter by hook type' : 'Filter by collection'} value={collection}
+                <select aria-label={shelf === 'breakdowns' ? 'Filter by edit stage' : shelf === 'hook' ? 'Filter by hook type' : shelf === 'moves' ? 'Filter by kind of move' : 'Filter by collection'} value={collection}
                   onChange={event => chooseCollection(event.target.value)}>
-                  <option value="">{shelf === 'breakdowns' ? 'All edit stages' : shelf === 'hook' ? 'All hook types' : 'All collections'}</option>
-                  {shelf === 'hook' ? <>
+                  <option value="">{shelf === 'breakdowns' ? 'All edit stages' : shelf === 'hook' ? 'All hook types' : shelf === 'moves' ? 'All moves' : 'All collections'}</option>
+                  {shelf === 'hook' && !creator ? <>
                     <optgroup label="Hook types">{options.filter(option => hookCollections[mode].some(group => group.id === option.id)).map(option =>
                       <option value={option.id} key={option.id}>{option.title}</option>)}</optgroup>
                     <optgroup label="More opening recipes">{options.filter(option => !hookCollections[mode].some(group => group.id === option.id)).map(option =>
@@ -410,7 +494,15 @@ export function App() {
                 {`${visible.length} ${visible.length === 1 ? resultNoun.slice(0, -1) : resultNoun}`}
               </p>
               <div className="filter-options">
-                {shelf === 'hook' && <div className="select-wrap">
+                {creator && <div className="select-wrap">
+                  <select value={preset} aria-label="Filter by footage you have"
+                    onChange={event => { setPreset(event.target.value as Preset | ''); resetResults() }}>
+                    <option value="">Any footage</option>
+                    {presets.map(option => <option key={option.id} value={option.id}>{option.label}</option>)}
+                  </select>
+                  <ChevronDown size={15} aria-hidden="true" />
+                </div>}
+                {shelf === 'hook' && !creator && <div className="select-wrap">
                   <select value={footage} aria-label="Filter by footage you have"
                     onChange={event => { setFootage(event.target.value); resetResults() }}>
                     <option value="">Any footage</option>
@@ -422,7 +514,7 @@ export function App() {
                   <select value={media} aria-label="Filter previews"
                     onChange={event => choosePreviewKind(event.target.value)}>
                     <option value="">All previews</option>
-                    {shelf === 'hook' && <><option value="worked">Worked examples</option><option value="storyboard">Timed shot plans</option></>}
+                    {shelf === 'hook' && !creator && <><option value="worked">Worked examples</option><option value="storyboard">Timed shot plans</option></>}
                     <option value="visual">Visual only</option><option value="sound">With sound</option>
                   </select>
                   <ChevronDown size={15} aria-hidden="true" />
@@ -439,11 +531,12 @@ export function App() {
                   initialExpanded={linkedSample === technique.id} technique={technique} vertical={mode === 'short'} selected={selected.has(technique.id)}
                   copied={copied === technique.id} playing={playing === technique.id} onPlay={updatePlayback}
                   linkCopied={copied === `link:${technique.id}`}
-                  onCopyLink={technique.breakdown?.opener ? () => {
+                  onCopyLink={technique.breakdown?.opener || technique.creator ? () => {
                     const link = new URL(window.location.href)
-                    link.hash = hookHash(technique.id)!
+                    link.hash = (technique.creator ? creatorHash(technique.id) : hookHash(technique.id))!
                     void copy(`link:${technique.id}`, link.href)
                   } : undefined}
+                  onOpenMove={technique.creator ? openMove : undefined}
                   onSelect={() => changeSelection(technique.id)} onCopy={() => { void copy(technique.id, technique.prompt) }} />
               ))}
             </div> : <div className="no-results">

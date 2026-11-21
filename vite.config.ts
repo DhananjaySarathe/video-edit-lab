@@ -9,6 +9,7 @@ export default defineConfig({
         manualChunks(id) {
           if (id.includes('/hook-library/seeds/short/')) return 'short-hook-catalog'
           if (id.includes('/hook-library/seeds/long/')) return 'long-hook-catalog'
+          if (id.includes('/creator-hooks/')) return 'creator-hooks'
         },
       },
     },
