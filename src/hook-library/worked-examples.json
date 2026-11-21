@@ -1,17 +1,68 @@
 {
+  "hook-long-constraint-challenge-001": {
+    "sound": false
+  },
   "hook-long-constraint-challenge-005": {
+    "sound": false
+  },
+  "hook-long-constraint-challenge-008": {
+    "sound": false
+  },
+  "hook-long-constraint-challenge-009": {
+    "sound": false
+  },
+  "hook-long-decisive-moment-008": {
     "sound": false
   },
   "hook-long-decisive-moment-064": {
     "sound": false
   },
+  "hook-long-evidence-led-reversal-018": {
+    "sound": false
+  },
+  "hook-long-evidence-led-reversal-019": {
+    "sound": false
+  },
+  "hook-long-evidence-led-reversal-020": {
+    "sound": false
+  },
   "hook-long-evidence-led-reversal-021": {
     "sound": false
+  },
+  "hook-long-head-to-head-004": {
+    "sound": false
+  },
+  "hook-long-head-to-head-010": {
+    "sound": false
+  },
+  "hook-long-head-to-head-012": {
+    "sound": true
   },
   "hook-long-head-to-head-013": {
     "sound": true
   },
+  "hook-long-head-to-head-014": {
+    "sound": true
+  },
+  "hook-long-head-to-head-020": {
+    "sound": true
+  },
+  "hook-long-head-to-head-022": {
+    "sound": false
+  },
+  "hook-long-head-to-head-023": {
+    "sound": false
+  },
+  "hook-long-head-to-head-025": {
+    "sound": false
+  },
   "hook-long-head-to-head-026": {
+    "sound": false
+  },
+  "hook-long-head-to-head-027": {
+    "sound": false
+  },
+  "hook-long-head-to-head-029": {
     "sound": false
   },
   "hook-long-head-to-head-030": {
@@ -20,10 +71,31 @@
   "hook-long-head-to-head-032": {
     "sound": false
   },
+  "hook-long-head-to-head-035": {
+    "sound": false
+  },
+  "hook-long-head-to-head-049": {
+    "sound": false
+  },
   "hook-long-learning-promise-021": {
     "sound": false
   },
+  "hook-long-learning-promise-022": {
+    "sound": false
+  },
+  "hook-long-learning-promise-024": {
+    "sound": false
+  },
   "hook-long-learning-promise-032": {
+    "sound": false
+  },
+  "hook-long-learning-promise-037": {
+    "sound": false
+  },
+  "hook-long-mystery-033": {
+    "sound": false
+  },
+  "hook-long-mystery-036": {
     "sound": false
   },
   "hook-long-mystery-038": {
@@ -32,11 +104,29 @@
   "hook-long-personal-stakes-021": {
     "sound": false
   },
+  "hook-long-prediction-002": {
+    "sound": false
+  },
+  "hook-long-prediction-004": {
+    "sound": false
+  },
   "hook-long-prediction-014": {
+    "sound": false
+  },
+  "hook-long-prediction-017": {
+    "sound": false
+  },
+  "hook-long-prediction-018": {
     "sound": false
   },
   "hook-long-rare-access-032": {
     "sound": true
+  },
+  "hook-long-result-first-011": {
+    "sound": false
+  },
+  "hook-long-result-first-012": {
+    "sound": false
   },
   "hook-long-result-first-018": {
     "sound": false
@@ -44,13 +134,40 @@
   "hook-long-result-first-024": {
     "sound": false
   },
+  "hook-long-result-first-027": {
+    "sound": false
+  },
+  "hook-long-visible-problem-012": {
+    "sound": false
+  },
   "hook-long-visible-problem-015": {
+    "sound": false
+  },
+  "hook-long-visible-problem-023": {
+    "sound": false
+  },
+  "hook-long-visible-problem-029": {
+    "sound": false
+  },
+  "hook-long-visible-problem-030": {
     "sound": false
   },
   "hook-long-visible-problem-031": {
     "sound": true
   },
+  "hook-long-visible-problem-036": {
+    "sound": true
+  },
   "hook-short-character-collision-001": {
+    "sound": false
+  },
+  "hook-short-character-collision-004": {
+    "sound": false
+  },
+  "hook-short-character-collision-007": {
+    "sound": false
+  },
+  "hook-short-character-collision-071": {
     "sound": false
   },
   "hook-short-choice-live-021": {
@@ -68,10 +185,94 @@
   "hook-short-impossible-move-001": {
     "sound": true
   },
+  "hook-short-impossible-move-056": {
+    "sound": false
+  },
+  "hook-short-impossible-move-092": {
+    "sound": false
+  },
+  "hook-short-impossible-move-095": {
+    "sound": false
+  },
+  "hook-short-impossible-move-096": {
+    "sound": false
+  },
   "hook-short-live-contradiction-001": {
     "sound": false
   },
+  "hook-short-live-contradiction-002": {
+    "sound": false
+  },
+  "hook-short-live-contradiction-003": {
+    "sound": false
+  },
+  "hook-short-live-contradiction-004": {
+    "sound": false
+  },
+  "hook-short-live-contradiction-005": {
+    "sound": false
+  },
+  "hook-short-live-contradiction-006": {
+    "sound": false
+  },
+  "hook-short-live-contradiction-007": {
+    "sound": false
+  },
+  "hook-short-live-contradiction-010": {
+    "sound": false
+  },
+  "hook-short-live-contradiction-016": {
+    "sound": false
+  },
   "hook-short-live-contradiction-018": {
+    "sound": false
+  },
+  "hook-short-live-contradiction-021": {
+    "sound": false
+  },
+  "hook-short-live-contradiction-027": {
+    "sound": false
+  },
+  "hook-short-live-contradiction-028": {
+    "sound": false
+  },
+  "hook-short-live-contradiction-061": {
+    "sound": false
+  },
+  "hook-short-live-contradiction-062": {
+    "sound": false
+  },
+  "hook-short-live-contradiction-064": {
+    "sound": false
+  },
+  "hook-short-live-contradiction-068": {
+    "sound": false
+  },
+  "hook-short-live-contradiction-072": {
+    "sound": false
+  },
+  "hook-short-live-contradiction-073": {
+    "sound": false
+  },
+  "hook-short-live-contradiction-075": {
+    "sound": false
+  },
+  "hook-short-live-contradiction-077": {
+    "sound": false
+  },
+  "hook-short-live-contradiction-080": {
+    "sound": false
+  },
+  "hook-short-live-contradiction-100": {
+    "sound": false
+  },
+  "hook-short-object-reveal-003": {
+    "sound": false
+  },
+  "hook-short-object-reveal-006": {
+    "sound": false
+  },
+  "hook-short-object-reveal-024": {
     "sound": false
   },
   "hook-short-object-reveal-089": {
@@ -86,13 +287,34 @@
   "hook-short-proof-first-009": {
     "sound": false
   },
+  "hook-short-proof-first-016": {
+    "sound": false
+  },
+  "hook-short-proof-first-022": {
+    "sound": false
+  },
+  "hook-short-proof-first-026": {
+    "sound": false
+  },
+  "hook-short-proof-first-028": {
+    "sound": false
+  },
+  "hook-short-proof-first-070": {
+    "sound": false
+  },
   "hook-short-proof-first-093": {
     "sound": false
   },
   "hook-short-reaction-first-047": {
     "sound": false
   },
+  "hook-short-specific-fix-001": {
+    "sound": true
+  },
   "hook-short-specific-fix-011": {
+    "sound": false
+  },
+  "hook-short-specific-fix-018": {
     "sound": false
   },
   "hook-short-specific-fix-019": {
@@ -104,16 +326,88 @@
   "hook-short-specific-fix-021": {
     "sound": true
   },
+  "hook-short-specific-fix-022": {
+    "sound": true
+  },
+  "hook-short-specific-fix-023": {
+    "sound": true
+  },
+  "hook-short-specific-fix-024": {
+    "sound": true
+  },
+  "hook-short-specific-fix-025": {
+    "sound": true
+  },
+  "hook-short-specific-fix-026": {
+    "sound": true
+  },
+  "hook-short-specific-fix-027": {
+    "sound": true
+  },
+  "hook-short-specific-fix-029": {
+    "sound": true
+  },
+  "hook-short-specific-fix-031": {
+    "sound": false
+  },
   "hook-short-specific-fix-032": {
     "sound": false
   },
   "hook-short-specific-fix-033": {
     "sound": false
   },
+  "hook-short-specific-fix-034": {
+    "sound": false
+  },
+  "hook-short-specific-fix-035": {
+    "sound": false
+  },
+  "hook-short-specific-fix-036": {
+    "sound": false
+  },
+  "hook-short-specific-fix-037": {
+    "sound": false
+  },
+  "hook-short-specific-fix-038": {
+    "sound": false
+  },
+  "hook-short-specific-fix-071": {
+    "sound": false
+  },
   "hook-short-specific-fix-072": {
     "sound": false
   },
+  "hook-short-specific-fix-074": {
+    "sound": false
+  },
+  "hook-short-specific-fix-077": {
+    "sound": false
+  },
   "hook-short-specific-fix-078": {
+    "sound": false
+  },
+  "hook-short-specific-fix-083": {
+    "sound": false
+  },
+  "hook-short-specific-fix-085": {
+    "sound": false
+  },
+  "hook-short-specific-fix-090": {
+    "sound": false
+  },
+  "hook-short-specific-fix-095": {
+    "sound": false
+  },
+  "hook-short-test-in-motion-001": {
+    "sound": false
+  },
+  "hook-short-test-in-motion-003": {
+    "sound": false
+  },
+  "hook-short-test-in-motion-004": {
+    "sound": false
+  },
+  "hook-short-test-in-motion-009": {
     "sound": false
   },
   "hook-short-test-in-motion-021": {
@@ -121,6 +415,24 @@
   },
   "hook-short-turning-point-001": {
     "sound": true
+  },
+  "hook-short-turning-point-003": {
+    "sound": false
+  },
+  "hook-short-turning-point-031": {
+    "sound": false
+  },
+  "hook-short-turning-point-032": {
+    "sound": false
+  },
+  "hook-short-turning-point-036": {
+    "sound": false
+  },
+  "hook-short-turning-point-078": {
+    "sound": false
+  },
+  "hook-short-turning-point-081": {
+    "sound": false
   },
   "hook-short-turning-point-086": {
     "sound": false
