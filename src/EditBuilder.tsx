@@ -195,7 +195,7 @@ export function EditBuilder({ edit, setEdit, copied, onCopy, headingId, onClose 
             <label htmlFor={`${id}-length`}>Target length <span>Optional</span></label>
             <input id={`${id}-length`} type="text" maxLength={60} value={edit.length}
               placeholder="e.g. 35 seconds" onChange={event => update('length', event.target.value)} />
-            <label htmlFor={`${id}-transcript`}>Transcript <span>Best with timestamps</span></label>
+            <label htmlFor={`${id}-transcript`}>Transcript <span>An .srt works best</span></label>
             <textarea id={`${id}-transcript`} rows={6} maxLength={60000} value={edit.transcript} spellCheck={false}
               placeholder={'Paste your transcript or .srt here.\n00:00 If your captions sit at the bottom…'}
               onChange={event => update('transcript', event.target.value)} />
@@ -207,6 +207,8 @@ export function EditBuilder({ edit, setEdit, copied, onCopy, headingId, onClose 
               {edit.transcript && <button type="button" className="text-button" onClick={() => { update('transcript', ''); setFileNote('') }}>Clear</button>}
             </div>
             {fileNote && <p className="builder-hint" role="status">{fileNote}</p>}
+            {!edit.transcript && <p className="builder-hint">An .srt gives the start and end of every line, so the AI doesn’t have to guess.
+              CapCut, Premiere, Descript and YouTube Studio can all export one.</p>}
             <label htmlFor={`${id}-clips`}>Clips and B-roll you have <span>One per line</span></label>
             <textarea id={`${id}-clips`} rows={3} maxLength={3000} value={edit.clips}
               placeholder={'main-take.mp4\nscreen-recording.mov\nlatte-closeup.mp4'} onChange={event => update('clips', event.target.value)} />

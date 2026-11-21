@@ -68,12 +68,14 @@ function hookBlock(picked: Picked, edit: Edit, short: boolean, transcript: boole
   return `${technique.title}: ${short ? firstSentence(technique.prompt) : technique.prompt}${timing(item)}`
 }
 
-function outputSection(edit: Edit, format: string, vertical: boolean) {
+function outputSection(edit: Edit, format: string, vertical: boolean, hookTypes: string[]) {
   const [width, height] = canvas[format] ?? (vertical ? canvas['Vertical · 9:16'] : canvas['Widescreen · 16:9'])
   switch (edit.target) {
     case 'script':
       return [
-        '1. Three hook options in the hook type above, each with the spoken line, the on-screen text and the first shot.',
+        hookTypes.length >= 2
+          ? `1. Three hook options, each a different type (${hookTypes.slice(0, 3).join('; ')}). For each: the spoken line, the on-screen text and the first shot. Don’t reuse the model line’s wording.`
+          : '1. Three hook options that open in genuinely different ways, not three versions of one line. For each: the spoken line, the on-screen text and the first shot.',
         '2. The full script in the structure above. For each beat: the time, the exact words to say and what is on screen.',
         '3. A shot list of every shot, screen recording and B-roll clip I need, in the order I should film them.',
         'Keep it to those three parts.',
@@ -185,21 +187,28 @@ export function compilePrompt(edit: Edit): Compiled {
   const clips = edit.clips.split('\n').map(line => line.trim()).filter(Boolean)
   add(script ? 'What I have so far' : 'My material', [
     transcript ? (script ? 'My notes or draft are at the end, inside <transcript> tags.'
-      : 'My transcript is at the end, inside <transcript> tags. Take every timing from it.')
+      : `My transcript is at the end, inside <transcript> tags. Take every timing from it.${transcript.includes('-->') ? ''
+        : ' Each timestamp marks where a line starts, so treat the next timestamp as where that line ends.'}`)
       : !script && 'I haven’t pasted a transcript. Mark every timing as approximate, or ask me for the transcript before you start.',
     clips.length > 0 && `Clips and B-roll I have:\n${clips.map(clip => `- ${clip}`).join('\n')}`,
   ])
 
+  const hookMove = hooks[0]?.technique.creator?.move
+  const targetLength = edit.length.trim() || structure?.length || ''
   if (structure) {
     add(`Structure: ${structure.title} (${structure.length})`, [
       structure.bestFor,
       `Pacing: ${structure.rhythm}`,
-      hooks.length > 0 && 'Use the hook below for the first beat. Its edit move replaces the moves listed for that beat.',
+      hooks.length > 0 && 'Use the hook below for the first beat. Its first frame and edit move replace what is listed for that beat.',
+      !script && 'Beat times are targets. Keep my sentences whole and let beats shift a little, but still land on the target length.',
       ...structure.beats.map((beat, index) => {
         const head = `${index + 1}. ${beat.title} (${beatTime(beat, structure.mode)}): ${firstPerson(beat.goal)}`
         if (short) return head
         const parts = [head, `On screen: ${firstPerson(beat.show)}`]
         if (beat.moves.length && !script) parts.push(`Moves: ${beat.moves.map(move => move.title).join('; ')}.`)
+        if (index === 1 && !script && hookMove && beat.moves.some(move => move.id === hookMove.id)) {
+          parts.push(`The hook already uses “${hookMove.title}”, so show this beat a different way.`)
+        }
         if (script) parts.push(`Example line: “${beat.line}”`)
         return parts.join(' ')
       }),
@@ -247,6 +256,8 @@ export function compilePrompt(edit: Edit): Compiled {
     script ? '- Write the way I talk: short sentences, no filler, nothing I couldn’t say on camera.'
       : '- Keep my sentences whole and use my own words.',
     '- Only use numbers, names and claims that appear in my transcript, footage or notes. Flag anything you had to assume.',
+    !script && targetLength && `- Land within about 10% of the target length (${targetLength}). Cut in this order: pauses and fillers, repeated or restarted lines, then lines that don’t move the point. Cut a line that proves something (a number, a test, a result) only if it still runs long, and say what that costs.`,
+    !script && !targetLength && '- Keep lines that prove a point (a number, a test, a result). Cut pauses, repeats and lines that don’t move the point first.',
     !script && !hasMove('word-captions') && (vertical
       ? '- Captions: word by word, 2–4 words at a time, with the spoken word highlighted.'
       : '- Subtitles: optional, as short lines at the bottom of the frame.'),
@@ -255,7 +266,14 @@ export function compilePrompt(edit: Edit): Compiled {
     !script && !hasMove('sfx-layer') && '- Keep music well under my voice and duck it while I talk.',
   ])
 
-  add('What to send back', outputSection(edit, format, vertical))
+  const hookTypeTitles = [...new Set([
+    ...hooks.flatMap(entry => entry.technique.creator ? [entry.technique.creator.typeTitle] : []),
+    ...(structure?.hookTypes.map(type => type.title) ?? []),
+  ])]
+  add('What to send back', [
+    ...outputSection(edit, format, vertical, hookTypeTitles),
+    edit.target !== 'agent' && 'Put any assumptions in a short list at the end, not at the start.',
+  ])
 
   const checks = [...new Set([
     ...(structure?.checks ?? []),
