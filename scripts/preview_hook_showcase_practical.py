@@ -147,8 +147,26 @@ def map_crop(t):
         tile = map_source().transform((321, 141), Image.Transform.EXTENT, bounds, Image.Resampling.BICUBIC)
         frame.paste(tile, (19, top))
         chip(draw, (24, top + 7), name, INK, PAPER, 12)
+        if i == 1 and t >= 1:
+            # Trace an explicitly staged reader's answer in the original map coordinates.
+            move = ease(progress(t, 1.1, 2.45))
+            x = 19 + 135 * 321 / (bounds[2] - bounds[0])
+            y = top + (173 - 94 * move - bounds[1]) * 141 / (bounds[3] - bounds[1])
+            draw.ellipse((x-8, y-8, x+8, y+8), outline='#9d3d24', width=3)
+        if t >= 2.55:
+            # The illustrative map scale is two metres per source pixel.
+            bar = round(50 * 321 / (bounds[2] - bounds[0]))
+            right, baseline = 328, top + 130
+            draw.rounded_rectangle((right-bar-8, baseline-24, right+7, baseline+5), 3, fill=PAPER)
+            draw.line((right-bar, baseline, right, baseline), fill=INK, width=3)
+            draw.line((right-bar, baseline-4, right-bar, baseline+2), fill=INK, width=2)
+            draw.line((right, baseline-4, right, baseline+2), fill=INK, width=2)
+            words(draw, (right, baseline-14), '100 m', 12, INK, 'rm')
     if t >= 2.55:
-        chip(draw, (20, 509), 'Both turns fit in B', MINT, INK, 18)
+        chip(draw, (20, 506), 'Sample answer / both turns fit in B', MINT, INK, 15)
+        words(draw, (20, 553), 'Illustrative map and distance scale', 15, PAPER)
+    elif t >= 1:
+        chip(draw, (20, 509), 'Sample reader / trace the two turns', INK, MINT, 15)
     return frame
 
 
