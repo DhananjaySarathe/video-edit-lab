@@ -4,15 +4,17 @@ from math import sin
 from pathlib import Path
 import subprocess
 
-from PIL import Image, ImageFilter, ImageOps
+from PIL import Image, ImageDraw, ImageFilter, ImageOps
 
-from preview_common import H, W
+from preview_common import H, W, font
 
 PLATES = Path(__file__).resolve().parent / 'assets' / 'plates'
 LIVE_SIZES = {'host-live': (640, 360), 'portrait-live': (216, 384),
               'coffee-live': (640, 360), 'walk-live': (640, 360),
               'phone-live': (640, 360), 'steps-live': (640, 360),
-              'host-live-matte': (640, 360)}
+              'host-live-matte': (640, 360), 'workshop-live': (360, 640),
+              'editing-live': (360, 640), 'notebook-live': (640, 360),
+              'cooking-live': (360, 640), 'camera-live': (360, 640), 'sewing-live': (640, 360)}
 FRAME_RATE = 20
 
 
@@ -42,7 +44,23 @@ def movie(name):
                  for i in range(0, len(frames), size))
 
 
+@lru_cache(maxsize=64)
+def phone_with_notes(frame):
+    from preview_phone import device
+    screen = Image.new('RGBA', (170, 314), '#182a24')
+    draw = ImageDraw.Draw(screen)
+    draw.text((14, 25), 'Shot notes', font=font(20), fill='#f6f2e6')
+    for i, label in enumerate(('Opening', 'Detail', 'Next shot')):
+        y = 78 + 57 * i
+        active = min(2, frame // 22) == i
+        draw.rounded_rectangle((12, y, 157, y + 43), 6, fill='#b5d6af' if active else '#304c3d')
+        draw.text((22, y + 21), label, font=font(15), fill='#1a2d21' if active else '#edf2df', anchor='lm')
+    return device(frame / FRAME_RATE, screen)[0]
+
+
 def source(name, t):
+    if name == 'phone-board':
+        return phone_with_notes(max(0, min(63, round(t * FRAME_RATE))))
     if name in LIVE_SIZES:
         frames = movie(name)
         return frames[max(0, min(len(frames) - 1, round(t * FRAME_RATE)))]

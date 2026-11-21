@@ -2,6 +2,13 @@ import catalog from './catalog.json'
 import { shortHooks } from './format-content/short-hooks'
 import { shortBody } from './format-content/short-body'
 import { longForm } from './format-content/long-form'
+import { shortBreakdowns } from './format-content/short-breakdowns'
+import { longBreakdowns } from './format-content/long-breakdowns'
+import { shortAdvancedFinishes } from './format-content/short-advanced-finishes'
+import { longAdvancedFinishes } from './format-content/long-advanced-finishes'
+import { advancedTechniques } from './format-content/advanced-techniques'
+import { hookCollections } from './hook-library/catalog'
+import type { Breakdown } from './breakdown'
 
 export type FormatMode = 'short' | 'long'
 export type Stage = 'hook' | 'intro' | 'body' | 'finish'
@@ -9,6 +16,8 @@ export type Technique = (typeof catalog)[number] & {
   previewId?: string
   useCase?: string
   mode?: FormatMode
+  stage?: Stage
+  breakdown?: Breakdown
 }
 type RecipeEntry = readonly [title: string, previewId: string, useCase: string, prompt: string]
 type RecipeSource = {
@@ -16,7 +25,7 @@ type RecipeSource = {
   entries: readonly RecipeEntry[]
   stage?: Stage
 }
-export type Collection = { id: string; title: string; stage: Stage; items: Technique[] }
+export type Collection = { id: string; title: string; stage: Stage; items: Technique[]; question?: string }
 
 export const modes = {
   short: { label: 'Reels/Shorts', format: 'Vertical · 9:16' },
@@ -34,7 +43,7 @@ const slug = (value: string) => value.toLowerCase().normalize('NFKD')
   .replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 
 function createCollections(mode: FormatMode, records: readonly RecipeSource[]): Collection[] {
-  return records.map(record => ({
+  const groups = records.map(record => ({
     id: slug(record.title),
     title: record.title,
     stage: record.stage ?? 'hook',
@@ -46,8 +55,25 @@ function createCollections(mode: FormatMode, records: readonly RecipeSource[]): 
       prompt,
       section: record.title,
       mode,
+      stage: record.stage ?? 'hook',
     })),
   }))
+  const studies = formatBreakdowns[mode]
+  for (const stage of Object.keys(stageLabels) as Stage[]) {
+    const items = studies.filter(item => item.breakdown.stage === stage)
+    if (items.length) groups.unshift({ id: 'breakdowns', title: 'Edit breakdowns', stage, items })
+  }
+  return [...hookCollections[mode], ...groups]
+}
+
+function toTechnique(breakdown: Breakdown) {
+  const { id, mode, title, prompt, previewId, useCase } = breakdown
+  return { id, mode, title, prompt, previewId, useCase, stage: breakdown.stage, section: 'Edit breakdowns', breakdown }
+}
+
+export const formatBreakdowns = {
+  short: [...shortBreakdowns, ...shortAdvancedFinishes].map(toTechnique),
+  long: [...longBreakdowns, ...longAdvancedFinishes].map(toTechnique),
 }
 
 export const formatCollections = {
@@ -55,7 +81,7 @@ export const formatCollections = {
   long: createCollections('long', longForm),
 }
 
-export const techniques: Technique[] = catalog
+export const techniques: Technique[] = [...advancedTechniques, ...catalog]
 const recipes = Object.values(formatCollections).flatMap(list => list.flatMap(group => group.items))
 export const byId = new Map([...techniques, ...recipes].map(technique => [technique.id, technique]))
 
@@ -73,8 +99,8 @@ export const sections = [
 
 export function withSound(technique: Technique) {
   const id = technique.previewId ?? technique.id
-  return byId.get(id)?.section === 'Sound and music' || id === 'beat-synced-cuts' || id === 'short-hyperedit'
+  return !!technique.breakdown?.sound || byId.get(id)?.section === 'Sound and music' || id === 'beat-synced-cuts' || id === 'short-hyperedit'
 }
 
-export const mediaUrl = (id: string, extension: 'mp4' | 'webp') =>
-  `${import.meta.env.BASE_URL}previews/${id}.${extension}`
+export const mediaUrl = (id: string, extension: 'mp4' | 'webp', vertical: boolean) =>
+  `${import.meta.env.BASE_URL}previews/${vertical ? 'vertical/' : ''}${id}.${extension}`

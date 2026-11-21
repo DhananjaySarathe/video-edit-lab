@@ -1,0 +1,195 @@
+{
+  "short": [
+    {
+      "id": "test-in-motion",
+      "title": "Start the test in motion",
+      "question": "Will the attempt work under that rule?",
+      "effect": "timer",
+      "time": [0, 0.8, 2.4, 5.6],
+      "picture": ["Let the action and its constraint share the first frame.", "Cut on the first meaningful contact. Update the rule or progress only after that action.", "Carry the same condition into the next attempt or result."],
+      "audio": "Use the real action sound first. Keep one contact accent and let it carry into the tighter picture."
+    },
+    {
+      "id": "proof-first",
+      "title": "Flash the finished proof",
+      "question": "What made that result possible?",
+      "effect": "rewind",
+      "time": [0, 0.85, 2.15, 5.2],
+      "picture": ["Make the finished effect inspectable from the opening frame.", "Cut back on a matching object, gesture or location to expose one real input.", "Continue into the first decision that caused the result."],
+      "audio": "Use the result's cleanest sound up front. Match its tail into the source or end it cleanly on the hard cut."
+    },
+    {
+      "id": "live-contradiction",
+      "title": "Hold through a contradiction",
+      "question": "What did I get wrong about that shot?",
+      "effect": "continuity",
+      "time": [0, 1.2, 2.8, 6.0],
+      "picture": ["Let the viewer form a prediction with the reference visible.", "Keep the same view and real playback timing through the surprising event.", "Add one stable comparison only after the viewer can see what changed."],
+      "audio": "Use continuous real sound through the contradiction. Give the viewer a fraction of a second before explaining it."
+    },
+    {
+      "id": "impossible-move",
+      "title": "Break a rule on motion",
+      "question": "How did that movement do something impossible?",
+      "effect": "match",
+      "time": [0, 0.65, 1.95, 5.3],
+      "picture": ["Start on a readable move before the effect.", "Keep the leading edge and direction aligned through the split, mask or match.", "Hold the new state so the viewer can inspect the changed rule."],
+      "audio": "Carry one motion sound through the seam. Place a short accent at the actual consequence."
+    },
+    {
+      "id": "character-collision",
+      "title": "Play opposing roles",
+      "question": "How will the other person respond?",
+      "effect": "reverse",
+      "time": [0, 0.9, 2.45, 5.8],
+      "picture": ["Give the first role a concrete action or ask in frame one.", "Cut to a different eyeline as understanding, power or intention changes.", "Give the sharper answer or reaction its own beat before the next exchange."],
+      "audio": "Keep the room continuous. Let a genuine breath or last syllable carry over the listener's face when it changes the line."
+    },
+    {
+      "id": "reaction-first",
+      "title": "Start on the real reaction",
+      "question": "Why did that moment matter to them?",
+      "effect": "reaction",
+      "time": [0, 1.1, 2.65, 5.9],
+      "picture": ["Lead with a real same-event expression or gesture.", "Reveal the cause and the relationship in one clear cue.", "Enter the story at its first consequence while the reaction still means something."],
+      "audio": "Protect the reaction sound and the first breath. Keep the explanation quiet enough to leave its meaning intact."
+    },
+    {
+      "id": "object-reveal",
+      "title": "Open and isolate the detail",
+      "question": "What is that part and what does it do?",
+      "effect": "reveal",
+      "time": [0, 0.85, 2.1, 5.5],
+      "picture": ["Identify the object in the hand or working space.", "Cut on actual exposure of the hidden part. Track one marker once it can be seen.", "Keep the part visible through its first functional explanation."],
+      "audio": "Put the opening or handling sound on its actual frame. Leave space for one clear sentence about what the part does."
+    },
+    {
+      "id": "specific-fix",
+      "title": "Show one fix worth keeping",
+      "question": "What precisely should I change?",
+      "effect": "fix",
+      "time": [0, 0.95, 2.7, 6.0],
+      "picture": ["Start on one visible symptom or repeated mistake.", "Make the decisive change with one readable close angle or screen action.", "Retest under the same conditions, then bridge to the next usable step."],
+      "audio": "Use a concise instruction at the moment of the change. Match the test sound before and after."
+    },
+    {
+      "id": "choice-live",
+      "title": "Make the first choice count",
+      "question": "Which option wins under this criterion?",
+      "effect": "score",
+      "time": [0, 1.0, 2.55, 5.8],
+      "picture": ["Show both options and what will decide between them.", "Record the first real choice. Move one score or marker on the actual commitment.", "Keep the rule available when the next person or option enters."],
+      "audio": "Keep the answer complete and intelligible. Put any feedback click after the decisive word or gesture."
+    },
+    {
+      "id": "turning-point",
+      "title": "Enter on the turning point",
+      "question": "What changed when they made that choice?",
+      "effect": "interrupt",
+      "time": [0, 1.05, 2.55, 6.0],
+      "picture": ["Start inside a real decision, setback or interruption with enough context to read it.", "Show the first authentic consequence before the explanation.", "Bridge into the next event or the first piece of missing context."],
+      "audio": "Lead with the line or sound that changes the situation. Let the consequence breathe before the next cut."
+    }
+  ],
+  "long": [
+    {
+      "id": "result-first",
+      "title": "Show the result first",
+      "question": "How did they make the result I just saw?",
+      "effect": "rewind",
+      "time": [0, 5.6, 13.8, 22.0],
+      "picture": ["Let the finished outcome work in a stable, inspectable frame.", "Show the detail that makes the result meaningful. Let the viewer register the physical or practical consequence.", "Match that detail to the earlier material, condition or decision that begins the explanation."],
+      "audio": "Use the finished object's real sound or a clear explanatory line. Keep the acoustic match for the transition into its origin."
+    },
+    {
+      "id": "visible-problem",
+      "title": "Make the problem felt",
+      "question": "Why does this happen, and what can change it?",
+      "effect": "fix",
+      "time": [0, 6.0, 14.5, 24.0],
+      "picture": ["Show the symptom in an everyday, readable situation.", "Let the actual limitation become clear once, then locate what controls it.", "Begin the investigation or repair with a first measurable check."],
+      "audio": "Use the source sound or natural speech that exposes the symptom. Let the initial failure register before adding narration."
+    },
+    {
+      "id": "learning-promise",
+      "title": "Promise a specific skill",
+      "question": "What will I be able to make or do?",
+      "effect": "lesson",
+      "time": [0, 5.2, 12.2, 20.5],
+      "picture": ["Show the exact skill, exercise or deliverable in a recognizable workspace.", "Name the scope and one visible intermediate step the viewer can follow.", "Enter the real working view at the first action."],
+      "audio": "Speak the learning outcome plainly. Leave only the sound or music needed to keep the first action intelligible."
+    },
+    {
+      "id": "head-to-head",
+      "title": "Set up a head-to-head decision",
+      "question": "Which option fits these conditions?",
+      "effect": "score",
+      "time": [0, 6.1, 14.8, 24.0],
+      "picture": ["Put both options and the decision criterion in view.", "Show each under the same condition or explain the one genuine difference that matters.", "Carry the unchanged criterion into the first full comparison."],
+      "audio": "Compare both at matched playback levels when sound is relevant. Make the decision criterion readable without layering two voices."
+    },
+    {
+      "id": "prediction",
+      "title": "Ask for a prediction",
+      "question": "Will my prediction be right?",
+      "effect": "prediction",
+      "time": [0, 6.5, 15.5, 25.0],
+      "picture": ["Show the apparatus and the conditions that will remain fixed.", "Show possible outcomes at equal scale. Give the viewer room to commit to one.", "Begin the real test or analysis on the same setup."],
+      "audio": "Read the question before the prediction hold. Keep the sound even across the possible outcomes."
+    },
+    {
+      "id": "mystery",
+      "title": "Give us a clue to a mystery",
+      "question": "What explains the clue or known consequence?",
+      "effect": "reveal",
+      "time": [0, 6.8, 16.0, 26.0],
+      "picture": ["Start on a specific artifact, scene or consequence.", "Isolate one verifiable clue and establish the single fact still missing.", "Enter the first line of inquiry with its source clearly identified."],
+      "audio": "Let place sound or an honest pause set the scene. Keep the clue readable under one carefully timed line."
+    },
+    {
+      "id": "evidence-led-reversal",
+      "title": "Challenge a belief with evidence",
+      "question": "What makes the original belief unreliable?",
+      "effect": "reversal",
+      "time": [0, 5.8, 13.5, 24.5],
+      "picture": ["State the original claim fairly and make its baseline visible.", "Show the specific new evidence and its scope. Give the conflict time to read.", "Follow the test or source that could explain the difference."],
+      "audio": "Keep fair context around source lines. Place the first new evidence under silence or a clean host line."
+    },
+    {
+      "id": "constraint-challenge",
+      "title": "Set a goal under a real constraint",
+      "question": "Can the team or subject succeed under the rule?",
+      "effect": "timer",
+      "time": [0, 5.8, 14.1, 23.0],
+      "picture": ["Show the goal and a real constraint the viewer can follow.", "Let a first scored action clarify how progress works.", "Begin the first real attempt and preserve the rule into the body."],
+      "audio": "Match room sound across the first event. Use an accent only for a genuine start, clock or progress change."
+    },
+    {
+      "id": "decisive-moment",
+      "title": "Start at the decisive moment",
+      "question": "What happens in the event already underway?",
+      "effect": "interrupt",
+      "time": [0, 7.0, 17.5, 27.0],
+      "picture": ["Place people and action in the real location before cutting closer.", "Hold the last authentic preparation or consequence still in question.", "Cut before the result. Establish the earlier scene with one usable time cue."],
+      "audio": "Keep real room sound and one unhurried breath. End the opening sound at a deliberate causal cutoff."
+    },
+    {
+      "id": "rare-access",
+      "title": "Prove rare access",
+      "question": "What can I see here that I rarely get to see firsthand?",
+      "effect": "lesson",
+      "time": [0, 5.9, 14.9, 24.0],
+      "picture": ["Open inside the real location or on the object in actual use.", "Prove access with a named guide, physical readout or specific operation.", "Enter the first part of the work the audience can now observe."],
+      "audio": "Use the real place sound to locate the viewer. Give the first participant plenty of room to be understood."
+    },
+    {
+      "id": "personal-stakes",
+      "title": "Put personal stakes first",
+      "question": "Why does this outcome matter to this person?",
+      "effect": "reaction",
+      "time": [0, 7.3, 16.4, 26.0],
+      "picture": ["Start on the person and the tangible thing they care about.", "Hold a real turn in expression or speech long enough to see what is at stake.", "Enter the first scene where their decision has a consequence."],
+      "audio": "Protect the line, breath and room tone. Let the cut follow what the person actually says or does."
+    }
+  ]
+}

@@ -22,6 +22,7 @@ export function EditBuilder({ edit, setEdit, copied, onCopy, headingId, onClose 
   const generated = composePrompt(edit)
   const prompt = custom?.base === generated ? custom.text : generated
   const count = edit.items.length
+  const hasMultipleHooks = edit.items.filter(item => byId.get(item.id)?.stage === 'hook').length > 1
   const selectedLabel = count === 1 ? '1 technique' : `${count} techniques`
 
   function move(from: number, to: number) {
@@ -125,6 +126,19 @@ export function EditBuilder({ edit, setEdit, copied, onCopy, headingId, onClose 
           )}
 
           <div className="edit-context">
+            {hasMultipleHooks && <>
+              <label htmlFor={`${id}-hooks`}>How to use your hooks</label>
+              <div className="select-wrap">
+                <select id={`${id}-hooks`} value={edit.hookPlacement} onChange={event => {
+                  const hookPlacement = event.target.value === 'separate' ? 'separate' : 'blend'
+                  setEdit(current => ({ ...current, hookPlacement }))
+                }}>
+                  <option value="blend">Combine into one opening</option>
+                  <option value="separate">Use at different moments</option>
+                </select>
+                <ChevronDown size={16} aria-hidden="true" />
+              </div>
+            </>}
             <label htmlFor={`${id}-format`}>Video format</label>
             <div className="select-wrap">
               <select id={`${id}-format`} value={edit.format} onChange={event => {

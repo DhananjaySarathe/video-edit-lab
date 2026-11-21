@@ -1,9 +1,10 @@
-import { byId } from './catalog'
+import { byId, type Technique } from './catalog'
 
 export type EditItem = { id: string; cue: string }
-export type Edit = { items: EditItem[]; format: string; automaticFormat: boolean; footage: string }
+export type HookPlacement = 'blend' | 'separate'
+export type Edit = { items: EditItem[]; format: string; automaticFormat: boolean; footage: string; hookPlacement: HookPlacement }
 const storageKey = 'video-edit-lab:edit:v1'
-const newEdit: Edit = { items: [], format: '', automaticFormat: true, footage: '' }
+const newEdit: Edit = { items: [], format: '', automaticFormat: true, footage: '', hookPlacement: 'blend' }
 
 export const formats = ['Vertical · 9:16', 'Widescreen · 16:9', 'Square · 1:1']
 
@@ -24,6 +25,7 @@ export function readEdit(): Edit {
       format,
       automaticFormat: typeof saved.automaticFormat === 'boolean' ? saved.automaticFormat : !format,
       footage: typeof saved.footage === 'string' ? saved.footage : '',
+      hookPlacement: saved.hookPlacement === 'separate' ? 'separate' : 'blend',
     }
   } catch {
     return newEdit
@@ -61,16 +63,44 @@ export function moveItem(items: EditItem[], from: number, to: number) {
   return reordered
 }
 
+function hookBrief(technique: Technique, accent: boolean) {
+  const plan = technique.breakdown
+  if (!plan?.opener) return accent
+    ? `Use the following direction as a reference for a single accent inside the lead hook. Keep the lead hook's timing and action.\n${technique.prompt}`
+    : technique.prompt
+  if (accent) {
+    return [
+      `Borrow the turn from “${technique.title}” for the lead opening. ${plan.beats[1][1]}`,
+      `Use this detail only where my footage supports it. Check the result. ${plan.check}`,
+    ].join('\n')
+  }
+  return [
+    `Adapt this sample to my footage. A possible first line is “${plan.opener}”`,
+    ...plan.beats.map(([time, direction]) => `${time} — ${direction}`),
+    plan.soundDirection && `Sound — ${plan.soundDirection}`,
+    `Check — ${plan.check}`,
+  ].filter(Boolean).join('\n')
+}
+
 export function composePrompt(edit: Edit) {
   if (edit.items.length === 0) return ''
+  const hooks = edit.items.filter(item => byId.get(item.id)?.stage === 'hook')
+  const multiple = hooks.length > 1
+  const blend = edit.hookPlacement !== 'separate'
   const context = [
-    edit.format && `Format: ${edit.format}`,
-    edit.footage.trim() && `Footage and goal: ${edit.footage.trim()}`,
+    edit.format && `Deliver in ${edit.format}. Keep this canvas throughout and reframe borrowed techniques for it.`,
+    edit.footage.trim() && `My footage and goal — ${edit.footage.trim()}`,
+    multiple && (blend
+      ? 'Build one opening around the first selected hook. Fit the other hook ideas into its existing shots. Give any hook with its own timing cue that separate moment.'
+      : 'Use the first hook to open. Place each later hook at its timing cue or the next change of subject. Count its shot times from that point in the edit.'),
   ].filter(Boolean)
   const steps = edit.items.map((item, index) => {
     const technique = byId.get(item.id)!
     const cue = item.cue.trim()
-    return `${index + 1}. ${technique.title}${cue ? `\nTiming: ${cue}` : ''}\n${technique.prompt}`
+    const hook = technique.stage === 'hook'
+    const accent = hook && multiple && blend && hooks[0].id !== item.id && !cue
+    const position = hook && multiple ? (accent ? 'Opening accent' : hooks[0].id === item.id ? 'Lead hook' : 'Later hook') : ''
+    return `${index + 1}. ${technique.title}${position ? ` · ${position}` : ''}${cue ? `\nTiming — ${cue}` : ''}\n${hook ? hookBrief(technique, accent) : technique.prompt}`
   })
   return [
     'Edit my footage using this brief.',

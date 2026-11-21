@@ -1,0 +1,86 @@
+{
+  "test-in-motion": {
+    "footage": "An attempt you can recognize in one frame, with the rule visible beside the action.",
+    "check": "Freeze the first frame. Can someone tell what the person is trying to do, and what would count as success?"
+  },
+  "proof-first": {
+    "footage": "A striking finished shot and a source frame that shares its subject, gesture or camera angle.",
+    "check": "Cut from the result to the source with the sound off. The viewer should still recognize the same moment."
+  },
+  "live-contradiction": {
+    "footage": "One uninterrupted view where a visible event overturns an easy first guess.",
+    "check": "Keep a fixed edge, scale or landmark in frame through the surprise so a hidden cut cannot explain it."
+  },
+  "impossible-move": {
+    "footage": "Two states you can join on the same moving hand, silhouette or foreground edge.",
+    "check": "Step through the join. Its screen position, travel direction and speed should agree across both shots."
+  },
+  "character-collision": {
+    "footage": "Two roles with different aims, a shared object and a clean sightline for each role.",
+    "check": "Mute the exchange. Each change of speaker should still be legible from position, eyeline or interaction."
+  },
+  "reaction-first": {
+    "footage": "A genuine reaction and the specific event that prompted it, captured in the same encounter.",
+    "check": "Return to the full moment. The expression and what caused it should have the same meaning in context."
+  },
+  "object-reveal": {
+    "footage": "An object someone can open, rotate or expose, plus the first job the hidden part actually does.",
+    "check": "Pause on the first close-up. The viewer should be able to locate the part in the original object."
+  },
+  "specific-fix": {
+    "footage": "A repeatable fault, one visible adjustment, and the same test after the change.",
+    "check": "Play both tests at the same size, speed and volume. The improvement should survive that comparison."
+  },
+  "choice-live": {
+    "footage": "Two viable options and an observable tap, answer or action that commits to one of them.",
+    "check": "Advance the score only after the commitment. Viewers should know which rule earned the point."
+  },
+  "turning-point": {
+    "footage": "A decision or interruption that immediately changes the next thing someone can do.",
+    "check": "Cut the explanatory line for a test viewing. The consequence should still make the decision understandable."
+  },
+  "result-first": {
+    "footage": "A finished result that performs its real job, plus evidence of the earlier state that explains it.",
+    "check": "Hold through one complete use. A viewer should be able to say what worked before you cut back."
+  },
+  "visible-problem": {
+    "footage": "A failure you can reproduce and a first diagnostic step that could plausibly explain it.",
+    "check": "Let the failure happen in context. The viewer should be able to describe the symptom before hearing your theory."
+  },
+  "learning-promise": {
+    "footage": "A finished skill exercise, its starting material and a working view that lets viewers follow along.",
+    "check": "After the opening, ask a viewer what they will make and what they would do first."
+  },
+  "head-to-head": {
+    "footage": "Two real options tested against the same decision criterion under comparable conditions.",
+    "check": "Match scale, playback level and exposure wherever they affect the choice. Identify any condition you cannot match."
+  },
+  "prediction": {
+    "footage": "A legible setup, two plausible outcomes and a recorded test under the setup you introduce.",
+    "check": "A viewer should have time to choose before a sound, cutaway or caption reveals the answer."
+  },
+  "mystery": {
+    "footage": "A specific clue and a first line of inquiry that can actually test an explanation.",
+    "check": "Keep the clue visible long enough to locate it on the object, document or shot it came from."
+  },
+  "evidence-led-reversal": {
+    "footage": "An initial claim, its original basis and a new result that changes how far the claim can go.",
+    "check": "Check the dates, units and population on both pieces of evidence. State exactly which part of the claim changes."
+  },
+  "constraint-challenge": {
+    "footage": "A goal with a fixed limit on time, material or attempts, plus evidence of the first action that spends it.",
+    "check": "Pause after the first attempt. A viewer should be able to count what has been used and what is left."
+  },
+  "decisive-moment": {
+    "footage": "A recorded preparation that leads into a consequential event, with earlier material that explains the stakes.",
+    "check": "Mark your return point before cutting away. When you resume, time and action should continue honestly from it."
+  },
+  "rare-access": {
+    "footage": "Permission to film a place or operation, a participant who knows it, and something only that viewpoint reveals.",
+    "check": "Show one specific operation and its effect. Identify a rehearsal, reconstruction or sample display when one is used."
+  },
+  "personal-stakes": {
+    "footage": "A person who can say what matters to them and a first decision that makes the consequence visible.",
+    "check": "Keep enough of the original line for the person to recognize their own meaning. Show what their choice changes."
+  }
+}

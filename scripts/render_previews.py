@@ -13,7 +13,9 @@ PROJECT = Path(__file__).resolve().parent.parent
 PREVIEWS = PROJECT / 'public' / 'previews'
 FPS, DURATION = FRAME_RATE, 3.2
 MODULES = ('preview_typography', 'preview_spatial', 'preview_data',
-           'preview_cuts', 'preview_sound', 'preview_workflows', 'preview_formats')
+           'preview_cuts', 'preview_sound', 'preview_workflows', 'preview_formats',
+           'preview_advanced', 'preview_advanced_short', 'preview_advanced_hooks', 'preview_advanced_long',
+           'preview_long_finishes', 'preview_new_techniques')
 POSTERS = {
     'payoff-montage': .43,
     'typography-tunnel': 1.1,
@@ -43,6 +45,20 @@ POSTERS = {
     'long-cold-open': 1.18,
     'long-audio-bridge': 1.1,
     'long-chapter-turn': 1.21,
+    'advanced-test-start': .12,
+    'advanced-rule-retest': 2.82,
+    'advanced-hidden-seam': .42,
+    'advanced-contradiction': 1.50,
+    'advanced-live-score': 1.60,
+    'advanced-artifact-evidence': 1.90,
+    'advanced-matched-proof': 1.83,
+    'advanced-anchored-answer': 2.45,
+    'advanced-clock-chart': 2.57,
+    'advanced-threshold': 1.20,
+    'advanced-model-handoff': 2.66,
+    'advanced-evidence-answer': 2.42,
+    'advanced-intro-proof': 2.56,
+    'advanced-decision-hold': 1.88,
 }
 
 def load_scenes():
@@ -56,16 +72,21 @@ def load_scenes():
             raise ValueError(f'Duplicate scenes: {sorted(overlap)}')
         functions.update(module.SCENES)
         audio.update(getattr(module, 'AUDIO', {}))
+        POSTERS.update(getattr(module, 'POSTERS', {}))
     from preview_live_action import SCENES as filmed_scenes
     from preview_phone import SCENES as device_scenes
-    revised_scenes = {**filmed_scenes, **device_scenes}
+    import preview_landscape_repairs as repairs
+    revised_scenes = {**filmed_scenes, **device_scenes, **repairs.SCENES}
+    POSTERS.update(repairs.POSTERS)
+    audio.update(getattr(repairs, 'AUDIO', {}))
     if missing := revised_scenes.keys() - functions.keys():
         raise ValueError(f'Updated scenes without an original entry: {sorted(missing)}')
     functions.update(revised_scenes)
     return functions, audio
 
-def render(technique, scene, sound, force):
-    stem = PREVIEWS / technique
+def render(technique, scene, sound, force, *, directory=PREVIEWS, size=(W, H), poster_at=None,
+           duration=DURATION, fps=FPS, preset='fast', quality=24):
+    stem = directory / technique
     final_video = stem.with_suffix('.mp4')
     final_poster = stem.with_suffix('.webp')
     if not force and final_video.is_file() and final_poster.is_file():
@@ -77,22 +98,22 @@ def render(technique, scene, sound, force):
         poster = temp / 'poster.webp'
         command = [
             'ffmpeg', '-hide_banner', '-v', 'error', '-y',
-            '-f', 'rawvideo', '-pixel_format', 'rgb24', '-video_size', f'{W}x{H}',
-            '-framerate', str(FPS), '-i', 'pipe:0',
+            '-f', 'rawvideo', '-pixel_format', 'rgb24', '-video_size', f'{size[0]}x{size[1]}',
+            '-framerate', str(fps), '-i', 'pipe:0',
         ]
         if sound:
             waveform = temp / 'audio.wav'
             sound(waveform)
             command += ['-i', str(waveform), '-c:a', 'aac', '-b:a', '96k']
         command += [
-            '-c:v', 'libx264', '-threads', '2', '-preset', 'fast', '-crf', '24',
-            '-pix_fmt', 'yuv420p', '-t', str(DURATION), '-movflags', '+faststart', str(video),
+            '-c:v', 'libx264', '-threads', '2', '-preset', preset, '-crf', str(quality),
+            '-pix_fmt', 'yuv420p', '-t', str(duration), '-movflags', '+faststart', str(video),
         ]
         process = subprocess.Popen(command, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
         try:
-            for frame in range(round(FPS * DURATION)):
-                image = scene(frame / FPS)
-                if image.size != (W, H):
+            for frame in range(round(fps * duration)):
+                image = scene(frame / fps)
+                if image.size != size:
                     raise ValueError(f'{technique} frame {frame} was {image.size}')
                 process.stdin.write(image.convert('RGB').tobytes())
             process.stdin.close()
@@ -105,7 +126,8 @@ def render(technique, scene, sound, force):
             process.wait()
             raise
 
-        scene(POSTERS.get(technique, 2.45)).convert('RGB').save(poster, 'WEBP', quality=83, method=3)
+        poster_time = POSTERS.get(technique, 2.45) if poster_at is None else poster_at
+        scene(poster_time).convert('RGB').save(poster, 'WEBP', quality=83, method=3)
         video.replace(final_video)
         poster.replace(final_poster)
     return 1
@@ -119,14 +141,16 @@ def main():
     parser.add_argument('--workers', type=int, default=5)
     args = parser.parse_args()
     catalog = json.loads((PROJECT / 'src' / 'catalog.json').read_text())
-    catalog_ids = {r['id'] for r in catalog}
     scenes, audio = load_scenes()
-    if extras := set(scenes) - catalog_ids:
+    sections = {item['id']: item['section'] for item in catalog}
+    sections.update((key, 'Edit breakdowns') for key in scenes if key.startswith('advanced-'))
+    sections.update((key, 'Advanced techniques') for key in scenes if key.startswith('tech-'))
+    if extras := scenes.keys() - sections.keys():
         raise ValueError(f'Media without a catalog technique: {sorted(extras)}')
-    if unknown := set(args.id or []) - catalog_ids:
+    if unknown := set(args.id or []) - sections.keys():
         parser.error(f'Unknown technique IDs: {", ".join(sorted(unknown))}')
-    ids = [r['id'] for r in catalog
-           if (not args.section or r['section'] in args.section) and (not args.id or r['id'] in args.id)]
+    ids = [key for key, section in sections.items()
+           if (not args.section or section in args.section) and (not args.id or key in args.id)]
     if args.available:
         ids = [key for key in ids if key in scenes]
     if missing := set(ids) - scenes.keys():

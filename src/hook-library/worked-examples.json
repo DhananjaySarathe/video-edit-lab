@@ -1,0 +1,104 @@
+{
+  "hook-long-constraint-challenge-005": {
+    "sound": false
+  },
+  "hook-long-decisive-moment-064": {
+    "sound": false
+  },
+  "hook-long-evidence-led-reversal-021": {
+    "sound": false
+  },
+  "hook-long-head-to-head-013": {
+    "sound": true
+  },
+  "hook-long-head-to-head-026": {
+    "sound": false
+  },
+  "hook-long-head-to-head-032": {
+    "sound": false
+  },
+  "hook-long-learning-promise-021": {
+    "sound": false
+  },
+  "hook-long-learning-promise-032": {
+    "sound": false
+  },
+  "hook-long-mystery-038": {
+    "sound": false
+  },
+  "hook-long-personal-stakes-021": {
+    "sound": false
+  },
+  "hook-long-prediction-014": {
+    "sound": false
+  },
+  "hook-long-rare-access-032": {
+    "sound": true
+  },
+  "hook-long-result-first-018": {
+    "sound": false
+  },
+  "hook-long-visible-problem-015": {
+    "sound": false
+  },
+  "hook-long-visible-problem-031": {
+    "sound": true
+  },
+  "hook-short-character-collision-001": {
+    "sound": false
+  },
+  "hook-short-choice-live-032": {
+    "sound": true
+  },
+  "hook-short-choice-live-034": {
+    "sound": false
+  },
+  "hook-short-choice-live-085": {
+    "sound": false
+  },
+  "hook-short-impossible-move-001": {
+    "sound": true
+  },
+  "hook-short-live-contradiction-001": {
+    "sound": false
+  },
+  "hook-short-live-contradiction-018": {
+    "sound": false
+  },
+  "hook-short-object-reveal-089": {
+    "sound": true
+  },
+  "hook-short-proof-first-001": {
+    "sound": false
+  },
+  "hook-short-proof-first-009": {
+    "sound": false
+  },
+  "hook-short-reaction-first-047": {
+    "sound": false
+  },
+  "hook-short-specific-fix-011": {
+    "sound": false
+  },
+  "hook-short-specific-fix-019": {
+    "sound": false
+  },
+  "hook-short-specific-fix-021": {
+    "sound": true
+  },
+  "hook-short-specific-fix-032": {
+    "sound": false
+  },
+  "hook-short-specific-fix-033": {
+    "sound": false
+  },
+  "hook-short-specific-fix-072": {
+    "sound": false
+  },
+  "hook-short-test-in-motion-021": {
+    "sound": false
+  },
+  "hook-short-turning-point-001": {
+    "sound": true
+  }
+}
