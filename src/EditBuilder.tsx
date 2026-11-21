@@ -1,7 +1,8 @@
-import { Check, ChevronDown, ChevronUp, Clipboard, GripVertical, Layers3, X } from 'lucide-react'
-import { useId, useRef, useState, type Dispatch, type PointerEvent, type SetStateAction } from 'react'
+import { AlertTriangle, Check, ChevronDown, ChevronUp, Clipboard, FileUp, GripVertical, Layers3, X } from 'lucide-react'
+import { useId, useRef, useState, type ChangeEvent, type Dispatch, type PointerEvent, type SetStateAction } from 'react'
 import { byId } from './catalog'
-import { composePrompt, formats, moveItem, removeItem, type Edit } from './edit'
+import { formats, moveItem, platforms, removeItem, targets, type Edit, type Platform, type Target } from './edit'
+import { compilePrompt } from './prompt'
 
 type BuilderProps = {
   edit: Edit
@@ -14,13 +15,35 @@ type BuilderProps = {
 
 export function EditBuilder({ edit, setEdit, copied, onCopy, headingId, onClose }: BuilderProps) {
   const id = useId()
-  const [view, setView] = useState<'order' | 'prompt'>('order')
+  const [view, setView] = useState<'order' | 'video' | 'prompt'>('order')
+  const [fileNote, setFileNote] = useState('')
   const [expandedCue, setExpandedCue] = useState<string | null>(null)
   const [custom, setCustom] = useState<{ base: string; text: string } | null>(null)
   const [dropTarget, setDropTarget] = useState<string | null>(null)
   const dragging = useRef<{ id: string; origin: number; target: string | null } | null>(null)
-  const generated = composePrompt(edit)
+  const compiled = compilePrompt(edit)
+  const generated = compiled.text
   const prompt = custom?.base === generated ? custom.text : generated
+  const target = targets.find(option => option.id === edit.target) ?? targets[0]
+  const update = <K extends keyof Edit>(key: K, value: Edit[K]) => setEdit(current => ({ ...current, [key]: value }))
+
+  function loadTranscript(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0]
+    event.target.value = ''
+    if (!file) return
+    if (file.size > 400_000) {
+      setFileNote('That file is too large. Paste the transcript text instead.')
+      return
+    }
+    const reader = new FileReader()
+    reader.onload = () => {
+      const text = String(reader.result ?? '').slice(0, 60000)
+      update('transcript', text)
+      setFileNote(`Loaded ${file.name}. It stays in this browser.`)
+    }
+    reader.onerror = () => setFileNote('That file couldn’t be read. Paste the transcript text instead.')
+    reader.readAsText(file)
+  }
   const count = edit.items.length
   const hasMultipleHooks = edit.items.filter(item => byId.get(item.id)?.stage === 'hook').length > 1
   const selectedLabel = count === 1 ? '1 technique' : `${count} techniques`
@@ -65,8 +88,9 @@ export function EditBuilder({ edit, setEdit, copied, onCopy, headingId, onClose 
       </div>
 
       <div className="builder-tabs" role="group" aria-label="Edit builder view">
-        <button type="button" aria-pressed={view === 'order'} onClick={() => setView('order')}>Edit order</button>
-        <button type="button" aria-pressed={view === 'prompt'} onClick={() => setView('prompt')}>Combined prompt</button>
+        <button type="button" aria-pressed={view === 'order'} onClick={() => setView('order')}>Order</button>
+        <button type="button" aria-pressed={view === 'video'} onClick={() => setView('video')}>Your video</button>
+        <button type="button" aria-pressed={view === 'prompt'} onClick={() => setView('prompt')}>Prompt</button>
       </div>
 
       {view === 'order' ? (
@@ -125,20 +149,38 @@ export function EditBuilder({ edit, setEdit, copied, onCopy, headingId, onClose 
             </ol>
           )}
 
+          {hasMultipleHooks && <div className="edit-context">
+            <label htmlFor={`${id}-hooks`}>How to use your hooks</label>
+            <div className="select-wrap">
+              <select id={`${id}-hooks`} value={edit.hookPlacement} onChange={event =>
+                update('hookPlacement', event.target.value === 'separate' ? 'separate' : 'blend')}>
+                <option value="blend">Combine into one opening</option>
+                <option value="separate">Use at different moments</option>
+              </select>
+              <ChevronDown size={16} aria-hidden="true" />
+            </div>
+          </div>}
+          {count > 0 && <button type="button" className="text-button next-step" onClick={() => setView('video')}>
+            Next: tell it about your video
+          </button>}
+        </div>
+      ) : view === 'video' ? (
+        <div className="builder-body">
           <div className="edit-context">
-            {hasMultipleHooks && <>
-              <label htmlFor={`${id}-hooks`}>How to use your hooks</label>
-              <div className="select-wrap">
-                <select id={`${id}-hooks`} value={edit.hookPlacement} onChange={event => {
-                  const hookPlacement = event.target.value === 'separate' ? 'separate' : 'blend'
-                  setEdit(current => ({ ...current, hookPlacement }))
-                }}>
-                  <option value="blend">Combine into one opening</option>
-                  <option value="separate">Use at different moments</option>
-                </select>
-                <ChevronDown size={16} aria-hidden="true" />
-              </div>
-            </>}
+            <p className="builder-hint">The more the AI knows, the less it guesses. Everything stays in this browser.</p>
+            <label htmlFor={`${id}-topic`}>What it’s about</label>
+            <input id={`${id}-topic`} type="text" maxLength={300} value={edit.topic}
+              placeholder="e.g. Why your captions get covered" onChange={event => update('topic', event.target.value)} />
+            <label htmlFor={`${id}-audience`}>Who it’s for <span>Optional</span></label>
+            <input id={`${id}-audience`} type="text" maxLength={300} value={edit.audience}
+              placeholder="e.g. New creators editing on their phone" onChange={event => update('audience', event.target.value)} />
+            <label htmlFor={`${id}-platform`}>Platform</label>
+            <div className="select-wrap">
+              <select id={`${id}-platform`} value={edit.platform} onChange={event => update('platform', event.target.value as Platform)}>
+                {platforms.map(option => <option key={option.id} value={option.id}>{option.label}</option>)}
+              </select>
+              <ChevronDown size={16} aria-hidden="true" />
+            </div>
             <label htmlFor={`${id}-format`}>Video format</label>
             <div className="select-wrap">
               <select id={`${id}-format`} value={edit.format} onChange={event => {
@@ -150,14 +192,30 @@ export function EditBuilder({ edit, setEdit, copied, onCopy, headingId, onClose 
               </select>
               <ChevronDown size={16} aria-hidden="true" />
             </div>
-            <label htmlFor={`${id}-footage`}>Footage and goal <span>Optional</span></label>
+            <label htmlFor={`${id}-length`}>Target length <span>Optional</span></label>
+            <input id={`${id}-length`} type="text" maxLength={60} value={edit.length}
+              placeholder="e.g. 35 seconds" onChange={event => update('length', event.target.value)} />
+            <label htmlFor={`${id}-transcript`}>Transcript <span>Best with timestamps</span></label>
+            <textarea id={`${id}-transcript`} rows={6} maxLength={60000} value={edit.transcript} spellCheck={false}
+              placeholder={'Paste your transcript or .srt here.\n00:00 If your captions sit at the bottom…'}
+              onChange={event => update('transcript', event.target.value)} />
+            <div className="file-row">
+              <label className="file-button">
+                <FileUp size={15} aria-hidden="true" /> Load .srt, .vtt or .txt
+                <input type="file" accept=".srt,.vtt,.txt,text/plain" onChange={loadTranscript} />
+              </label>
+              {edit.transcript && <button type="button" className="text-button" onClick={() => { update('transcript', ''); setFileNote('') }}>Clear</button>}
+            </div>
+            {fileNote && <p className="builder-hint" role="status">{fileNote}</p>}
+            <label htmlFor={`${id}-clips`}>Clips and B-roll you have <span>One per line</span></label>
+            <textarea id={`${id}-clips`} rows={3} maxLength={3000} value={edit.clips}
+              placeholder={'main-take.mp4\nscreen-recording.mov\nlatte-closeup.mp4'} onChange={event => update('clips', event.target.value)} />
+            <label htmlFor={`${id}-footage`}>Anything else <span>Optional</span></label>
             <textarea id={`${id}-footage`} rows={3} maxLength={1400} value={edit.footage}
-              placeholder="e.g. A talking-head Reel explaining a chart"
-              onChange={event => {
-                const footage = event.target.value
-                setEdit(current => ({ ...current, footage }))
-              }} />
+              placeholder="e.g. Keep my intro joke. Brand colour is #0B5FFF."
+              onChange={event => update('footage', event.target.value)} />
           </div>
+          <button type="button" className="text-button next-step" onClick={() => setView('prompt')}>Next: get the prompt</button>
         </div>
       ) : (
         <div className="builder-body prompt-body">
@@ -165,7 +223,22 @@ export function EditBuilder({ edit, setEdit, copied, onCopy, headingId, onClose 
             <div className="builder-empty"><Clipboard size={21} strokeWidth={1.5} /><p>Add a technique to generate the combined prompt.</p></div>
           ) : (
             <>
-              <label htmlFor={`${id}-prompt`}>Edit your prompt</label>
+              <label htmlFor={`${id}-target`}>Where will you paste it?</label>
+              <div className="select-wrap">
+                <select id={`${id}-target`} value={edit.target} onChange={event => update('target', event.target.value as Target)}>
+                  {targets.map(option => <option key={option.id} value={option.id}>{option.label}</option>)}
+                </select>
+                <ChevronDown size={16} aria-hidden="true" />
+              </div>
+              <p className="builder-hint">{target.hint}</p>
+              <div className="detail-switch" role="group" aria-label="Prompt length">
+                <button type="button" aria-pressed={edit.detail === 'full'} onClick={() => update('detail', 'full')}>Full</button>
+                <button type="button" aria-pressed={edit.detail === 'short'} onClick={() => update('detail', 'short')}>Short</button>
+              </div>
+              {compiled.warnings.length > 0 && <ul className="prompt-warnings">
+                {compiled.warnings.map(warning => <li key={warning}><AlertTriangle size={14} aria-hidden="true" /> {warning}</li>)}
+              </ul>}
+              <label htmlFor={`${id}-prompt`}>Edit your prompt <span>{compiled.words.toLocaleString('en-US')} words{edit.transcript.trim() ? ' + transcript' : ''}</span></label>
               <textarea rows={11} id={`${id}-prompt`} value={prompt}
                 onChange={event => setCustom({ base: generated, text: event.target.value })} spellCheck={false} />
               {custom?.base === generated && <button className="text-button" type="button" onClick={() => setCustom(null)}>Reset to generated prompt</button>}

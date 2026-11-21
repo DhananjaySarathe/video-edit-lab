@@ -1,12 +1,52 @@
-import { byId, type Technique } from './catalog'
+import { byId } from './catalog'
 
 export type EditItem = { id: string; cue: string }
 export type HookPlacement = 'blend' | 'separate'
-export type Edit = { items: EditItem[]; format: string; automaticFormat: boolean; footage: string; hookPlacement: HookPlacement }
+export type Target = 'plan' | 'script' | 'capcut' | 'premiere' | 'descript' | 'agent'
+export type Detail = 'full' | 'short'
+export type Platform = '' | 'instagram' | 'tiktok' | 'shorts' | 'youtube'
+export type Edit = {
+  items: EditItem[]
+  format: string
+  automaticFormat: boolean
+  /** Free notes about the footage and goal. */
+  footage: string
+  hookPlacement: HookPlacement
+  topic: string
+  audience: string
+  platform: Platform
+  length: string
+  transcript: string
+  clips: string
+  target: Target
+  detail: Detail
+}
 const storageKey = 'video-edit-lab:edit:v1'
-const newEdit: Edit = { items: [], format: '', automaticFormat: true, footage: '', hookPlacement: 'blend' }
+const newEdit: Edit = {
+  items: [], format: '', automaticFormat: true, footage: '', hookPlacement: 'blend',
+  topic: '', audience: '', platform: '', length: '', transcript: '', clips: '', target: 'plan', detail: 'full',
+}
 
 export const formats = ['Vertical · 9:16', 'Widescreen · 16:9', 'Square · 1:1']
+
+export const targets: readonly { id: Target; label: string; hint: string }[] = [
+  { id: 'plan', label: 'Claude or ChatGPT: plan the edit', hint: 'Returns a timed edit plan you can follow in any editor.' },
+  { id: 'script', label: 'Claude or ChatGPT: write the script first', hint: 'For before you film: hook options, the script and a shot list.' },
+  { id: 'capcut', label: 'CapCut, step by step', hint: 'Returns cuts, captions, text, zooms and sound as CapCut steps.' },
+  { id: 'premiere', label: 'Premiere Pro or DaVinci Resolve', hint: 'Returns a marker list, a cut list and every effect with its timecode.' },
+  { id: 'descript', label: 'Descript', hint: 'Returns transcript edits, scenes, captions and media to add.' },
+  { id: 'agent', label: 'An AI agent that edits with code', hint: 'Returns one JSON timeline that ffmpeg, Remotion or MoviePy can render.' },
+]
+
+export const platforms: readonly { id: Platform; label: string }[] = [
+  { id: '', label: 'Not sure yet' },
+  { id: 'instagram', label: 'Instagram Reels' },
+  { id: 'tiktok', label: 'TikTok' },
+  { id: 'shorts', label: 'YouTube Shorts' },
+  { id: 'youtube', label: 'YouTube video' },
+]
+
+const text = (value: unknown, max: number) => typeof value === 'string' ? value.slice(0, max) : ''
 
 export function readEdit(): Edit {
   try {
@@ -24,8 +64,16 @@ export function readEdit(): Edit {
       items,
       format,
       automaticFormat: typeof saved.automaticFormat === 'boolean' ? saved.automaticFormat : !format,
-      footage: typeof saved.footage === 'string' ? saved.footage : '',
+      footage: text(saved.footage, 1400),
       hookPlacement: saved.hookPlacement === 'separate' ? 'separate' : 'blend',
+      topic: text(saved.topic, 300),
+      audience: text(saved.audience, 300),
+      platform: platforms.some(option => option.id === saved.platform) ? saved.platform : '',
+      length: text(saved.length, 60),
+      transcript: text(saved.transcript, 60000),
+      clips: text(saved.clips, 3000),
+      target: targets.some(option => option.id === saved.target) ? saved.target : 'plan',
+      detail: saved.detail === 'short' ? 'short' : 'full',
     }
   } catch {
     return newEdit
@@ -61,54 +109,6 @@ export function moveItem(items: EditItem[], from: number, to: number) {
   const [item] = reordered.splice(from, 1)
   reordered.splice(to, 0, item)
   return reordered
-}
-
-function hookBrief(technique: Technique, accent: boolean) {
-  const plan = technique.breakdown
-  if (!plan?.opener) return accent
-    ? `Use the following direction as a reference for a single accent inside the lead hook. Keep the lead hook's timing and action.\n${technique.prompt}`
-    : technique.prompt
-  if (accent) {
-    return [
-      `Borrow the turn from “${technique.title}” for the lead opening. ${plan.beats[1][1]}`,
-      `Use this detail only where my footage supports it. Check the result. ${plan.check}`,
-    ].join('\n')
-  }
-  return [
-    `Adapt this sample to my footage. A possible first line is “${plan.opener}”`,
-    ...plan.beats.map(([time, direction]) => `${time} — ${direction}`),
-    plan.soundDirection && `Sound — ${plan.soundDirection}`,
-    `Check — ${plan.check}`,
-  ].filter(Boolean).join('\n')
-}
-
-export function composePrompt(edit: Edit) {
-  if (edit.items.length === 0) return ''
-  const hooks = edit.items.filter(item => byId.get(item.id)?.stage === 'hook')
-  const multiple = hooks.length > 1
-  const blend = edit.hookPlacement !== 'separate'
-  const context = [
-    edit.format && `Deliver in ${edit.format}. Keep this canvas throughout and reframe borrowed techniques for it.`,
-    edit.footage.trim() && `My footage and goal — ${edit.footage.trim()}`,
-    multiple && (blend
-      ? 'Build one opening around the first selected hook. Fit the other hook ideas into its existing shots. Give any hook with its own timing cue that separate moment.'
-      : 'Use the first hook to open. Place each later hook at its timing cue or the next change of subject. Count its shot times from that point in the edit.'),
-  ].filter(Boolean)
-  const steps = edit.items.map((item, index) => {
-    const technique = byId.get(item.id)!
-    const cue = item.cue.trim()
-    const hook = technique.stage === 'hook'
-    const accent = hook && multiple && blend && hooks[0].id !== item.id && !cue
-    const position = hook && multiple ? (accent ? 'Opening accent' : hooks[0].id === item.id ? 'Lead hook' : 'Later hook') : ''
-    return `${index + 1}. ${technique.title}${position ? ` · ${position}` : ''}${cue ? `\nTiming — ${cue}` : ''}\n${hook ? hookBrief(technique, accent) : technique.prompt}`
-  })
-  return [
-    'Edit my footage using this brief.',
-    ...context,
-    'Follow the techniques in the order below. Apply any whole-video rules throughout. Use the supplied assets and flag any missing footage, data, or timing details before rendering.',
-    steps.join('\n\n'),
-    'Keep the spoken message clear. Preview the edit and flag any technique that conflicts with another at the same moment.',
-  ].join('\n\n')
 }
 
 export async function writeClipboard(text: string) {

@@ -167,7 +167,7 @@ input::placeholder, textarea::placeholder { color: var(--muted); opacity: 1; }
 .builder-heading h2 { font-size: 1.94rem; line-height: 1.02; letter-spacing: -.022em; }
 .builder-heading p { color: var(--muted); font-size: .875rem; margin-top: 3px; }
 .builder-tabs {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin: 0 15px 11px; padding: 3px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; margin: 0 15px 11px; padding: 3px;
   border-radius: 8px; background: #f1f4ee;
 }
 .builder-tabs button {
@@ -548,3 +548,28 @@ input::placeholder, textarea::placeholder { color: var(--muted); opacity: 1; }
   .timeline-bar { height: 34px; }
 }
 .is-structure:not(.is-portrait-card) .card-video { align-self: start; }
+
+/* Prompt builder v2 */
+.builder-hint { color: var(--muted); font-size: .8rem; line-height: 1.4; }
+.prompt-body .builder-hint { margin: 5px 0 10px; }
+.next-step { margin-top: 10px; }
+.file-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; }
+.builder-body .file-button {
+  position: relative; display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 5px 10px;
+  border: 1px dashed #b9c8b4; border-radius: 6px; color: var(--forest); font-size: .8rem; font-weight: 650; cursor: pointer;
+}
+.file-button:hover { background: var(--tint); }
+.file-button input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.file-button:focus-within { outline: 2px solid var(--forest); outline-offset: 2px; }
+.detail-switch { display: inline-grid; grid-template-columns: 1fr 1fr; gap: 3px; margin: 0 0 10px; padding: 3px; border-radius: 7px; background: #f1f4ee; }
+.detail-switch button {
+  min-height: 30px; padding: 3px 14px; border: 1px solid transparent; border-radius: 5px;
+  background: transparent; color: var(--muted); font-size: .8rem; font-weight: 650;
+}
+.detail-switch button[aria-pressed="true"] { border-color: var(--line); background: var(--white); color: var(--strong-green); }
+.prompt-warnings { display: grid; gap: 5px; margin: 0 0 10px; padding: 0; list-style: none; }
+.prompt-warnings li {
+  display: flex; align-items: flex-start; gap: 6px; padding: 7px 9px; border-radius: 6px;
+  background: #fff6d6; color: #5a4a12; font-size: .8rem; line-height: 1.35;
+}
+.prompt-warnings svg { flex: none; margin-top: 2px; }

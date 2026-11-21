@@ -56,7 +56,7 @@ export const moveTechniqueId = (id: string) => `move-${id}`
 const keepCase = (match: string, word: string) => match[0] === match[0].toUpperCase() ? word[0].toUpperCase() + word.slice(1) : word
 
 /** Cards talk to the creator ("your face"); prompts speak as the creator ("my face"). */
-function firstPerson(text: string) {
+export function firstPerson(text: string) {
   return text
     .replace(/\byou weren't\b/gi, "I wasn't")
     .replace(/\byou were\b/gi, 'I was')
