@@ -1,6 +1,6 @@
 import {
   ArrowDown, ArrowRight, BookOpen, ChartGantt, Check, ChevronDown, ChevronRight,
-  Film, ListOrdered, Plus, Scissors, Search, Smartphone, X, Youtube,
+  FileText, Film, ListOrdered, Plus, Scissors, Search, Smartphone, X, Youtube,
 } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { byId, formatBreakdowns, formatCollections, modes, sections, stageLabels, techniques, withSound, type FormatMode, type Stage, type Technique } from './catalog'
@@ -408,6 +408,9 @@ export function App() {
                 </button>
               </div>
             </div>
+            <a className="hero-guide" href="guide/video-edit-lab-guide.pdf" target="_blank" rel="noopener">
+              <FileText size={15} aria-hidden="true" /> New here? Read the one-page guide (PDF)
+            </a>
           </div>
           {spotlight && <figure className="hero-spotlight">
             <Preview key={spotlight.id} technique={spotlight} playing={playing === 'hero'} vertical={mode === 'short'} playbackId="hero"

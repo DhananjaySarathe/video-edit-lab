@@ -15,7 +15,9 @@ Pushes to `main` build and publish the app through the GitHub Pages workflow.
 
 ## Browse the library
 
-**Build my prompt** in the hero is the quickest way in. It's a four-step guide: pick the format and a structure, add a topic and (optionally) your transcript and pin an opening line, pick a hook that fits the structure, then choose where you'll paste the prompt and copy it. Finishing writes everything into Your edit. With no transcript, it defaults to a script prompt.
+**Build my prompt** in the hero is the quickest way in. It's a four-step guide: pick the format and a structure, add a topic and (optionally) your transcript and pin an opening line, pick a hook that fits the structure, then choose where you'll paste the prompt and copy it. Finishing writes everything into Your edit. With no transcript, it defaults to a script prompt. After you copy a Long Form prompt, **Make a Reel from this take** starts the guide again in Reels/Shorts with the same topic and transcript. When a take runs well past the target length, the prompt asks the AI to build the video from one stretch of it and name that stretch's timestamps.
+
+New to the site? The [one-page guide](https://dhananjaysarathe.github.io/video-edit-lab/guide/video-edit-lab-guide.pdf) ([PNG](https://dhananjaysarathe.github.io/video-edit-lab/guide/video-edit-lab-guide.png)) walks through filming, the transcript, the four steps and what to do in your AI, with screenshots of each step. The hero links to it too. To rebuild it after a UI change, start the dev server and run `npm run guide`. It walks the guide in headless Chrome, takes fresh screenshots and prints `scripts/guide/guide.html` to `public/guide/`. Set `CHROME` if Chrome isn't in the usual macOS location.
 
 The library nav leads with Structures, Hooks and Edit moves. Breakdowns, Intros, Editing styles, Finishes and the Technique library sit under More.
 

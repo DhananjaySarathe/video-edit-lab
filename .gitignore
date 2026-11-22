@@ -2,3 +2,5 @@ node_modules/
 dist/
 __pycache__/
 .DS_Store
+scripts/guide/shots/
+.impeccable/hook.cache.json

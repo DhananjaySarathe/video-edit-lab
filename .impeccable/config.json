@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "tiny-text",
+        "value": "*",
+        "files": [
+          "scripts/guide/guide.html"
+        ],
+        "createdAt": "2026-11-22T07:51:09.270Z",
+        "reason": "Claude: A4 print handout; 11 CSS px is about 8pt on paper and the PNG renders at 2x"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "scripts/guide/guide.html"
+        ],
+        "createdAt": "2026-11-22T07:52:52.753Z",
+        "reason": "Claude: only single-line display headings and the logo glyph are tight, matching the app hero's .94 leading; body text is 1.42"
+      }
+    ]
+  }
+}

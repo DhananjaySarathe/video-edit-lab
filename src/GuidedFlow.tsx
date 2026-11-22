@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight, Check, Clipboard, Film, ListOrdered, Pin, Smartphone, X } from 'lucide-react'
-import { useMemo, useState, type RefObject } from 'react'
+import { useEffect, useMemo, useRef, useState, type RefObject } from 'react'
 import { modes, type FormatMode } from './catalog'
 import { creatorCollections, hookTypes, structureTechniques } from './creator-hooks/catalog'
 import { targets, type Detail, type Edit, type Target } from './edit'
@@ -29,6 +29,12 @@ export function GuidedFlow({ dialogRef, initialMode, current, copied, onApply, o
   const [hookId, setHookId] = useState('')
   const [target, setTarget] = useState<Target>(current.target)
   const [detail, setDetail] = useState<Detail>(current.detail)
+  const [copiedOnce, setCopiedOnce] = useState(false)
+  const [fromTake, setFromTake] = useState(false)
+  const body = useRef<HTMLDivElement>(null)
+
+  // Each step starts at its top, not wherever the last one was scrolled to.
+  useEffect(() => { body.current?.scrollTo(0, 0) }, [step, mode])
 
   const structures = structureTechniques[mode]
   const structure = structures.find(item => item.id === structureId)?.structure
@@ -39,11 +45,14 @@ export function GuidedFlow({ dialogRef, initialMode, current, copied, onApply, o
   }))
   const typeTitle = (id: string) => hookTypes[mode].find(type => type.id === id)?.title ?? ''
 
+  const format = mode === 'short' ? 'Vertical · 9:16' : 'Widescreen · 16:9'
   const draft: Edit = {
     ...current,
     items: [structureId, hookId].filter(Boolean).map(id => ({ id, cue: '' })),
-    format: mode === 'short' ? 'Vertical · 9:16' : 'Widescreen · 16:9',
+    format,
     automaticFormat: false,
+    // A length set for the other format (say 10 minutes, carried into a Reel) would fight the structure.
+    length: current.format === format ? current.length : '',
     topic,
     transcript,
     opener: opener ? { text: opener.text, stamp: opener.stamp } : null,
@@ -67,11 +76,22 @@ export function GuidedFlow({ dialogRef, initialMode, current, copied, onApply, o
 
   function finish(action: 'copy' | 'builder') {
     onApply(draft, mode)
-    if (action === 'copy' && compiled?.text) onCopy(compiled.text)
+    if (action === 'copy' && compiled?.text) {
+      onCopy(compiled.text)
+      setCopiedOnce(true)
+    }
     if (action === 'builder') {
       close()
       onOpenBuilder()
     }
+  }
+
+  /** Same take, same transcript: start over as a Reel/Short. */
+  function reelFromTake() {
+    chooseMode('short')
+    setFromTake(true)
+    setCopiedOnce(false)
+    setStep(0)
   }
 
   return (
@@ -96,7 +116,7 @@ export function GuidedFlow({ dialogRef, initialMode, current, copied, onApply, o
           ))}
         </ol>
 
-        <div className="guided-body">
+        <div className="guided-body" ref={body}>
           {step === 0 && <>
             <div className="guided-format" role="group" aria-label="Format">
               <button type="button" aria-pressed={mode === 'short'} onClick={() => chooseMode('short')}>
@@ -106,7 +126,9 @@ export function GuidedFlow({ dialogRef, initialMode, current, copied, onApply, o
                 <Film size={16} aria-hidden="true" /> {modes.long.label}
               </button>
             </div>
-            <p className="guided-hint">Pick the kind of video. Each one comes with a beat-by-beat plan.</p>
+            <p className="guided-hint">{fromTake && mode === 'short'
+              ? 'Your topic and transcript carry over. For one moment from the longer take, try Podcast or interview clip or Talking-head tip.'
+              : 'Pick the kind of video. Each one comes with a beat-by-beat plan.'}</p>
             <div className="guided-choices">
               {structures.map(item => (
                 <button type="button" key={item.id} className="guided-choice" aria-pressed={structureId === item.id}
@@ -193,7 +215,14 @@ export function GuidedFlow({ dialogRef, initialMode, current, copied, onApply, o
             <label className="guided-preview-label" htmlFor="guided-preview">Your prompt <span>{compiled.words.toLocaleString('en-US')} words
               {transcript.trim() ? ' + transcript' : ''}</span></label>
             <textarea id="guided-preview" className="guided-preview" readOnly rows={8} value={compiled.text} />
-            {current.items.length > 0 && <p className="guided-hint">Finishing replaces the {current.items.length} {current.items.length === 1
+            {copiedOnce && mode === 'long' && transcript.trim() ? (
+              <div className="guided-next">
+                <p><strong>Copied.</strong> Want a Reel from the same take? Your transcript carries over and the site finds the strongest lines for a short.</p>
+                <button type="button" className="button tinted" onClick={reelFromTake}>
+                  <Smartphone size={16} /> Make a Reel from this take
+                </button>
+              </div>
+            ) : !copiedOnce && current.items.length > 0 && <p className="guided-hint">Finishing replaces the {current.items.length} {current.items.length === 1
               ? 'item' : 'items'} in Your edit.</p>}
           </>}
         </div>

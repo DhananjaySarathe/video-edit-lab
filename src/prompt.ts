@@ -1,6 +1,7 @@
 import { byId, type FormatMode, type Technique } from './catalog'
 import { beatTime, firstPerson, type EditMove } from './creator-hooks/catalog'
 import { platforms, type Edit, type EditItem } from './edit'
+import { parseTranscript } from './openers'
 
 export type Compiled = { text: string; warnings: string[]; words: number }
 
@@ -207,11 +208,19 @@ export function compilePrompt(edit: Edit): Compiled {
   ])
 
   const clips = edit.clips.split('\n').map(line => line.trim()).filter(Boolean)
+  // A Reel cut from a ten-minute take needs one stretch of it, not a squeeze of the whole thing.
+  const targetLength = edit.length.trim() || structure?.length || ''
+  const lastStart = transcript ? parseTranscript(transcript).at(-1)?.seconds : undefined
+  const takeSeconds = lastStart !== undefined ? lastStart + 4 : undefined
+  const wanted = parseSeconds(targetLength)
+  const excerpt = !script && !!takeSeconds && !!wanted && takeSeconds > wanted * 2.5
+  const clock = (seconds: number) => `${Math.floor(Math.round(seconds) / 60)}:${String(Math.round(seconds) % 60).padStart(2, '0')}`
   add(script ? 'What I have so far' : 'My material', [
     transcript ? (script ? 'My notes or draft are at the end, inside <transcript> tags.'
       : `My transcript is at the end, inside <transcript> tags. Take every timing from it.${transcript.includes('-->') ? ''
         : ' Each timestamp marks where a line starts, so treat the next timestamp as where that line ends.'}`)
       : !script && 'I haven’t pasted a transcript. Mark every timing as approximate, or ask me for the transcript before you start.',
+    excerpt && `My take runs about ${clock(takeSeconds)} and this video is ${targetLength}, so build it from one stretch that makes sense on its own, or from a few that join cleanly.${edit.target === 'agent' ? '' : ' Start your reply by naming the stretch you used, with its timestamps.'}`,
     clips.length > 0 && `Clips and B-roll I have:\n${clips.map(clip => `- ${clip}`).join('\n')}`,
   ])
 
@@ -228,7 +237,6 @@ export function compilePrompt(edit: Edit): Compiled {
   }
 
   const hookMove = hooks[0]?.technique.creator?.move
-  const targetLength = edit.length.trim() || structure?.length || ''
   const targetSeconds = parseSeconds(edit.length)
   const scale = structure && targetSeconds ? targetSeconds / structure.total : 1
   const scaled = Math.abs(scale - 1) > 0.05
